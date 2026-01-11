@@ -1,0 +1,2793 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Price Discounting & Amendment Calculator</title>
+    
+    <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+    
+    <style>
+        
+
+        body {
+            background-color: #eff0f2;
+            font-family: -apple-system, BlinkMacSystemFont,
+                 "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            
+            transition: .2s;
+            #discountPercent,
+            #discountAbsolute,
+            #overageOutput,
+            #priceMatchOutput,
+            #amendSFDC li strong,
+            #amendCustomSO li strong {
+                font-weight: 600;
+            }
+        }
+
+        .container {
+            position: relative;
+            background-color: #ecf5fa;
+            width: 80%;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+
+        img.logo {
+            width: 160px;
+            margin: 20px 0;
+        }
+
+        h1 {
+            margin: 3px 0;
+            font-size: 24px;
+        }
+
+        .note {
+            font-size: 12px;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            margin: 0 5px;
+            cursor: pointer;
+            border-radius: 6px;
+            background: #d3e9f7;
+        }
+
+        .sheet-link {
+            display: flex;
+            align-items: center;
+            margin-left: 8px;
+            cursor: pointer;
+        }
+
+        .sheet-link img {
+            height: 26px;
+            width: 26px;
+            object-fit: contain;
+            transition: transform 0.2s ease, filter 0.2s ease;
+        }
+
+        .sheet-link:hover img {
+            transform: scale(1.1);
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
+
+        
+        body.dark .sheet-link:hover img {
+            filter: drop-shadow(0 2px 6px rgba(255,255,255,0.3));
+        }
+
+        .tab.active {
+            background: #4a90e2;
+            color: white;
+            font-weight: bold;
+        }
+
+        
+
+        #tabMorph {
+            position: relative;
+            transition: height 0.35s ease;
+        }
+
+        
+        .tab-content {
+            opacity: 0;
+            transform: scale(0.985) translateY(6px);
+            transition:
+                opacity 0.25s ease,
+                transform 0.25s ease;
+            display: none;
+        }
+
+        
+        .tab-content.active {
+            display: block;
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+
+        
+        @media (prefers-reduced-motion: reduce) {
+            #tabMorph,
+            .tab-content {
+                transition: none;
+                transform: none;
+            }
+        }
+
+
+        
+
+        .tab-menu-wrapper {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .tab-menu-icon {
+            width: 30px;
+            height: 30px;
+            padding: 4px; 
+            border-radius: 6px;
+            opacity: 0.7;
+            cursor: pointer;
+
+            transition:
+                opacity 0.2s ease,
+                transform 0.2s ease,
+                background-color 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+
+        body.dark .tab-menu-icon {
+            filter: invert(1) brightness(1.2);
+            opacity: 0.9;
+        }
+
+        .tab-menu {
+            position: absolute;
+            top: 26px;
+            right: 0;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+            min-width: 220px;
+            display: none;
+            z-index: 1000;
+            padding: 6px 0;
+        }
+
+        .tab-menu a {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 1px 14px;
+            font-size: 13px;
+            text-decoration: none;
+            color: #333;
+            white-space: nowrap;
+        }
+
+        .tab-menu a:hover {
+            background: #f2f6fb;
+        }
+
+        .tab-menu-icon:hover {
+            opacity: 1;
+            transform: scale(1.1);        
+            background-color: rgba(74, 144, 226, 0.12);
+            box-shadow: 0 4px 10px rgba(74, 144, 226, 0.35);
+        }
+
+        body.dark .tab-menu-icon:hover {
+            background-color: rgba(74, 144, 226, 0.25);
+            box-shadow: 0 4px 12px rgba(74, 144, 226, 0.5);
+        }
+
+        .tab-menu-icon:focus-visible {
+            outline: 2px solid #4a90e2;
+            outline-offset: 2px;
+        }
+
+        .tab-menu .menu-divider {
+            height: 1px;
+            margin: 6px 0;
+            background: #e5e5e5;
+        }
+
+        body.dark .tab-menu .menu-divider {
+            background: #444;
+        }
+
+        
+        body.dark .tab-menu {
+            background: #2a2a2a;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+        }
+
+        body.dark .tab-menu a {
+            color: #e0e0e0;
+        }
+
+        body.dark .tab-menu a:hover {
+            background: #333;
+        }
+
+
+        
+        .group-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            align-items: start;
+        }
+
+        .input-group {
+            background: #ffffff;
+            padding: 16px;
+            border-radius: 10px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+            text-align: left;
+            margin-bottom: 15px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .input-group:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+        }
+
+        .input-group label {
+            display: block;
+            font-weight: 600;
+            letter-spacing: 0.2px;
+            font-weight: bold;
+            margin-top: 10px;
+            margin-bottom: 6px;
+        }
+
+        input[type="number"],
+        select {
+            width: 220px;
+            padding: 6px 8px;
+            margin-top: 6px;
+        }
+
+        .controls {
+            margin-top: 8px;
+            font-size: 13px;
+        }
+
+        .note {
+            margin-top: 4px;
+            font-size: 12px;
+        }   
+
+        .divider {
+            height: 1px;
+            background: #dde7ee;
+            margin: 14px 0;
+        }
+
+        .warn {
+            background: #f4cccc;
+            border: 1px solid #ffe58f;
+            padding: 6px 8px;
+            border-radius: 6px;
+            font-size: 12px;
+            margin-top: 6px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        
+        #price .controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        
+        .with-icon {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .title-icon {
+            width: 39px; 
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            object-fit: contain; 
+            font-size: 18px; 
+            padding: 0 4px; 
+        }
+
+        
+        .header-row {
+            text-align: center;
+        }
+
+        .header-center {
+            text-align: center;
+        }
+
+        .clock-box {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            padding: 6px 8px;
+            text-align: right;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .clock-box .time {
+            font-size: 26px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .clock-box .date {
+            font-size: 19px;
+            color: #777;
+        }
+
+        
+        .clock-box .toggle {
+            margin-top: 12px;
+            margin-left: 90px;
+        }
+
+        
+
+        body.dark {
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+
+        body.dark .container {
+            background-color: #1e1e1e;
+            
+        }
+
+        body.dark .input-group {
+            background-color: #252525;
+            box-shadow: none;
+        }
+
+        body.dark .tab {
+            background: #2d2d2d;
+            color: #ccc;
+        }
+
+        body.dark .tab.active {
+            background: #4a90e2;
+            color: #fff;
+        }
+
+        body.dark input,
+        body.dark select {
+            background-color: #1a1a1a;
+            color: #e0e0e0;
+            border: 1px solid #444;
+        }
+
+        body.dark .divider {
+            background: #333;
+        }
+
+        body.dark .note {
+            color: #aaa;
+        }
+
+        body.dark .warn {
+            background: #4a1f1f;
+            border-color: #a33;
+        }
+
+        body.dark .section-title {
+            color: #fff;
+        }
+
+        body.dark ul li {
+            color: #ddd;
+        }
+
+       
+
+        
+
+        body.dark .clock-box {
+            background: #1e1e1e;
+            border: 1px solid #1e1e1e; 
+            
+        }
+
+        body.dark .clock-box .time {
+            color: #ffffff;
+        }
+
+        body.dark .clock-box .date {
+            color: #b0b0b0;
+        }
+
+        .clock-toggle {
+            margin-top: 8px;
+            display: flex;
+            justify-content: flex-end;
+
+            
+            transform: scale(1.00);        
+            transform-origin: left center;
+        }
+
+                @keyframes fadePop {
+            from {
+                opacity: 0;
+                transform: scale(0.98);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .output-animate {
+            animation: fadePop 0.2s ease-out;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .output-animate {
+                animation: none;
+            }
+        }
+                @media (prefers-reduced-motion: reduce) {
+            .tab{
+                transition: none;
+            }
+        }
+
+                .fade-on-scroll {
+            transition: opacity 0.3s ease;
+        }
+
+                .tab {
+            transition: 
+                background-color 0.25s ease,
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .tab:hover {
+            background: #e6f2fb;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 14px rgba(74, 144, 226, 0.25);
+            color: #4D4D4D;          
+            font-weight: 600;        
+        }
+
+        
+        body.dark .tab:hover {
+            background: #333;
+            box-shadow: 0 6px 14px rgba(74, 144, 226, 0.4);
+        }
+
+        .tab {
+            position: relative;
+        }
+
+        .tab::before {
+            content: "";
+            position: absolute;
+            bottom: 4px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: #9fbfe3;
+            transform: translateX(-50%);
+            transition: width 0.35s ease;
+        }
+
+        .tab:not(.active):hover::before {
+            width: 70%;
+        }
+
+
+        
+
+        
+        @keyframes softBounce {
+            0%, 100% {
+                transform: translateY(0);
+                box-shadow: 0 0 0 rgba(220, 53, 69, 0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+                box-shadow: 0 0 12px rgba(220, 53, 69, 0.85);
+            }
+        }
+
+        
+        @keyframes attentionGlow {
+            0%   { box-shadow: 0 0 0 rgba(220, 53, 69, 0); }
+            50%  { box-shadow: 0 0 10px rgba(220, 53, 69, 0.85); }
+            100% { box-shadow: 0 0 0 rgba(220, 53, 69, 0); }
+        }
+
+        .amend-bounce {
+            animation: softBounce 0.8s ease-in-out infinite;
+        }
+
+        .amend-glow {
+            animation: attentionGlow 2.0s ease-in-out 10;
+        }
+
+
+        
+        .use-discount {
+            margin-left: 10px;
+            font-size: 12px;
+            color: #4a90e2;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .use-discount:hover {
+            text-decoration: underline;
+        }
+
+        body.dark .use-discount {
+            color: #7fb2ff;
+        }
+
+
+                    .reset-btn {
+                background: transparent;
+                border: none;
+                font-size: 12px;
+                font-weight: 500;
+                color: #4a90e2;
+                cursor: pointer;
+                padding: 6px 10px;
+                border-radius: 6px;
+                position: relative;
+                transition:
+                    background-color 0.25s ease,
+                    transform 0.2s ease,
+                    box-shadow 0.2s ease;
+            }
+
+            
+            .reset-btn:hover {
+                background: #fbe6ea;
+                transform: translateY(-1px);
+                box-shadow: 0 4px 10px rgba(74, 144, 226, 0.22);
+                font-weight: 600;
+            }
+
+            
+            .reset-btn::before {
+                content: "";
+                position: absolute;
+                bottom: 4px;
+                left: 50%;
+                width: 0;
+                height: 2px;
+                background: #9fbfe3;
+                transform: translateX(-50%);
+                transition: width 0.35s ease;
+            }
+
+            .reset-btn:hover::before {
+                width: 70%;
+            }
+
+            
+            .reset-btn:active {
+                transform: translateY(0);
+            }
+
+            
+            body.dark .reset-btn {
+                color: #7fb2ff;
+            }
+
+            body.dark .reset-btn:hover {
+                background: #333;
+                box-shadow: 0 4px 12px rgba(74, 144, 226, 0.4);
+            }
+
+
+                        .tab-reset {
+                font-size: 12px;
+                opacity: 0.9;
+                padding: 6px 12px;
+                font-weight: 500;
+            }
+
+            
+            .tab-reset.active {
+                background: #f10d24;
+                color: inherit;
+            }
+
+            
+            body.dark .tab-reset.active {
+                background: #df0808;
+            }
+
+            
+            .tab-reset:hover {
+                opacity: 1;
+            }
+
+
+                        
+            label.toggle {
+                display: flex;
+                font-weight: normal;
+                margin: 0;
+                padding: 0;
+            }
+
+            
+            #toggle {
+                display: none;
+            }
+
+            
+            .toggle {
+                cursor: pointer;
+                position: relative;
+                display: flex;
+                justify-content: space-between;
+                width: 120px;
+                height: 60px;
+                border-radius: 50px;
+                transition: .2s;
+            }
+
+            .toggle i {
+                width: 50%;
+                line-height: 60px;
+                text-align: center;
+                font-size: 30px;
+                z-index: 1;
+            }
+
+            .toggle .ball {
+                position: absolute;
+                width: 45px;
+                height: 45px;
+                margin: 7.5px;
+                border-radius: 50%;
+                transition: .3s ease-out;
+            }
+
+            
+            .toggle {
+                transform: scale(0.8);   
+                transform-origin: right top;
+            }
+
+
+            
+            .light .toggle {
+                background: linear-gradient(145deg, #e1e1e1, #fff);
+            }
+
+            .light .toggle .ball {
+                background: #151d2a;
+            }
+
+            .dark .toggle {
+                background: #151d2a;
+            }
+
+            .dark .toggle .ball {
+                background: #fafafa;
+                transform: translateX(60px);
+            }
+
+                        
+            body.light .toggle .bxs-sun,
+            body.light .toggle .bx-sun {
+                color: #eee7e7;
+            }
+
+            
+            body.light .toggle .bxs-moon,
+            body.light .toggle .bx-moon {
+                color: #c0c6cf;
+            }
+
+                        
+            body.dark .toggle .bxs-moon,
+            body.dark .toggle .bx-moon {
+                color: #000000;
+            }
+
+            
+            body.dark .toggle .bxs-sun,
+            body.dark .toggle .bx-sun {
+                color: #9aa4b2;
+            }
+
+
+                        .price-row {
+                display: flex;
+                gap: 8px;
+                align-items: center;
+            }
+
+            .price-row select {
+                flex: 0.6;
+            }
+
+            .price-input-wrap {
+                position: relative;
+                flex: 0.5;
+            }
+
+            .price-input-wrap input {
+                width: 86%;
+                padding-right: 28px;
+            }
+
+            
+            .remove-icon {
+                position: absolute;
+                right: 4px;
+                top: 58%;
+                transform: translateY(-50%);
+                cursor: pointer;
+                font-size: 18px;
+                font-weight: 500;
+                color: #9aa4b2;
+                line-height: 1;
+            }
+
+            .remove-icon:hover {
+                color: #ef4444;
+            }
+
+            
+            .add-icon {
+                cursor: pointer;
+                position: relative;
+                top: 58%;
+                font-size: 18px;
+                font-weight: 500;
+                color: #6b7280;
+                padding: 0 6px;
+                transform: translateY(3px);
+            }
+
+            .add-icon:hover {
+                color: #039d3b;
+            }
+
+            body.dark .add-icon {
+                color: #6b7280;
+            }
+
+            body.dark .add-icon:hover {
+                color: #039d3b;
+            }
+
+                        
+            input[type="number"]::-webkit-inner-spin-button,
+            input[type="number"]::-webkit-outer-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
+
+                        .add-line-btn {
+                background: transparent;
+                border: none;
+                font-size: 12px;
+                font-weight: 500;
+                color: #4a90e2;
+                cursor: pointer;
+
+                padding: 6px 10px;
+                border-radius: 6px;
+                position: relative;
+
+                transition:
+                    background-color 0.25s ease,
+                    transform 0.2s ease,
+                    box-shadow 0.2s ease,
+                    opacity 0.2s ease;
+            }
+
+            
+            .add-line-btn:hover {
+                background: #e8f2fc;
+                transform: translateY(-1px);
+                box-shadow: 0 4px 10px rgba(74, 144, 226, 0.22);
+                font-weight: 600;
+            }
+
+            
+            .add-line-btn::before {
+                content: "";
+                position: absolute;
+                bottom: 4px;
+                left: 50%;
+                width: 0;
+                height: 2px;
+                background: #9fbfe3;
+                transform: translateX(-50%);
+                transition: width 0.35s ease;
+            }
+
+            .add-line-btn:hover::before {
+                width: 70%;
+            }
+
+            
+            .add-line-btn:active {
+                transform: translateY(0);
+            }
+
+            
+            body.dark .add-line-btn {
+                color: #7fb2ff;
+            }
+
+            body.dark .add-line-btn:hover {
+                background: #333;
+                box-shadow: 0 4px 12px rgba(74, 144, 226, 0.4);
+            }
+
+                        .amend-section {
+                font-size: 16px;
+                font-weight: 600;
+                margin-bottom: opx;
+                padding-bottom: 0px;
+                border-bottom: 2px solid #dbeafe; 
+            }
+
+            body.dark .amend-section {
+                border-bottom-color: #9aa4b2; 
+            }
+
+
+
+
+    </style>
+</head>
+
+<body class="light">
+    <div class="container">
+
+        
+        <div class="header-row">
+
+            <div>
+                <div class="header-parallax">
+                <img class="logo"
+                    id="appLogo"
+                    src="https://clevertap.com/wp-content/themes/clevertap2023/assets/images/ct-logo-2.svg"
+                    alt="App Logo" />
+
+                <h1>Price Discounting & Amendment Calculator</h1>
+                </div>
+                <p class="note fade-on-scroll" id="headerNote">
+                    For internal calculation purposes only. Results are indicative.
+                </p>
+            </div>
+
+            <div class="clock-box">
+                <div id="clockTime" class="time">--:--</div>
+                <div id="clockDate" class="date">---</div>
+
+                
+                <input type="checkbox" id="toggle">
+                <label class="toggle" for="toggle">
+                    <i class="bx bxs-sun"></i>
+                    <i class="bx bx-moon"></i>
+                    <span class="ball"></span>
+                </label>
+            </div>
+
+
+        </div>
+
+
+        <div style="
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+          ">
+            <label for="currency" style="margin:0;">
+                <strong>Currency:</strong>
+            </label>
+
+            <select id="currency" style="width: 87px; text-align: center;">
+                <option value="USD" selected>$ USD</option>
+                <option value="INR">₹ INR</option>
+                <option value="SGD">S$ SGD</option>
+            </select>
+
+            <span id="currencyNote" class="note" style="margin:0;">
+                
+            </span>
+        </div>
+
+        <div class="tabs">
+
+            <div class="tab active" data-tab="discount">Discount Calculator</div>
+            <div class="tab" data-tab="overage">Overage Calculator</div>
+            <div class="tab" data-tab="price">Price Match / Find</div>
+            <div class="tab" title="Use when you already know the incremental quantity and ACV" data-tab="amendment">Amendment Calculator 1</div>
+
+            <div style="display:flex; align-items:center; gap:6px;">
+                <div class="tab" title="Use to derive the incremental quantity and ACV" data-tab="amendment2">Amendment Calculator 2</div>
+
+                
+                <div class="tab-menu-wrapper">
+                    <img
+                        src="https://ssl.gstatic.com/gb/images/bar/al-icon.png"
+                        class="tab-menu-icon"
+                        title="More actions"
+                        alt="Actions"
+                    />
+
+                    <div class="tab-menu">
+                        <a href="https://sheets.new/" target="_blank"
+                            rel="noopener noreferrer">
+                            📊 New Blank Google Sheet
+                        </a>
+
+                        <div class="menu-divider"></div>
+                        <h2 Discounting and Approval Mtarix style="font-size:14px; margin:8px 14px; color:#666;">Discounting & Approvals</h2>
+
+                        <a href="https://wizrocket.atlassian.net/wiki/spaces/SO/pages/4106781054/Discounts+Approvals+Matrix+for+Quotes" 
+                            id="openApprovalMatrix"
+                            target="_blank"
+                            rel="noopener noreferrer">
+                            🛡️ Discount & Approval Matrix
+                        </a>
+
+                        <a href="https://wizrocket.atlassian.net/wiki/spaces/SO/pages/5871206495/Custom+Approvals+required+outside+Salesforce"
+                            target="_blank"
+                            rel="noopener noreferrer">
+                            🧩 Custom Approvals (Outside SFDC)
+                        </a>
+
+                        <a href="https://wizrocket.atlassian.net/wiki/spaces/SO/pages/5434081303/Guidance+for+logging+activity+on+SFDC"
+                            target="_blank"
+                            rel="noopener noreferrer">
+                            📝 SFDC Activity Logging Guidance
+                        </a>
+
+                        <div class="menu-divider"></div>
+                        <h2 Policies style="font-size:14px; margin:8px 14px; color:#666;">Policies & Requests</h2>
+
+                        <a href="https://wizrocket.atlassian.net/wiki/spaces/SO/pages/6235422761/Case+Requests+for+Legal+Team"
+                            target="_blank"
+                            rel="noopener noreferrer">
+                            ⚖️ Case Requests – Legal Team
+                        </a>
+
+                        <a href="https://wizrocket.atlassian.net/wiki/spaces/SOPS/pages/5088018479/Requests+to+Strategy+and+Operations"
+                            target="_blank"
+                            rel="noopener noreferrer">
+                            🧭 Case Requests – Strategy & Operations
+                        </a>
+
+                        <div class="menu-divider"></div>
+
+                        <a href="https://clevertap.lightning.force.com/lightning/o/Case/new?count=1&nooverride=1&useRecordTypeCheck=1&navigationLocation=LIST_VIEW&uid=176790188544634192&backgroundContext=%2Flightning%2Fo%2FCase%2Flist%3FfilterName%3D__Recent"
+                            target="_blank"
+                            rel="noopener noreferrer">
+                             🧑🏻‍💻 Raise a Case – Operations / Legal Support
+                            
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div id="tabMorph">
+        <div id="discount" class="tab-content active">
+
+            <div style="text-align:right; margin-bottom:10px; padding-right:6px;">
+                <button type="button" class="reset-btn" onclick="resetDiscount()">
+                    ↺ Reset
+                </button>
+            </div>
+
+            <div class="group-grid">
+
+                
+                <div class="input-group">
+                    <label>
+                        List Price - SFDC <span id="listPriceCurrency"></span>
+                    </label>
+
+                    <input type="number"
+                           id="listPrice"
+                           step="0.01"
+                           placeholder="Enter list price" />
+
+                    
+                    <div class="controls" style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; min-height: 40px; margin-bottom: 8px;">
+                        <input type="radio" name="listPeriod" value="monthly" checked> Monthly
+                        <input type="radio" name="listPeriod" value="annual"> Annual
+                        <input type="radio" name="listPeriod" value="other"> Other / Multi-year
+
+                        
+                        <select id="listMonths"
+                                style="display:none; width:54px;">
+                            
+                        </select>
+                    </div>
+
+                    
+                    <div id="listCalc">
+                    </div>
+                </div>
+
+                
+                <div class="input-group">
+                    <label>
+                        Offered/ Negotiated Price <span id="discountedPriceCurrency"></span>
+                    </label>
+
+                    <input 
+                        type="number"
+                        id="discountedPrice"
+                        step="0.01"
+                        placeholder="Enter discounted price" />
+
+                    
+                    <div class="controls" style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; min-height: 40px; margin-bottom: 8px;">
+                        <input type="radio" name="discPeriod" value="monthly" checked> Monthly
+                        <input type="radio" name="discPeriod" value="annual"> Annual
+                        <input type="radio" name="discPeriod" value="other"> Other / Multi-year
+
+                        
+                        <select id="discMonths"
+                                style="display:none; width:54px;">
+                            
+                        </select>
+                    </div>
+
+                    
+                    <div id="discCalc">
+                        
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="divider"></div>
+
+            
+            <div class="group-grid">
+
+                <div class="input-group">
+                    <label>Decimal Precision</label>
+                    <select id="decimalSelect">
+                        <option value="0">0</option>
+                        <option value="2">2</option>
+                        <option value="4">4</option>
+                        <option value="6">6</option>
+                        <option value="8" selected>8</option>
+                        <option value="16">16</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <div id="discountPercent">
+                        Discount %: --
+                    </div>
+
+                    <div id="discountAbsolute">
+                        Discount (Absolute): --
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <div id="overage" class="tab-content">
+
+            <div style="text-align:right; margin-bottom:10px; padding-right:6px;">
+                <button
+                    type="button"
+                    class="reset-btn"
+                    onclick="resetOverage()">
+                    ↺ Reset
+                </button>
+            </div>
+
+
+            <div class="group-grid">
+
+                <div class="input-group">
+                    <label>Volume / Quantity</label>
+
+                    <input type="number"
+                           id="overageVolume"
+                           step="1"
+                           min="0"
+                           placeholder="Enter monthly volume" />
+
+                    <div class="note">
+                        Enter the monthly-only volume / quantity.
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>
+                        Price <span id="overagePriceCurrency"></span>
+                    </label>
+
+                    <input type="number"
+                           id="overagePrice"
+                           step="0.000001"
+                           min="0"
+                           placeholder="Enter unit price" />
+
+                    <div id="ovgUnitHint" style="font-size:13px; color:#777;"></div>
+
+                    
+                    <div class="controls"
+                         style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; min-height: 40px; margin-bottom: 8px;">
+                        <input type="radio" name="ovgPeriod" value="monthly" checked>
+                        Monthly
+
+                        <input type="radio" name="ovgPeriod" value="annual">
+                        Annual
+
+                        <input type="radio" name="ovgPeriod" value="other">
+                        Other / Multi-year
+
+                        
+                        <select id="ovgMonths"
+                                style="display:none; width:54px;">
+                            
+                        </select>
+                    </div>
+
+                    
+                    <div class="controls">
+                        <label style="font-weight:normal;">
+                            <input type="checkbox" id="isDP">
+                            Data Points (DP)
+                        </label>
+                    </div>
+
+                    
+                    <div id="ovgEquiv">
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="group-grid">
+
+                
+                <div class="input-group">
+                    <div class="section-title">
+                        Additional Options
+                    </div>
+
+                    <label for="overageDecimals">
+                        Decimal Precision
+                    </label>
+
+                    <select id="overageDecimals">
+                        <option value="0">0</option>
+                        <option value="2">2</option>
+                        <option value="4">4</option>
+                        <option value="6" selected>6</option>
+                    </select>
+
+                    <label for="overagePercent">
+                        Overage %
+                    </label>
+
+                    <select id="overagePercent">
+                        <option value="1.2">120%</option>
+                        <option value="1">100%</option>
+                    </select>
+
+                    
+                    <div id="financeNote"
+                         class="warn"
+                         style="display:none;">
+                        ⚠ Finance approval required for 100% overage.
+                    </div>
+                </div>
+
+                
+                <div class="input-group">
+                    <div class="section-title">
+                        Overage Result
+                    </div>
+
+                    <div id="overageOutput">
+                        Overage Calculation Result: --
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div id="price" class="tab-content">
+
+            <div style="text-align:right; margin-bottom:10px; padding-right:6px;">
+                <button type="button" class="reset-btn" onclick="resetPriceMatch()">↺ Reset</button>
+            </div>
+
+
+            <div class="group-grid">
+
+                <div class="input-group">
+                    <label>
+                        Expected Price (ACV / TCV) <span id="expectedPriceCurrency"></span>
+                    </label>
+
+                    <input type="number"
+                           id="expectedPrice"
+                           step="0.01"
+                           placeholder="Enter expected price" />
+
+                    <div class="divider"></div>
+
+                    <label for="priceDecimals">
+                        Decimal Precision
+                    </label>
+
+                    <select id="priceDecimals">
+                        <option value="0">0</option>
+                        <option value="2" selected>2</option>
+                        <option value="4">4</option>
+                    </select>
+
+                    <div class="section-title" style="margin-top:10px;">
+                        Calculated Price Difference
+                    </div>
+
+                    <div id="priceMatchOutput">
+                        Price Match Difference: --
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>
+                        Line Items
+                    </label>
+
+                    <div id="lineItems">
+                        
+                    </div>
+
+                    <div class="controls" style="margin-bottom:10px;">
+                        <button type="button"
+                                id="addLineItemBtn"
+                                class="add-line-btn"
+                                onclick="addLineItem()">
+                            + Add Line Item
+                        </button>
+                    </div>
+
+                    <div class="note">
+                        Add individual line items to reconcile against expected price.
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <div id="amendment" class="tab-content">
+        
+            <div style="text-align:right; margin-bottom:10px; padding-right:6px;">
+                <button type="button" class="reset-btn" onclick="resetAmendment1()">
+                    ↺ Reset
+                </button>
+            </div>
+
+
+            <div class="group-grid">
+
+                <div class="input-group">
+                    <div class="section-title amend-section">
+                        <h1>Base Subscription</h1>
+                    </div>
+
+                    <label for="baseQty">
+                        Current Active Monthly Quantity
+                    </label>
+
+                    <input type="number"
+                           id="baseQty"
+                           step="0.01"
+                           min="0"
+                           placeholder="Enter monthly quantity" />
+
+                    <label>
+                        Active Subscription Price <span id="basePriceCurrency"></span>
+                    </label>
+
+                    <input type="number"
+                           id="basePrice"
+                           step="0.01"
+                           min="0"
+                           placeholder="Enter subscription price" />
+
+                    <div id="baseUnitHint" style="font-size:13px; color:#777;"></div>
+
+                    
+                    <div class="controls"
+                         style="display:flex; gap:12px; flex-wrap:wrap; align-items:center; min-height:40px; margin-bottom:8px;">
+                        <input type="radio" name="basePeriod" value="monthly" checked> Monthly
+                        <input type="radio" name="basePeriod" value="annual"> Annual
+                        <input type="radio" name="basePeriod" value="other"> Other / Multi-year
+
+                        <select id="baseMonths" style="display:none; width:54px;">
+                            
+                        </select>
+                    </div>
+
+                    
+                    <div id="baseEquiv"></div>
+
+                    <div class="note">
+                        💡 Enter ACV for the most accurate base calculation.
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <div class="section-title amend-section">
+                        <h1>Amendment Details</h1>
+                    </div>
+
+                    <label for="amendQty">
+                        Incremental Monthly Quantity
+                    </label>
+
+                    <input type="number"
+                           id="amendQty"
+                           step="0.01"
+                           min="0"
+                           placeholder="Enter monthly quantity" />
+
+                    <label>
+                        Incremental Amendment Price <span id="amendPriceCurrency"></span>
+                    </label>
+
+                    <input type="number"
+                           id="amendPrice"
+                           step="0.01"
+                           min="0"
+                           placeholder="Enter amendment price" />
+
+                    <div id="amendUnitHint" style="font-size:13px; color:#777;"></div>
+
+                    
+                    <div class="controls"
+                         style="display:flex; gap:12px; flex-wrap:wrap; align-items:center; min-height:40px; margin-bottom:8px;">
+                        <input type="radio" name="amendPeriod" value="monthly" checked> Monthly
+                        <input type="radio" name="amendPeriod" value="annual"> Annual
+                        <input type="radio" name="amendPeriod" value="other"> Other / Multi-year
+
+                        <select id="amendPriceMonths" style="display:none; width:54px;">
+                            
+                        </select>
+                    </div>
+
+                    
+                    <div id="amendEquiv"></div>
+
+                    <div class="note">
+                        💡 Enter ACV for the most accurate amendment calculation.
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="group-grid">
+
+                
+                <div class="input-group">
+                    <div class="section-title">
+                        Additional Options
+                    </div>
+
+                    <label for="amendDecimals">
+                        Decimal Precision
+                    </label>
+
+                    <select id="amendDecimals">
+                        <option value="0">0</option>
+                        <option value="2" selected>2</option>
+                        <option value="4">4</option>
+                        <option value="6">6</option>
+                        <option value="8">8</option>
+                    </select>
+
+                    <label for="amendMonths">
+                        Amendment Months
+                    </label>
+
+                    <select id="amendMonths">
+                        <option value="0" selected>0</option>
+                        
+                    </select>
+
+                    <div class="note">
+                        Select the number of months for which the amendment applies.
+                    </div>
+                </div>
+
+                
+                <div class="input-group">
+
+                    <div class="section-title with-icon">
+                        <img src="https://www.salesforce.com/content/dam/sfdc-docs/www/logos/logo-salesforce.svg"
+                             alt="Salesforce"
+                             style="height:20px; width:auto;">
+                        This goes in SFDC
+                    </div>
+
+                    <ul id="amendSFDC"
+                        style="list-style: none; padding-left: 0; line-height: 1.6; font-size: 13px;">
+                    </ul>
+
+                    <div class="divider"></div>
+
+                    <div class="section-title with-icon">
+                        <span class="title-icon">📄</span>
+                        <span>This goes in Custom SO</span>
+                    </div>
+                    <ul id="amendCustomSO"
+                        style="list-style: none; padding-left: 0; line-height: 1.6; font-size: 13px;">
+                    </ul>
+
+                </div>
+            </div>
+
+        </div>
+
+        <div id="amendment2" class="tab-content">
+            
+            <div style="text-align:right; margin-bottom:10px; padding-right:6px;">
+                <button type="button" class="reset-btn" onclick="resetAmendment2()">
+                    ↺ Reset
+                </button>
+            </div>
+
+
+            <div class="group-grid">
+
+                <div class="input-group">
+                    <div class="section-title amend-section">
+                        <h1> Base Subscription</h1>
+                    </div>
+
+                    <label for="baseQty2">
+                        Current Active Monthly Quantity
+                    </label>
+                    <input type="number"
+                           id="baseQty2"
+                           step="0.01"
+                           min="0"
+                           placeholder="Enter monthly quantity" />
+
+                    <label>
+                        Active Subscription Price <span id="basePriceCurrency2"></span>
+                    </label>
+                    <input type="number"
+                           id="basePrice2"
+                           step="0.01"
+                           min="0"
+                           placeholder="Enter subscription price" />
+
+                    <div id="baseUnitHint2"
+                         style="font-size:13px; color:#777;"></div>
+
+                    
+                    <div class="controls"
+                         style="display:flex; gap:12px; flex-wrap:wrap; align-items:center; min-height:40px; margin-bottom:8px;">
+                        <input type="radio" name="basePeriod2" value="monthly" checked> Monthly
+                        <input type="radio" name="basePeriod2" value="annual"> Annual
+                        <input type="radio" name="basePeriod2" value="other"> Other / Multi-year
+
+                        <select id="baseMonths2"
+                                style="display:none; width:54px;"></select>
+                    </div>
+
+                    <div id="baseEquiv2"></div>
+                    <div class="note">
+                        💡 Enter ACV for the most accurate base calculation.
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <div class="section-title amend-section">
+                        <h1> Amendment Details </h1>
+                    </div>
+
+                    <label for="fullQty">
+                        Full Monthly Quantity (Post Amendment)
+                    </label>
+                    <input type="number"
+                           id="fullQty"
+                           step="0.01"
+                           min="0"
+                           placeholder="Enter full monthly quantity" />
+
+                    <label>
+                        Full Amendment Price <span id="amendPriceCurrency2"></span>
+                    </label>
+                    <input type="number"
+                           id="amendPrice2"
+                           step="0.01"
+                           min="0"
+                           placeholder="Enter final monthly price" />
+
+                    <div id="amendUnitHint2"
+                         style="font-size:13px; color:#777;"></div>
+
+                    
+                    <div class="controls"
+                         style="display:flex; gap:12px; flex-wrap:wrap; align-items:center; min-height:40px; margin-bottom:8px;">
+                        <input type="radio" name="amendPeriod2" value="monthly" checked> Monthly
+                        <input type="radio" name="amendPeriod2" value="annual"> Annual
+                        <input type="radio" name="amendPeriod2" value="other"> Other / Multi-year
+
+                        <select id="amendPriceMonths2"
+                                style="display:none; width:54px;"></select>
+                    </div>
+
+                    <div id="amendEquiv2"></div>
+                    <div class="note">
+                        💡 Enter ACV for the most accurate amendment calculation.
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="group-grid">
+
+                
+                <div class="input-group">
+                    <div class="section-title">
+                        Additional Options
+                    </div>
+
+                    <label for="amendDecimals2">
+                        Decimal Precision
+                    </label>
+                    <select id="amendDecimals2">
+                        <option value="0">0</option>
+                        <option value="2" selected>2</option>
+                        <option value="4">4</option>
+                        <option value="6">6</option>
+                    </select>
+
+                    <label for="amendMonths2">
+                        Amendment Months
+                    </label>
+                    <select id="amendMonths2">
+                        <option value="0" selected>0</option>
+                    </select>
+                    <div class="note">
+                        Select the number of months for which the amendment applies.
+                    </div>
+
+                </div>
+                
+                
+                <div class="input-group">
+
+                    <div class="section-title with-icon">
+                        <img src="https://www.salesforce.com/content/dam/sfdc-docs/www/logos/logo-salesforce.svg"
+                             alt="Salesforce"
+                             style="height:20px; width:24;">
+                        This goes in SFDC
+                    </div>
+
+                    <ul id="amend2SFDC"
+                        style="list-style:none; padding-left:0; line-height:1.6; font-size:13px;">
+                    </ul>
+
+                    <div class="divider"></div>
+
+                    <div class="section-title with-icon">
+                        <span class="title-icon">📄</span>
+                        <span>This goes in Custom SO</span>
+                    </div>
+
+                    <ul id="amend2CustomSO"
+                        style="list-style:none; padding-left:0; line-height:1.6; font-size:13px;">
+                    </ul>
+
+                </div>
+            </div>
+
+        </div>
+
+
+
+    </div>
+    </div>
+        <div style="
+        margin-top: 20px;
+        font-size: 11px;
+        color: #888;
+        text-align: center;
+        ">
+            Built & maintained by Hitesh K. • Sales Operations
+    </div> 
+    <script>
+            
+        const EXCHANGE_TEXT = {
+            INR: '1 USD = 87 INR',
+            SGD: '1 USD = 1.35 SGD'
+        };
+
+        
+        const LINE_ITEM_OPTIONS = [
+            "Platform Access and Usage Tier",
+            "Advanced Email",
+            "WhatsApp Connect Plan",
+            "WhatsApp Direct Plan",
+            "Reminders",
+            "Additional Reminder Setups",
+            "SMS",
+            "RCS",
+            "Product Experiences",
+            "Promotions",
+            "Message Archiving",
+            "Advanced Web Personalisation",
+            "PII Encryption",
+            "Additional Usage (Additional DP per MAU)",
+            "Additional Year (Lookback Period)",
+            "Integration Services",
+            "Premier Services",
+            "Licensed Seats",
+            "Others"
+        ];
+
+                function getCurrencySymbol() {
+            const currency = document.getElementById('currency').value;
+            if (currency === 'INR') return '₹';
+            if (currency === 'SGD') return 'S$';
+            return '$';
+        }
+
+        function updateLabelCurrencies() {
+            const symbol = getCurrencySymbol();
+
+            const map = [
+                'listPriceCurrency',
+                'discountedPriceCurrency',
+                'overagePriceCurrency',
+                'expectedPriceCurrency',
+                'basePriceCurrency',
+                'basePriceCurrency2',
+                'amendPriceCurrency',
+                'amendPriceCurrency2',
+            ];
+
+            map.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.textContent = `(${symbol})`;
+                }
+            });
+        }
+
+        function updateCurrencyNote() {
+            const currency = document.getElementById('currency').value;
+            const noteEl = document.getElementById('currencyNote');
+            noteEl.textContent = EXCHANGE_TEXT[currency] || '';
+        }
+
+                function formatNumber(value, decimals) {
+            const symbol = getCurrencySymbol();
+            const num = Number(value || 0).toFixed(decimals);
+            return symbol + ' ' + num;
+        }
+
+        function formatEquivalent(value) {
+            return formatNumber(value, 2);
+        }
+
+        function formatUnit(value) {
+            return Number(value || 0).toFixed(6);
+        }
+
+                function animateOutput(id) {
+            const el = document.getElementById(id);
+            if (!el) return;
+
+            el.classList.remove('output-animate');
+            void el.offsetWidth;             el.classList.add('output-animate');
+        }
+
+                function useInDiscount(value, months) {
+            if (value === undefined || value === null) return;
+
+                        document.querySelector('.tab[data-tab="discount"]').click();
+
+                        const discountedInput = document.getElementById('discountedPrice');
+            discountedInput.value = Number(value).toFixed(2);
+
+                        document.querySelector('input[name="discPeriod"][value="other"]').checked = true;
+
+                        const discMonthsEl = document.getElementById('discMonths');
+            discMonthsEl.style.display = 'inline-block';
+
+            if (months && Number(months) > 0) {
+                discMonthsEl.value = Number(months);
+            }
+
+                        calculateDiscount();
+
+                        discountedInput.focus();
+        }
+
+
+
+                function bindTabs() {
+            const tabs = document.querySelectorAll('.tab');
+            const contents = document.querySelectorAll('.tab-content');
+            const morph = document.getElementById('tabMorph');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const current = document.querySelector('.tab-content.active');
+                    const target = document.getElementById(tab.dataset.tab);
+
+                    if (current === target) return;
+
+                                        const startHeight = current.offsetHeight;
+
+                    tabs.forEach(t => t.classList.remove('active'));
+                    contents.forEach(c => c.classList.remove('active'));
+
+                    tab.classList.add('active');
+                    target.classList.add('active');
+
+                                        const endHeight = target.offsetHeight;
+
+                                        morph.style.height = startHeight + 'px';
+
+                    requestAnimationFrame(() => {
+                        morph.style.height = endHeight + 'px';
+                    });
+
+                                        morph.addEventListener(
+                        'transitionend',
+                        () => {
+                            morph.style.height = 'auto';
+                        },
+                        { once: true }
+                    );
+                });
+            });
+        }
+
+
+
+                function populateMonths(selectId) {
+            const select = document.getElementById(selectId);
+            if (!select) return;
+
+            for (let i = 1; i <= 60; i++) {
+                const opt = document.createElement('option');
+                opt.value = i;
+                opt.textContent = i;
+                select.appendChild(opt);
+            }
+        }
+                function ensureDefaultMonths(selectEl, defaultVal = 12) {
+            if (!selectEl.value || Number(selectEl.value) === 0) {
+                selectEl.value = defaultVal;
+            }
+        }
+
+
+                function calculateDiscount() {
+            const listPrice = Number(document.getElementById('listPrice').value || 0);
+            const discountedPrice = Number(document.getElementById('discountedPrice').value || 0);
+            const decimals = Number(document.getElementById('decimalSelect').value || 2);
+
+            const listPeriod = document.querySelector('input[name="listPeriod"]:checked').value;
+            const discPeriod = document.querySelector('input[name="discPeriod"]:checked').value;
+
+            const listMonthsEl = document.getElementById('listMonths');
+            const discMonthsEl = document.getElementById('discMonths');
+
+            listMonthsEl.style.display =
+                listPeriod === 'other' ? 'inline-block' : 'none';
+
+            discMonthsEl.style.display =
+                discPeriod === 'other' ? 'inline-block' : 'none';
+
+            if (listPeriod === 'other') ensureDefaultMonths(listMonthsEl);
+            if (discPeriod === 'other') ensureDefaultMonths(discMonthsEl);
+
+            const listMonths = Number(listMonthsEl.value);
+            const discMonths = Number(discMonthsEl.value);
+
+
+            
+            if (listPeriod === 'other') {
+                document.getElementById('listCalc').innerHTML =
+                    `<strong>Monthly Value:</strong> ${formatEquivalent(listPrice / listMonths)} |
+                       <strong>Annual Value:</strong> ${formatEquivalent((listPrice * 12) / listMonths)}`;
+            } else if (listPeriod === 'annual') {
+                document.getElementById('listCalc').innerHTML =
+                    `<strong>Monthly Value:</strong> ${formatEquivalent(listPrice / 12)}`;
+            } else {
+                document.getElementById('listCalc').innerHTML =
+                    `<strong>Annual Value:</strong> ${formatEquivalent(listPrice * 12)}`;
+            }
+
+            if (discPeriod === 'other') {
+                document.getElementById('discCalc').innerHTML =
+                    `<strong>Monthly Value:</strong> ${formatEquivalent(discountedPrice / discMonths)} |
+                       <strong>Annual Value:</strong> ${formatEquivalent((discountedPrice * 12) / discMonths)}`;
+            } else if (discPeriod === 'annual') {
+                document.getElementById('discCalc').innerHTML =
+                    `<strong>Monthly Value:</strong> ${formatEquivalent(discountedPrice / 12)}`;
+            } else {
+                document.getElementById('discCalc').innerHTML =
+                    `<strong>Annual Value:</strong> ${formatEquivalent(discountedPrice * 12)}`;
+            }
+
+            
+            let listACV = 0;
+            let discACV = 0;
+
+            if (listPeriod === 'monthly') listACV = listPrice * 12;
+            else if (listPeriod === 'annual') listACV = listPrice;
+            else listACV = listPrice * listMonths;
+
+            if (discPeriod === 'monthly') discACV = discountedPrice * 12;
+            else if (discPeriod === 'annual') discACV = discountedPrice;
+            else discACV = discountedPrice * discMonths;
+
+            if (listACV > 0) {
+                const discountPct = ((listACV - discACV) / listACV) * 100;
+                const discountAbs = listACV - discACV;
+
+                document.getElementById('discountPercent').textContent =
+                    'Discount %: ' + discountPct.toFixed(decimals);
+
+                document.getElementById('discountAbsolute').textContent =
+                    'Discount (Absolute): ' + formatNumber(discountAbs, decimals);
+                    animateOutput('discountPercent');
+                    animateOutput('discountAbsolute');
+            } else {
+                document.getElementById('discountPercent').textContent = 'Discount %: --';
+                document.getElementById('discountAbsolute').textContent = 'Discount (Absolute): --';
+            }
+        }
+
+                function calculateOverage() {
+            const volume = Number(document.getElementById('overageVolume').value || 0);
+            const price = Number(document.getElementById('overagePrice').value || 0);
+            const decimals = Number(document.getElementById('overageDecimals').value || 6);
+            const percent = Number(document.getElementById('overagePercent').value || 1.2);
+            const period = document.querySelector('input[name="ovgPeriod"]:checked').value;
+            const ovgMonthsEl = document.getElementById('ovgMonths');
+                ovgMonthsEl.style.display =
+                    period === 'other' ? 'inline-block' : 'none';
+                if (period === 'other') ensureDefaultMonths(ovgMonthsEl);
+                const months = Number(ovgMonthsEl.value);
+            const isDP = document.getElementById('isDP').checked;
+
+            
+            if (period === 'other') {
+                document.getElementById('ovgEquiv').innerHTML =
+                    `<strong>Monthly Value:</strong> ${formatEquivalent(price / months)} |
+                       <strong>Annual Value:</strong> ${formatEquivalent((price * 12) / months)}`;
+            } else if (period === 'annual') {
+                document.getElementById('ovgEquiv').innerHTML =
+                    `<strong>Monthly Value:</strong> ${formatEquivalent(price / 12)}`;
+            } else {
+                document.getElementById('ovgEquiv').innerHTML =
+                    `<strong>Annual Value:</strong> ${formatEquivalent(price * 12)}`;
+            }
+
+            document.getElementById('financeNote').style.display =
+                document.getElementById('overagePercent').value === '1' ? 'block' : 'none';
+
+            
+            let monthlyBasePrice = 0;
+            if (period === 'monthly') monthlyBasePrice = price;
+            else if (period === 'annual') monthlyBasePrice = price / 12;
+            else monthlyBasePrice = price / months;
+
+            let overage = 0;
+            if (monthlyBasePrice > 0 && volume > 0) {
+                overage = (monthlyBasePrice / volume) * percent;
+                if (isDP) {
+                    overage = overage * 1000000;
+                }
+            }
+
+
+                        let unitPrice = 0;
+            let hint = '';
+
+            if (monthlyBasePrice > 0 && volume > 0) {
+                unitPrice = monthlyBasePrice / volume;
+                hint = `Price Per unit: ${formatUnit(unitPrice)}`;
+
+                if (isDP) {
+                    hint += ` | Per million DP: ${formatUnit(unitPrice * 1000000)}`;
+                }
+            }
+
+            document.getElementById('ovgUnitHint').textContent = hint;
+
+
+            if (overage > 0) {
+                let text = 'Overage Calculation Result: ' +
+                    formatNumber(overage, decimals);
+
+                if (isDP) {
+                    text += ' (per million Data Points)';
+                }
+
+                document.getElementById('overageOutput').innerHTML = text;
+                animateOutput('overageOutput');
+            } else {
+                document.getElementById('overageOutput').textContent =
+                    'Overage Calculation Result: --';
+            }
+        }
+
+
+                
+        function toggleAddLineItemButton() {
+            const container = document.getElementById('lineItems');
+            const btn = document.getElementById('addLineItemBtn');
+
+            if (!btn || !container) return;
+
+            btn.style.display =
+                container.children.length > 0 ? 'none' : 'inline-block';
+        }
+
+        
+        function addLineItem() {
+            const container = document.getElementById('lineItems');
+
+            const row = document.createElement('div');
+            row.className = 'price-row';
+
+            
+            const select = document.createElement('select');
+            const emptyOpt = document.createElement('option');
+            emptyOpt.value = '';
+            emptyOpt.textContent = 'Select item';
+            emptyOpt.disabled = true;
+            emptyOpt.selected = true;
+            select.appendChild(emptyOpt);
+
+            LINE_ITEM_OPTIONS.forEach(opt => {
+                const o = document.createElement('option');
+                o.value = opt;
+                o.textContent = opt;
+                select.appendChild(o);
+            });
+
+            
+            const inputWrap = document.createElement('div');
+            inputWrap.className = 'price-input-wrap';
+
+            const input = document.createElement('input');
+            input.type = 'number';
+            input.step = '0.01';
+            input.placeholder = 'Amount';
+
+            
+            const remove = document.createElement('span');
+            remove.className = 'remove-icon';
+            remove.innerHTML = '−';
+
+            remove.onclick = () => {
+                if (container.children.length > 1) {
+                    row.remove();
+                    calculatePriceMatch();
+                    toggleAddLineItemButton();
+                }
+            };
+
+            inputWrap.appendChild(input);
+            inputWrap.appendChild(remove);
+
+            
+            const add = document.createElement('span');
+            add.className = 'add-icon';
+            add.innerHTML = '+';
+
+            add.onclick = () => addLineItem();
+
+            row.appendChild(select);
+            row.appendChild(inputWrap);
+            row.appendChild(add);
+
+            container.appendChild(row);
+
+            input.addEventListener('input', calculatePriceMatch);
+
+            toggleAddLineItemButton();
+        }
+
+
+        function calculatePriceMatch() {
+            const expected = Number(document.getElementById('expectedPrice').value || 0);
+            const decimals = Number(document.getElementById('priceDecimals').value || 2);
+
+            let sum = 0;
+            document.querySelectorAll('#lineItems input').forEach(inp => {
+                sum += Number(inp.value || 0);
+            });
+
+            const diff = expected - sum;
+            document.getElementById('priceMatchOutput').innerHTML =
+            `Price Match Difference: ${formatNumber(diff, decimals)}
+            <span class="use-discount"
+                onclick="useInDiscount(${diff})">
+                Use in Discount Calculator ⎋
+            </span>`;
+
+        }
+
+
+                    function handleAmendmentMonthsNudge() {
+                const fields = [
+                    'baseQty',
+                    'amendQty',
+                    'basePrice',
+                    'amendPrice'
+                ];
+
+                const monthsEl = document.getElementById('amendMonths');
+                if (!monthsEl) return;
+
+                const allFilled = fields.every(id => {
+                    const el = document.getElementById(id);
+                    return el && Number(el.value) > 0;
+                });
+
+                const monthsValue = Number(monthsEl.value || 0);
+
+                                if (allFilled && monthsValue === 0) {
+                    monthsEl.classList.add('amend-bounce');
+                    monthsEl.classList.remove('amend-glow');
+                    return;
+                }
+
+                                if (monthsValue > 0) {
+                    monthsEl.classList.remove('amend-bounce');
+                }
+            }
+
+
+                function calculateAmendment() {
+
+                        const baseQty = Number(document.getElementById('baseQty').value || 0);
+            const amendQty = Number(document.getElementById('amendQty').value || 0);
+
+            const basePrice = Number(document.getElementById('basePrice').value || 0);
+            const amendPrice = Number(document.getElementById('amendPrice').value || 0);
+
+            const basePeriod =
+                document.querySelector('input[name="basePeriod"]:checked').value;
+
+            const amendPeriod =
+                document.querySelector('input[name="amendPeriod"]:checked').value;
+
+            const months =
+                Number(document.getElementById('amendMonths').value || 0);
+
+            const decimals =
+                Number(document.getElementById('amendDecimals').value || 2);
+
+
+                        const baseMonthsEl = document.getElementById('baseMonths');
+            const amendMonthsEl = document.getElementById('amendPriceMonths');
+
+            baseMonthsEl.style.display =
+                basePeriod === 'other' ? 'inline-block' : 'none';
+
+            amendMonthsEl.style.display =
+                amendPeriod === 'other' ? 'inline-block' : 'none';
+
+            if (basePeriod === 'other') ensureDefaultMonths(baseMonthsEl);
+            if (amendPeriod === 'other') ensureDefaultMonths(amendMonthsEl);
+
+            const baseMonths = Number(baseMonthsEl.value);
+            const amendPriceMonths = Number(amendMonthsEl.value);
+
+
+                        function updateEquiv(el, price, period, months) {
+                if (!el) return;
+
+                if (period === 'other') {
+                    el.innerHTML =
+                        `<strong>Monthly Value:</strong> ${formatEquivalent(price / months)} |
+                             <strong>Annual Value:</strong> ${formatEquivalent((price * 12) / months)}`;
+                } else if (period === 'annual') {
+                    el.innerHTML =
+                        `<strong>Monthly Value:</strong> ${formatEquivalent(price / 12)}`;
+                } else {
+                    el.innerHTML =
+                        `<strong>Annual Value:</strong> ${formatEquivalent(price * 12)}`;
+                }
+            }
+
+            updateEquiv(
+                document.getElementById('baseEquiv'),
+                basePrice,
+                basePeriod,
+                baseMonths
+            );
+
+            updateEquiv(
+                document.getElementById('amendEquiv'),
+                amendPrice,
+                amendPeriod,
+                amendPriceMonths
+            );
+
+                        function normaliseToMonthly(price, period, months) {
+                if (period === 'monthly') return price;
+                if (period === 'annual') return price / 12;
+                return price / months;             }
+
+            const baseMonthly =
+                normaliseToMonthly(basePrice, basePeriod, baseMonths);
+
+            const amendMonthly =
+                normaliseToMonthly(amendPrice, amendPeriod, amendPriceMonths);
+
+                        let baseUnit = 0;
+            let amendUnit = 0;
+
+            if (baseQty > 0) baseUnit = baseMonthly / baseQty;
+            if (amendQty > 0) amendUnit = amendMonthly / amendQty;
+
+            document.getElementById('baseUnitHint').textContent =
+                baseUnit > 0 ? `Price Per unit: ${formatUnit(baseUnit)}` : '';
+
+            document.getElementById('amendUnitHint').textContent =
+                amendUnit > 0 ? `Price Per unit: ${formatUnit(amendUnit)}` : '';
+
+            const baseACV = baseMonthly * 12;
+            const amendACV = amendMonthly * 12;
+
+                        const totalMonthly = baseMonthly + amendMonthly;
+            const totalAnnual = baseACV + amendACV;
+            const amendCost = amendMonthly * months;
+
+                        const totalQty = baseQty + amendQty;
+
+            let perUnitMonthly = 0;
+            let overage120 = 0;
+
+            if (totalQty > 0) {
+                perUnitMonthly = totalMonthly / totalQty;
+                overage120 = perUnitMonthly * 1.2;
+            }
+
+                        const sfdcOutputs = [];
+
+            sfdcOutputs.push(
+                `<li><strong>Total Monthly Quantity:</strong> ${baseQty + amendQty}</li>`
+            );
+
+            if (months > 0) {
+                sfdcOutputs.push(
+                    `<li>
+                        <strong>Amendment Cost (${months} months):</strong>
+                                ${formatNumber(amendCost, decimals)}
+                                <span class="use-discount"
+                                    onclick="useInDiscount(${amendCost}, ${months})">
+                                    Use in Discount Calculator ⎋
+                                </span>
+                        </li>`
+                    );  
+                }
+
+                        const customOutputs = [];
+
+            customOutputs.push(
+                `<li><strong>Total Monthly Quantity:</strong> ${baseQty + amendQty}</li>`
+            );
+            customOutputs.push(
+                `<li><strong>Monthly Price:</strong> ${formatNumber(totalMonthly, decimals)}</li>`
+            );
+            if (months > 0) {
+                customOutputs.push(
+                    `<li><strong>Total Subscription Cost (${months} months):</strong>
+                        ${formatNumber(totalMonthly * months, decimals)}
+                    </li>`
+                );
+            }
+            customOutputs.push(
+                `<li style="color:#777;">
+                    <strong>Annual:</strong> ${formatNumber(totalAnnual, decimals)}
+                </li>`
+            );
+            customOutputs.push(
+                `<li><strong>Overage (120%):</strong> ${formatUnit(overage120)}</li>`
+            );
+            customOutputs.push(
+                `<li style="color:#777;">
+                         <strong>Price Per Unit:</strong> ${formatUnit(perUnitMonthly)}
+                       </li>`
+            );
+
+                        document.getElementById('amendSFDC').innerHTML = sfdcOutputs.join('');
+            document.getElementById('amendCustomSO').innerHTML = customOutputs.join('');
+            animateOutput('amendSFDC');
+            animateOutput('amendCustomSO');
+        }
+
+                function handleAmendmentMonthsNudge2() {
+            const fields = [
+                'baseQty2',
+                'fullQty',
+                'basePrice2',
+                'amendPrice2'
+            ];
+
+            const monthsEl = document.getElementById('amendMonths2');
+            if (!monthsEl) return;
+
+            const allFilled = fields.every(id => {
+                const el = document.getElementById(id);
+                return el && Number(el.value) > 0;
+            });
+
+            const monthsValue = Number(monthsEl.value || 0);
+
+                        if (allFilled && monthsValue === 0) {
+                monthsEl.classList.add('amend-bounce');
+                monthsEl.classList.remove('amend-glow');
+                return;
+            }
+
+                        if (monthsValue > 0) {
+                monthsEl.classList.remove('amend-bounce');
+            }
+        }
+
+                function calculateAmendment2() {
+
+                        const baseQty = Number(document.getElementById('baseQty2').value || 0);
+            const fullQty = Number(document.getElementById('fullQty').value || 0);
+            const amendmentQty = fullQty - baseQty;
+
+            const basePrice = Number(document.getElementById('basePrice2').value || 0);
+            const finalPrice = Number(document.getElementById('amendPrice2').value || 0);
+
+            const basePeriod =
+                document.querySelector('input[name="basePeriod2"]:checked').value;
+            const finalPeriod =
+                document.querySelector('input[name="amendPeriod2"]:checked').value;
+
+
+            const amendMonths =
+                Number(document.getElementById('amendMonths2').value || 0);
+
+            const decimals =
+                Number(document.getElementById('amendDecimals2').value || 2);
+
+                        const baseMonthsEl2 = document.getElementById('baseMonths2');
+            const amendMonthsEl2 = document.getElementById('amendPriceMonths2');
+
+            baseMonthsEl2.style.display =
+                basePeriod === 'other' ? 'inline-block' : 'none';
+
+            amendMonthsEl2.style.display =
+                finalPeriod === 'other' ? 'inline-block' : 'none';
+
+            if (basePeriod === 'other') ensureDefaultMonths(baseMonthsEl2);
+            if (finalPeriod === 'other') ensureDefaultMonths(amendMonthsEl2);
+
+            const baseMonths = Number(baseMonthsEl2.value);
+            const finalMonths = Number(amendMonthsEl2.value);
+
+                        function updateEquiv(el, price, period, months) {
+                if (!el) return;
+
+                if (period === 'other') {
+                    el.innerHTML =
+                        `<strong>Monthly Value:</strong> ${formatEquivalent(price / months)} |
+                        <strong>Annual Value:</strong> ${formatEquivalent((price * 12) / months)}`;
+                } else if (period === 'annual') {
+                    el.innerHTML =
+                        `<strong>Monthly Value:</strong> ${formatEquivalent(price / 12)}`;
+                } else {
+                    el.innerHTML =
+                        `<strong>Annual Value:</strong> ${formatEquivalent(price * 12)}`;
+                }
+            }
+
+            updateEquiv(
+                document.getElementById('baseEquiv2'),
+                basePrice,
+                basePeriod,
+                baseMonths
+            );
+
+            updateEquiv(
+                document.getElementById('amendEquiv2'),
+                finalPrice,
+                finalPeriod,
+                finalMonths
+            );
+             
+                        function toMonthly(price, period, months) {
+                if (period === 'monthly') return price;
+                if (period === 'annual') return price / 12;
+                return price / months;
+            }
+
+            const baseMonthly = toMonthly(basePrice, basePeriod, baseMonths);
+            const finalMonthly = toMonthly(finalPrice, finalPeriod, finalMonths);
+
+
+                        const baseUnit =
+                baseQty > 0 ? baseMonthly / baseQty : 0;
+
+            const finalUnit =
+                fullQty > 0 ? finalMonthly / fullQty : 0;
+
+            document.getElementById('baseUnitHint2').textContent =
+                baseUnit > 0 ? `Price Per unit: ${formatUnit(baseUnit)}` : '';
+
+            document.getElementById('amendUnitHint2').textContent =
+                finalUnit > 0 ? `Price Per unit: ${formatUnit(finalUnit)}` : '';
+
+            
+
+                        const monthlyDelta = finalMonthly - baseMonthly;
+
+                        const sfdcAmendmentCost = monthlyDelta * amendMonths;
+
+                        const fullAmendmentCost = finalMonthly * amendMonths;
+            const annualFinal = finalMonthly * 12;
+            const overage120 = finalUnit * 1.2;
+
+                        const sfdcHTML = `
+                <li>
+                    <strong>Total Monthly Quantity:</strong> ${fullQty}
+                    <span style="color:#777;">
+                        (Amendment quantity is: ${amendmentQty >= 0 ? '+' : ''}${amendmentQty})
+                    </span>
+                </li>
+
+                ${amendMonths > 0 ? `
+                <li>
+                    <strong>Amendment Cost (${amendMonths} months):</strong>
+                    ${formatNumber(sfdcAmendmentCost, decimals)}
+                    <span class="use-discount"
+                        onclick="useInDiscount(${sfdcAmendmentCost}, ${amendMonths})">
+                        Use in Discount Calculator ⎋
+                    </span>
+                </li>
+
+                <li style="color:#777;">
+                    <strong>Amendment Cost monthly:</strong>
+                    ${formatNumber(monthlyDelta, decimals)}
+                </li>
+
+                ` : ''}
+            `;
+
+
+            document.getElementById('amend2SFDC').innerHTML = sfdcHTML;
+            animateOutput('amend2SFDC');
+
+                        const customSOHTML = `
+                <li><strong>Total Monthly Quantity:</strong> ${fullQty}</li>
+                <li><strong>Monthly Price:</strong> ${formatNumber(finalMonthly, decimals)}</li>
+                <li style="color:#777;">
+                    <strong>Annual:</strong> ${formatNumber(annualFinal, decimals)}
+                </li>
+
+                ${amendMonths > 0 ? `
+                <li>
+                    <strong>Full Amendment Cost (${amendMonths} months):</strong>
+                    ${formatNumber(fullAmendmentCost, decimals)}
+                </li>
+                ` : ''}
+
+                <li><strong>Overage (120%):</strong> ${formatUnit(overage120)}</li>
+
+                <li style="color:#777;">
+                    <strong>Price Per Unit:</strong> ${formatUnit(finalUnit)}
+                </li>
+            `;
+
+
+            document.getElementById('amend2CustomSO').innerHTML = customSOHTML;
+            animateOutput('amend2CustomSO');
+        }
+
+
+                function resetDiscount() {
+            document.getElementById('listPrice').value = '';
+            document.getElementById('discountedPrice').value = '';
+
+            document.querySelector('input[name="listPeriod"][value="monthly"]').checked = true;
+            document.querySelector('input[name="discPeriod"][value="monthly"]').checked = true;
+
+            document.getElementById('listMonths').value = 12;
+            document.getElementById('discMonths').value = 12;
+            document.getElementById('listMonths').style.display = 'none';
+            document.getElementById('discMonths').style.display = 'none';
+
+            document.getElementById('listCalc').innerHTML = '';
+            document.getElementById('discCalc').innerHTML = '';
+
+            document.getElementById('discountPercent').textContent = 'Discount %: --';
+            document.getElementById('discountAbsolute').textContent = 'Discount (Absolute): --';
+        }
+
+                function resetOverage() {
+                        document.getElementById('overageVolume').value = '';
+            document.getElementById('overagePrice').value = '';
+
+                        document.querySelector('input[name="ovgPeriod"][value="monthly"]').checked = true;
+
+                        const monthsEl = document.getElementById('ovgMonths');
+            monthsEl.value = 12;
+            monthsEl.style.display = 'none';
+
+                        document.getElementById('overageDecimals').value = '6';
+            document.getElementById('overagePercent').value = '1.2';
+            document.getElementById('isDP').checked = false;
+
+                        document.getElementById('financeNote').style.display = 'none';
+
+                        document.getElementById('ovgEquiv').innerHTML = '';
+            document.getElementById('ovgUnitHint').textContent = '';
+            document.getElementById('overageOutput').textContent =
+                'Overage Calculation Result: --';
+        }
+
+
+
+                function resetPriceMatch() {
+                        document.getElementById('expectedPrice').value = '';
+
+                        document.getElementById('priceDecimals').value = '2';
+
+                        const container = document.getElementById('lineItems');
+            container.innerHTML = '';
+
+                        document.getElementById('priceMatchOutput').textContent =
+                'Price Match Difference: --';
+
+            toggleAddLineItemButton();
+
+        }
+
+
+                    function resetAmendment1() {
+                ['baseQty','amendQty','basePrice','amendPrice'].forEach(id => {
+                    document.getElementById(id).value = '';
+                });
+
+                document.querySelector('input[name="basePeriod"][value="monthly"]').checked = true;
+                document.querySelector('input[name="amendPeriod"][value="monthly"]').checked = true;
+
+                document.getElementById('baseMonths').value = 12;
+                document.getElementById('amendPriceMonths').value = 12;
+                document.getElementById('amendMonths').value = 0;
+
+                document.getElementById('baseMonths').style.display = 'none';
+                document.getElementById('amendPriceMonths').style.display = 'none';
+
+                document.getElementById('baseEquiv').innerHTML = '';
+                document.getElementById('amendEquiv').innerHTML = '';
+                document.getElementById('amendSFDC').innerHTML = '';
+                document.getElementById('amendCustomSO').innerHTML = '';
+
+                document.getElementById('amendMonths').classList.remove('amend-bounce','amend-glow');
+            }
+
+
+                        function resetAmendment2() {
+                ['baseQty2','fullQty','basePrice2','amendPrice2'].forEach(id => {
+                    document.getElementById(id).value = '';
+                });
+
+                document.querySelector('input[name="basePeriod2"][value="monthly"]').checked = true;
+                document.querySelector('input[name="amendPeriod2"][value="monthly"]').checked = true;
+
+                document.getElementById('baseMonths2').value = 12;
+                document.getElementById('amendPriceMonths2').value = 12;
+                document.getElementById('amendMonths2').value = 0;
+
+                document.getElementById('baseMonths2').style.display = 'none';
+                document.getElementById('amendPriceMonths2').style.display = 'none';
+
+                document.getElementById('baseEquiv2').innerHTML = '';
+                document.getElementById('amendEquiv2').innerHTML = '';
+                document.getElementById('amend2SFDC').innerHTML = '';
+                document.getElementById('amend2CustomSO').innerHTML = '';
+
+                document.getElementById('amendMonths2').classList.remove('amend-bounce','amend-glow');
+            }
+
+
+
+                window.addEventListener('DOMContentLoaded', function () {
+
+            
+            populateMonths('listMonths');
+            document.getElementById('listMonths').value = 12;
+            populateMonths('discMonths');
+            document.getElementById('discMonths').value = 12;
+            populateMonths('ovgMonths');
+            document.getElementById('ovgMonths').value = 12;
+            populateMonths('amendMonths');
+            
+            ['baseQty','amendQty','basePrice','amendPrice'].forEach(id => {
+                const el = document.getElementById(id);
+                if (!el) return;
+
+                el.addEventListener('input', () => {
+                    const monthsEl = document.getElementById('amendMonths');
+                    if (!monthsEl) return;
+
+                    if (Number(monthsEl.value) > 0) {
+                        monthsEl.classList.remove('amend-glow');
+                        void monthsEl.offsetWidth;                         monthsEl.classList.add('amend-glow');
+                    }
+
+                    handleAmendmentMonthsNudge();
+                });
+            });
+
+            
+            document.getElementById('amendMonths').addEventListener('change', () => {
+                const el = document.getElementById('amendMonths');
+                el.classList.remove('amend-bounce');
+                el.classList.remove('amend-glow');
+            });
+
+            updateLabelCurrencies();
+            populateMonths('baseMonths');
+            document.getElementById('baseMonths').value = 12;
+            populateMonths('amendPriceMonths');
+            document.getElementById('amendPriceMonths').value = 12;
+            populateMonths('baseMonths2');
+            document.getElementById('baseMonths2').value = 12;
+            populateMonths('amendPriceMonths2');
+            document.getElementById('amendPriceMonths2').value = 12;
+            populateMonths('amendMonths2');
+
+            
+            ['baseQty2','fullQty','basePrice2','amendPrice2'].forEach(id => {
+                const el = document.getElementById(id);
+                if (!el) return;
+
+                el.addEventListener('input', () => {
+                    const monthsEl = document.getElementById('amendMonths2');
+                    if (!monthsEl) return;
+
+                    if (Number(monthsEl.value) > 0) {
+                        monthsEl.classList.remove('amend-glow');
+                        void monthsEl.offsetWidth;                         monthsEl.classList.add('amend-glow');
+                    }
+
+                    handleAmendmentMonthsNudge2();
+                });
+            });
+            
+            document.getElementById('amendMonths2').addEventListener('change', () => {
+                const el = document.getElementById('amendMonths2');
+                el.classList.remove('amend-bounce');
+                el.classList.remove('amend-glow');
+            });
+
+            
+            
+            bindTabs();
+
+            
+            updateCurrencyNote();
+            document.getElementById('currency').addEventListener('change', function () {
+                updateCurrencyNote();
+                updateLabelCurrencies();
+                calculateDiscount();
+                calculateOverage();
+                calculatePriceMatch();
+                calculateAmendment();
+            });
+
+            
+            document.querySelectorAll(
+                '#listPrice,#discountedPrice,#decimalSelect,input[name="listPeriod"],input[name="discPeriod"],#listMonths,#discMonths'
+            ).forEach(el => el.addEventListener('input', calculateDiscount));
+
+            
+            document.querySelectorAll(
+                '#overageVolume,#overagePrice,#overageDecimals,#overagePercent,input[name="ovgPeriod"],#ovgMonths,#isDP'
+            ).forEach(el => el.addEventListener('input', calculateOverage));
+
+            
+            document.getElementById('expectedPrice').addEventListener('input', calculatePriceMatch);
+            document.getElementById('priceDecimals').addEventListener('input', calculatePriceMatch);
+
+            
+            document.querySelectorAll(
+                '#baseQty,#basePrice,#amendQty,#amendPrice,#amendMonths,#amendDecimals,' +
+                'input[name="basePeriod"],input[name="amendPeriod"],' +
+                '#baseMonths,#amendPriceMonths'
+            ).forEach(el => el.addEventListener('input', calculateAmendment));
+
+            
+            document.querySelectorAll(
+                '#baseQty2,#fullQty,#basePrice2,#amendPrice2,#amendMonths2,#amendDecimals2,' +
+                'input[name="basePeriod2"],input[name="amendPeriod2"],' +
+                '#baseMonths2,#amendPriceMonths2'
+            ).forEach(el => el.addEventListener('input', calculateAmendment2));
+
+            
+            calculateDiscount();
+            calculateOverage();
+            calculatePriceMatch();
+            toggleAddLineItemButton();
+            calculateAmendment();
+            calculateAmendment2();
+            handleAmendmentMonthsNudge();
+            handleAmendmentMonthsNudge2();
+        });
+
+        function updateLocalClock() {
+            const now = new Date();
+
+            let hours = now.getHours();
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12 || 12;             hours = String(hours).padStart(2, '0');
+
+            const options = {
+                weekday: 'short',
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric'
+            };
+            const dateStr = now.toLocaleDateString(undefined, options);
+
+            document.getElementById('clockTime').innerHTML =
+            `${hours}:${minutes}:${seconds} <span>${ampm}</span>`;
+
+
+            document.getElementById('clockDate').textContent = dateStr;
+        }
+
+
+        updateLocalClock();
+        setInterval(updateLocalClock, 1000);
+
+        
+                const logo = document.getElementById('appLogo');
+
+        function updateLogoForTheme() {
+            if (document.body.classList.contains('dark')) {
+                logo.src = 'https://cdn.brandfetch.io/idG3736TmN/theme/light/logo.svg?c=1bxid64Mup7aczewSAYMX&t=1703004662590';
+            } else {
+                logo.src = 'https://clevertap.com/wp-content/themes/clevertap2023/assets/images/ct-logo-2.svg';
+            }
+        }
+
+        
+        updateLogoForTheme();
+
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('.header-parallax');
+            if (!header) return;
+
+            const offset = window.scrollY * 0.15;             header.style.transform = `translateY(${offset}px)`;
+        });
+        window.addEventListener('scroll', () => {
+            const note = document.getElementById('headerNote');
+            if (!note) return;
+
+                        note.style.opacity = window.scrollY > 10 ? '0' : '1';
+        });
+
+                const menuIcon = document.querySelector('.tab-menu-icon');
+        const menu = document.querySelector('.tab-menu');
+
+        menuIcon.addEventListener('click', (e) => {
+            e.stopPropagation();
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        });
+
+        document.addEventListener('click', () => {
+            menu.style.display = 'none';
+        });
+
+                const body = document.body;
+        const toggle = document.querySelector("#toggle");
+        const sunIcon = document.querySelector(".toggle .bxs-sun");
+        const moonIcon = document.querySelector(".toggle .bx-moon");
+
+        
+        if (localStorage.getItem("theme") === "dark") {
+            body.classList.add("dark");
+            toggle.checked = true;
+            updateLogoForTheme();
+        }
+
+        toggle.addEventListener("change", () => {
+            body.classList.toggle("dark");
+
+            sunIcon.className =
+                sunIcon.className === "bx bxs-sun" ? "bx bx-sun" : "bx bxs-sun";
+
+            moonIcon.className =
+                moonIcon.className === "bx bxs-moon" ? "bx bx-moon" : "bx bxs-moon";
+
+            localStorage.setItem(
+                "theme",
+                body.classList.contains("dark") ? "dark" : "light"
+            );
+
+            updateLogoForTheme();
+        });
+    </script>
+</body>
+</html>
