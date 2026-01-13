@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -1891,17 +1891,18 @@
             } else if (listPeriod === 'annual') {
                 listACV = listPrice;
             } else {
+                // multi-year TOTAL → ACV
                 listACV = (listPrice / listMonths) * 12;
             }
-            
+
             if (discPeriod === 'monthly') {
                 discACV = discountedPrice * 12;
             } else if (discPeriod === 'annual') {
                 discACV = discountedPrice;
             } else {
+                // multi-year TOTAL → ACV
                 discACV = (discountedPrice / discMonths) * 12;
             }
-
 
             if (listACV > 0) {
                 const discountPct = ((listACV - discACV) / listACV) * 100;
