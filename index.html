@@ -19,15 +19,16 @@
             padding: 0;
             
             transition: .2s;
-            #discountPercent,
-            #discountAbsolute,
-            #overageOutput,
-            #priceMatchOutput,
-            #amendSFDC li strong,
-            #amendCustomSO li strong {
-                font-weight: 600;
-            }
         }
+
+        #discountPercent,
+        #discountAbsolute,
+        #overageOutput,
+        #priceMatchOutput,
+        #amendSFDC li strong,
+        #amendCustomSO li strong {
+            font-weight: 600;
+            }
 
         .container {
             position: relative;
@@ -929,6 +930,7 @@
             justify-content: center;
             gap: 12px;
           ">
+          
             <label for="currency" style="margin:0;">
                 <strong>Currency:</strong>
             </label>
@@ -1670,6 +1672,13 @@
             SGD: '1 USD = 1.35 SGD'
         };
 
+        const EXCHANGE_RATES = {
+            USD: 1,
+            INR: 87,
+            SGD: 1.35
+        };
+
+
         
         const LINE_ITEM_OPTIONS = [
             "Platform Access and Usage Tier",
@@ -1721,21 +1730,84 @@
                 }
             });
         }
-
+        
         function updateCurrencyNote() {
             const currency = document.getElementById('currency').value;
             const noteEl = document.getElementById('currencyNote');
             noteEl.textContent = EXCHANGE_TEXT[currency] || '';
         }
 
-                function formatNumber(value, decimals) {
+        function formatNumber(value, decimals) {
             const symbol = getCurrencySymbol();
             const num = Number(value || 0).toFixed(decimals);
             return symbol + ' ' + num;
         }
 
+        function convertFromSelectedCurrency(value, targetCurrency) {
+            const selected = document.getElementById('currency').value;
+
+            
+            const valueInUSD = value / EXCHANGE_RATES[selected];
+            return valueInUSD * EXCHANGE_RATES[targetCurrency];
+        }
+
+        function formatConverted(value, targetCurrency, decimals = 2) {
+            if (value === null || value === undefined) return '';
+
+            const symbol =
+                targetCurrency === 'USD' ? '$' :
+                targetCurrency === 'INR' ? '₹' : 'S$';
+
+            
+            const selected = document.getElementById('currency').value;
+
+            const valueInUSD = value / EXCHANGE_RATES[selected];
+            const converted = valueInUSD * EXCHANGE_RATES[targetCurrency];
+
+            return `${symbol} ${converted.toFixed(decimals)}`;
+        }
+
+
         function formatEquivalent(value) {
             return formatNumber(value, 2);
+        }
+
+        function getSecondaryCurrency() {
+            const selected = document.getElementById('currency').value;
+
+            if (selected === 'USD') return null;   
+            if (selected === 'INR') return 'USD';
+            if (selected === 'SGD') return 'USD';
+
+            return null;
+        }
+
+        function appendConvertedEquiv({ html, monthly, annual }) {
+            const selectedCurrency = document.getElementById('currency').value;
+
+            
+            if (selectedCurrency === 'USD') return html;
+
+            const secondaryCurrency = getSecondaryCurrency();
+            const parts = [];
+
+            if (monthly !== null && monthly !== undefined) {
+                parts.push(
+                    `Monthly Value: ${formatConverted(monthly, secondaryCurrency)}`
+                );
+            }
+
+            if (annual !== null && annual !== undefined) {
+                parts.push(
+                    `Annual Value: ${formatConverted(annual, secondaryCurrency)}`
+                );
+            }
+
+            if (parts.length) {
+                html += `<br><span class="note">${parts.join(' | ')}</span>`;
+            }
+
+            return html;
         }
 
         function formatUnit(value) {
@@ -1856,31 +1928,80 @@
             const listMonths = Number(listMonthsEl.value);
             const discMonths = Number(discMonthsEl.value);
 
+            const selectedCurrency = document.getElementById('currency').value;
+            const secondaryCurrency = selectedCurrency === 'USD' ? 'INR' : 'USD';
 
             
+            let listHTML = '';
+            let listMonthly = null;
+            let listAnnual = null;
+
             if (listPeriod === 'other') {
-                document.getElementById('listCalc').innerHTML =
-                    `<strong>Monthly Value:</strong> ${formatEquivalent(listPrice / listMonths)} |
-                       <strong>Annual Value:</strong> ${formatEquivalent((listPrice * 12) / listMonths)}`;
+                listMonthly = listPrice / listMonths;
+                listAnnual = (listPrice * 12) / listMonths;
+
+                listHTML =
+                    `<strong>Monthly Value:</strong> ${formatEquivalent(listMonthly)} |
+                    <strong>Annual Value:</strong> ${formatEquivalent(listAnnual)}`;
+
             } else if (listPeriod === 'annual') {
-                document.getElementById('listCalc').innerHTML =
-                    `<strong>Monthly Value:</strong> ${formatEquivalent(listPrice / 12)}`;
+                listMonthly = listPrice / 12;
+
+                listHTML =
+                    `<strong>Monthly Value:</strong> ${formatEquivalent(listMonthly)}`;
+
             } else {
-                document.getElementById('listCalc').innerHTML =
-                    `<strong>Annual Value:</strong> ${formatEquivalent(listPrice * 12)}`;
+                listAnnual = listPrice * 12;
+
+                listHTML =
+                    `<strong>Annual Value:</strong> ${formatEquivalent(listAnnual)}`;
             }
 
+            listHTML = appendConvertedEquiv({
+                html: listHTML,
+                monthly: listMonthly,
+                annual: listAnnual
+            });
+
+            document.getElementById('listCalc').innerHTML = listHTML;
+
+
+            
+
+            let discHTML = '';
+            let discMonthly = null;
+            let discAnnual = null;
+
             if (discPeriod === 'other') {
-                document.getElementById('discCalc').innerHTML =
-                    `<strong>Monthly Value:</strong> ${formatEquivalent(discountedPrice / discMonths)} |
-                       <strong>Annual Value:</strong> ${formatEquivalent((discountedPrice * 12) / discMonths)}`;
+                discMonthly = discountedPrice / discMonths;
+                discAnnual = (discountedPrice * 12) / discMonths;
+
+                discHTML =
+                    `<strong>Monthly Value:</strong> ${formatEquivalent(discMonthly)} |
+                    <strong>Annual Value:</strong> ${formatEquivalent(discAnnual)}`;
+
             } else if (discPeriod === 'annual') {
-                document.getElementById('discCalc').innerHTML =
-                    `<strong>Monthly Value:</strong> ${formatEquivalent(discountedPrice / 12)}`;
+                discMonthly = discountedPrice / 12;
+
+                discHTML =
+                    `<strong>Monthly Value:</strong> ${formatEquivalent(discMonthly)}`;
+
             } else {
-                document.getElementById('discCalc').innerHTML =
-                    `<strong>Annual Value:</strong> ${formatEquivalent(discountedPrice * 12)}`;
+                discAnnual = discountedPrice * 12;
+
+                discHTML =
+                    `<strong>Annual Value:</strong> ${formatEquivalent(discAnnual)}`;
             }
+            
+            discHTML = appendConvertedEquiv({
+                html: discHTML,
+                monthly: discMonthly,
+                annual: discAnnual
+            });
+
+            document.getElementById('discCalc').innerHTML = discHTML;
+
+
 
             
             let listACV = 0;
@@ -1891,7 +2012,7 @@
             } else if (listPeriod === 'annual') {
                 listACV = listPrice;
             } else {
-                // multi-year TOTAL → ACV
+                
                 listACV = (listPrice / listMonths) * 12;
             }
 
@@ -1900,7 +2021,7 @@
             } else if (discPeriod === 'annual') {
                 discACV = discountedPrice;
             } else {
-                // multi-year TOTAL → ACV
+                
                 discACV = (discountedPrice / discMonths) * 12;
             }
 
@@ -1921,7 +2042,7 @@
             }
         }
 
-                function calculateOverage() {
+        function calculateOverage() {
             const volume = Number(document.getElementById('overageVolume').value || 0);
             const price = Number(document.getElementById('overagePrice').value || 0);
             const decimals = Number(document.getElementById('overageDecimals').value || 6);
@@ -1935,17 +2056,40 @@
             const isDP = document.getElementById('isDP').checked;
 
             
+            let monthly = null;
+            let annual = null;
+            let html = '';
+
+            let ovgHTML = '';
+            let ovgMonthly = null;
+            let ovgAnnual = null;
+
             if (period === 'other') {
-                document.getElementById('ovgEquiv').innerHTML =
-                    `<strong>Monthly Value:</strong> ${formatEquivalent(price / months)} |
-                       <strong>Annual Value:</strong> ${formatEquivalent((price * 12) / months)}`;
+                ovgMonthly = price / months;
+                ovgAnnual = (price * 12) / months;
+
+                ovgHTML =
+                    `<strong>Monthly Value:</strong> ${formatEquivalent(ovgMonthly)} |
+                    <strong>Annual Value:</strong> ${formatEquivalent(ovgAnnual)}`;
             } else if (period === 'annual') {
-                document.getElementById('ovgEquiv').innerHTML =
-                    `<strong>Monthly Value:</strong> ${formatEquivalent(price / 12)}`;
+                ovgMonthly = price / 12;
+
+                ovgHTML =
+                    `<strong>Monthly Value:</strong> ${formatEquivalent(ovgMonthly)}`;
             } else {
-                document.getElementById('ovgEquiv').innerHTML =
-                    `<strong>Annual Value:</strong> ${formatEquivalent(price * 12)}`;
+                ovgAnnual = price * 12;
+
+                ovgHTML =
+                    `<strong>Annual Value:</strong> ${formatEquivalent(ovgAnnual)}`;
             }
+
+            ovgHTML = appendConvertedEquiv({
+                html: ovgHTML,
+                monthly: ovgMonthly,
+                annual: ovgAnnual
+            });
+
+            document.getElementById('ovgEquiv').innerHTML = ovgHTML;    
 
             document.getElementById('financeNote').style.display =
                 document.getElementById('overagePercent').value === '1' ? 'block' : 'none';
@@ -2161,22 +2305,41 @@
             const baseMonths = Number(baseMonthsEl.value);
             const amendPriceMonths = Number(amendMonthsEl.value);
 
-
-                        function updateEquiv(el, price, period, months) {
+            function updateEquiv(el, price, period, months) {
                 if (!el) return;
 
+                let html = '';
+                let monthly = null;
+                let annual = null;
+
                 if (period === 'other') {
-                    el.innerHTML =
-                        `<strong>Monthly Value:</strong> ${formatEquivalent(price / months)} |
-                             <strong>Annual Value:</strong> ${formatEquivalent((price * 12) / months)}`;
+                    monthly = price / months;
+                    annual = (price * 12) / months;
+
+                    html =
+                        `<strong>Monthly Value:</strong> ${formatEquivalent(monthly)} |
+                        <strong>Annual Value:</strong> ${formatEquivalent(annual)}`;
                 } else if (period === 'annual') {
-                    el.innerHTML =
-                        `<strong>Monthly Value:</strong> ${formatEquivalent(price / 12)}`;
+                    monthly = price / 12;
+
+                    html =
+                        `<strong>Monthly Value:</strong> ${formatEquivalent(monthly)}`;
                 } else {
-                    el.innerHTML =
-                        `<strong>Annual Value:</strong> ${formatEquivalent(price * 12)}`;
+                    annual = price * 12;
+
+                    html =
+                        `<strong>Annual Value:</strong> ${formatEquivalent(annual)}`;
                 }
+
+                html = appendConvertedEquiv({
+                    html,
+                    monthly,
+                    annual
+                });
+
+                el.innerHTML = html;
             }
+
 
             updateEquiv(
                 document.getElementById('baseEquiv'),
@@ -2351,21 +2514,41 @@
             const baseMonths = Number(baseMonthsEl2.value);
             const finalMonths = Number(amendMonthsEl2.value);
 
-                        function updateEquiv(el, price, period, months) {
-                if (!el) return;
+            function updateEquiv(el, price, period, months) {
+    if (!el) return;
 
-                if (period === 'other') {
-                    el.innerHTML =
-                        `<strong>Monthly Value:</strong> ${formatEquivalent(price / months)} |
-                        <strong>Annual Value:</strong> ${formatEquivalent((price * 12) / months)}`;
-                } else if (period === 'annual') {
-                    el.innerHTML =
-                        `<strong>Monthly Value:</strong> ${formatEquivalent(price / 12)}`;
-                } else {
-                    el.innerHTML =
-                        `<strong>Annual Value:</strong> ${formatEquivalent(price * 12)}`;
-                }
-            }
+    let html = '';
+    let monthly = null;
+    let annual = null;
+
+    if (period === 'other') {
+        monthly = price / months;
+        annual = (price * 12) / months;
+
+        html =
+            `<strong>Monthly Value:</strong> ${formatEquivalent(monthly)} |
+             <strong>Annual Value:</strong> ${formatEquivalent(annual)}`;
+    } else if (period === 'annual') {
+        monthly = price / 12;
+
+        html =
+            `<strong>Monthly Value:</strong> ${formatEquivalent(monthly)}`;
+    } else {
+        annual = price * 12;
+
+        html =
+            `<strong>Annual Value:</strong> ${formatEquivalent(annual)}`;
+    }
+
+    html = appendConvertedEquiv({
+        html,
+        monthly,
+        annual
+    });
+
+    el.innerHTML = html;
+}
+
 
             updateEquiv(
                 document.getElementById('baseEquiv2'),
@@ -2661,6 +2844,7 @@
                 calculateOverage();
                 calculatePriceMatch();
                 calculateAmendment();
+                calculateAmendment2();
             });
 
             
@@ -2736,7 +2920,7 @@
 
         function updateLogoForTheme() {
             if (document.body.classList.contains('dark')) {
-                logo.src = 'https://cdn.brandfetch.io/idG3736TmN/theme/light/logo.svg?c=1bxid64Mup7aczewSAYMX&t=1703004662590';
+                logo.src = 'https://files.readme.io/d7a9800-small-CleverTap_Logo_Logotype_Red_BG2x.png';
             } else {
                 logo.src = 'https://clevertap.com/wp-content/themes/clevertap2023/assets/images/ct-logo-2.svg';
             }
