@@ -1886,13 +1886,22 @@
             let listACV = 0;
             let discACV = 0;
 
-            if (listPeriod === 'monthly') listACV = listPrice * 12;
-            else if (listPeriod === 'annual') listACV = listPrice;
-            else listACV = listPrice * listMonths;
+            if (listPeriod === 'monthly') {
+                listACV = listPrice * 12;
+            } else if (listPeriod === 'annual') {
+                listACV = listPrice;
+            } else {
+                listACV = (listPrice / listMonths) * 12;
+            }
+            
+            if (discPeriod === 'monthly') {
+                discACV = discountedPrice * 12;
+            } else if (discPeriod === 'annual') {
+                discACV = discountedPrice;
+            } else {
+                discACV = (discountedPrice / discMonths) * 12;
+            }
 
-            if (discPeriod === 'monthly') discACV = discountedPrice * 12;
-            else if (discPeriod === 'annual') discACV = discountedPrice;
-            else discACV = discountedPrice * discMonths;
 
             if (listACV > 0) {
                 const discountPct = ((listACV - discACV) / listACV) * 100;
