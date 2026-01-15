@@ -880,6 +880,79 @@
                 border-bottom-color: #9aa4b2; 
             }
 
+            .currency-bar {
+                margin-bottom: 14px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+            }
+
+            .currency-bar label {
+                font-size: 18px;
+                font-weight: 600;
+            }
+
+
+            .currency-bar select {
+                appearance: none;
+                -webkit-appearance: none;
+                -moz-appearance: none;
+
+                padding: 6px 10px;          
+                height: 34px;               
+                line-height: 20px;          
+
+                border-radius: 8px;
+                border: 3px solid #cfd8e3;
+
+                background-color: #ffffff;
+                font-size: 13px;
+                font-style: unset;
+                font-weight: 500;
+                text-align: center;
+                cursor: pointer;
+            }
+
+
+            .currency-bar select:hover {
+                transform: translateY(-1px);
+                box-shadow: 0 4px 10px rgba(74, 144, 226, 0.18);
+            }
+
+            .currency-bar select:focus {
+                outline: none;
+                border-color: #4a90e2;
+                box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.25);
+            }
+
+
+            .currency-bar {
+                position: relative;
+            }
+
+
+            body.dark .currency-bar select {
+                background-color: #1a1a1a;
+                border-color: #444;
+                color: #e0e0e0;
+            }
+
+            .currency-note-animate {
+                animation: currencyFadeSlide 0.35s ease-out;
+                animation-delay: 40ms;
+            }
+
+            @keyframes currencyFadeSlide {
+                from {
+                    opacity: 0;
+                    transform: translateY(-4px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
 
 
 
@@ -923,19 +996,25 @@
         </div>
 
 
-        <div style="
+        <!-- <div style="
             margin-bottom: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 12px;
-          ">
-          
+          "> -->
+        <div class="currency-bar">
             <label for="currency" style="margin:0;">
                 <strong>Currency:</strong>
             </label>
 
-            <select id="currency" style="width: 87px; text-align: center;">
+            <select id="currency" style="
+                width: 87px;
+                text-align: center;
+                padding: 8px 8px 6px;
+                line-height: 1.1;
+                border-radius: 6px;
+            ">
                 <option value="USD" selected>$ USD</option>
                 <option value="INR">₹ INR</option>
                 <option value="SGD">S$ SGD</option>
@@ -1663,6 +1742,7 @@
         color: #888;
         text-align: center;
         ">
+
             Built & maintained by Hitesh K. • Sales Operations
     </div> 
     <script>
@@ -1730,12 +1810,19 @@
                 }
             });
         }
-        
+
+
         function updateCurrencyNote() {
             const currency = document.getElementById('currency').value;
             const noteEl = document.getElementById('currencyNote');
+
             noteEl.textContent = EXCHANGE_TEXT[currency] || '';
+
+            noteEl.classList.remove('currency-note-animate');
+            void noteEl.offsetWidth; 
+            noteEl.classList.add('currency-note-animate');
         }
+
 
         function formatNumber(value, decimals) {
             const symbol = getCurrencySymbol();
@@ -1822,27 +1909,39 @@
             void el.offsetWidth;             el.classList.add('output-animate');
         }
 
-                function useInDiscount(value, months) {
+        function useInDiscount(value, months) {
             if (value === undefined || value === null) return;
 
-                        document.querySelector('.tab[data-tab="discount"]').click();
+           
+            document.querySelector('.tab[data-tab="discount"]').click();
 
-                        const discountedInput = document.getElementById('discountedPrice');
+            
+            const discountedInput = document.getElementById('discountedPrice');
             discountedInput.value = Number(value).toFixed(2);
 
-                        document.querySelector('input[name="discPeriod"][value="other"]').checked = true;
-
-                        const discMonthsEl = document.getElementById('discMonths');
+           
+            document.querySelector('input[name="discPeriod"][value="other"]').checked = true;
+            const discMonthsEl = document.getElementById('discMonths');
             discMonthsEl.style.display = 'inline-block';
 
+           
             if (months && Number(months) > 0) {
                 discMonthsEl.value = Number(months);
             }
 
-                        calculateDiscount();
+            
+            document.querySelector('input[name="listPeriod"][value="other"]').checked = true;
+            const listMonthsEl = document.getElementById('listMonths');
+            listMonthsEl.style.display = 'inline-block';
 
-                        discountedInput.focus();
+            if (months && Number(months) > 0) {
+                listMonthsEl.value = Number(months);
+            }
+
+            calculateDiscount();
+            discountedInput.focus();
         }
+
 
 
 
@@ -2860,6 +2959,36 @@
             
             document.getElementById('expectedPrice').addEventListener('input', calculatePriceMatch);
             document.getElementById('priceDecimals').addEventListener('input', calculatePriceMatch);
+
+            // ⏎ Enter key → add new Price Match line item
+            document.addEventListener('keydown', (e) => {
+                if (e.key !== 'Enter') return;
+
+                // Only when Price Match tab is active
+                const priceTab = document.getElementById('price');
+                if (!priceTab || !priceTab.classList.contains('active')) return;
+
+                const activeEl = document.activeElement;
+                if (!activeEl) return;
+
+                // Only if focus is inside Price Match inputs
+                const isPriceMatchInput =
+                    activeEl.closest('#price') &&
+                    (activeEl.tagName === 'INPUT' || activeEl.tagName === 'SELECT');
+
+                if (!isPriceMatchInput) return;
+
+                e.preventDefault();
+
+                addLineItem();
+
+                // Focus the newly added amount field
+                const inputs = document.querySelectorAll('#lineItems input');
+                if (inputs.length) {
+                    inputs[inputs.length - 1].focus();
+                }
+            });
+
 
             
             document.querySelectorAll(
