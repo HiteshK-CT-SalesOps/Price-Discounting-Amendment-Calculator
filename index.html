@@ -2360,18 +2360,18 @@
                     annual = (price * 12) / months;
 
                     html =
-                        `<strong>Monthly Value:</strong> ${formatEquivalent(monthly)} |
-                        <strong>Annual Value:</strong> ${formatEquivalent(annual)}`;
+                        `<strong>Incremental Monthly Value:</strong> ${formatEquivalent(monthly)} |
+                        <strong>Incremental Annual Value:</strong> ${formatEquivalent(annual)}`;
                 } else if (period === 'annual') {
                     monthly = price / 12;
 
                     html =
-                        `<strong>Monthly Value:</strong> ${formatEquivalent(monthly)}`;
+                        `<strong>Incremental Monthly Value:</strong> ${formatEquivalent(monthly)}`;
                 } else {
                     annual = price * 12;
 
                     html =
-                        `<strong>Annual Value:</strong> ${formatEquivalent(annual)}`;
+                        `<strong>Incremental Annual Value:</strong> ${formatEquivalent(annual)}`;
                 }
 
                 html = appendConvertedEquiv({
