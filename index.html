@@ -1833,10 +1833,28 @@
         }
 
 
-        function formatNumber(value, decimals) {
+        function formatNumber(value, decimals = 2) {
+
             const symbol = getCurrencySymbol();
-            const num = Number(value || 0).toFixed(decimals);
-            return symbol + ' ' + num;
+            const currency = document.getElementById('currency').value;
+
+            let number = Number(value || 0);
+
+            let formatted;
+
+            if (currency === 'INR') {
+                formatted = number.toLocaleString('en-IN', {
+                    minimumFractionDigits: decimals,
+                    maximumFractionDigits: decimals
+                });
+            } else {
+                formatted = number.toLocaleString('en-US', {
+                    minimumFractionDigits: decimals,
+                    maximumFractionDigits: decimals
+                });
+            }
+
+            return symbol + ' ' + formatted;
         }
 
         function convertFromSelectedCurrency(value, targetCurrency) {
