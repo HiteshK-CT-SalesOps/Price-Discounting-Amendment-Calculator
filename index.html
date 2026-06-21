@@ -6,8 +6,6 @@
     <title>Price Discounting & Amendment Calculator</title>
     
     <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-
     
     <style>
         
@@ -71,30 +69,6 @@
             cursor: pointer;
             border-radius: 6px;
             background: #d3e9f7;
-        }
-
-        .sheet-link {
-            display: flex;
-            align-items: center;
-            margin-left: 8px;
-            cursor: pointer;
-        }
-
-        .sheet-link img {
-            height: 26px;
-            width: 26px;
-            object-fit: contain;
-            transition: transform 0.2s ease, filter 0.2s ease;
-        }
-
-        .sheet-link:hover img {
-            transform: scale(1.1);
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
-        }
-
-        
-        body.dark .sheet-link:hover img {
-            filter: drop-shadow(0 2px 6px rgba(255,255,255,0.3));
         }
 
         .tab.active {
@@ -330,10 +304,6 @@
             text-align: center;
         }
 
-        .header-center {
-            text-align: center;
-        }
-
         .clock-box {
             position: absolute;
             top: 16px;
@@ -432,16 +402,6 @@
 
         body.dark .clock-box .date {
             color: #b0b0b0;
-        }
-
-        .clock-toggle {
-            margin-top: 8px;
-            display: flex;
-            justify-content: flex-end;
-
-            
-            transform: scale(1.00);        
-            transform-origin: left center;
         }
 
                 @keyframes fadePop {
@@ -620,31 +580,6 @@
                 background: #333;
                 box-shadow: 0 4px 12px rgba(74, 144, 226, 0.4);
             }
-
-
-                        .tab-reset {
-                font-size: 12px;
-                opacity: 0.9;
-                padding: 6px 12px;
-                font-weight: 500;
-            }
-
-            
-            .tab-reset.active {
-                background: #f10d24;
-                color: inherit;
-            }
-
-            
-            body.dark .tab-reset.active {
-                background: #df0808;
-            }
-
-            
-            .tab-reset:hover {
-                opacity: 1;
-            }
-
 
                         
             label.toggle {
@@ -1785,7 +1720,7 @@
                     <div class="section-title with-icon">
                         <img src="https://www.salesforce.com/content/dam/sfdc-docs/www/logos/logo-salesforce.svg"
                              alt="Salesforce"
-                             style="height:20px; width:24;">
+                             style="height:20px; width:auto;">
                         This goes in SFDC
                     </div>
 
@@ -1925,14 +1860,7 @@
             return symbol + ' ' + formatted;
         }
 
-        function convertFromSelectedCurrency(value, targetCurrency) {
-            const selected = document.getElementById('currency').value;
-
-            
-            const valueInUSD = value / EXCHANGE_RATES[selected];
-            return valueInUSD * EXCHANGE_RATES[targetCurrency];
-        }
-
+    
         function formatConverted(value, targetCurrency, decimals = 2) {
             if (value === null || value === undefined) return '';
 
@@ -2326,10 +2254,6 @@
                 const months = Number(ovgMonthsEl.value);
             const isDP = document.getElementById('isDP').checked;
 
-            
-            let monthly = null;
-            let annual = null;
-            let html = '';
 
             let ovgHTML = '';
             let ovgMonthly = null;
