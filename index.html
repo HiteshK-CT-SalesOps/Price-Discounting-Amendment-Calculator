@@ -1013,6 +1013,39 @@
                 color: #111827;
             }
 
+        /* Instant tab tooltips */
+        .tab[data-tooltip] {
+            position: relative;
+        }
+
+        .tab[data-tooltip]::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 130%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1f2937;
+            color: #fff;
+            padding: 5px 9px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 400;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.15s ease;
+            z-index: 100;
+        }
+
+        .tab[data-tooltip]:hover::after {
+            opacity: 1;
+        }
+
+        body.dark .tab[data-tooltip]::after {
+            background: #e5e7eb;
+            color: #111827;
+        }
+
 
     </style>
 </head>
@@ -1080,10 +1113,10 @@
             <div class="tab active" data-tab="discount">Discount Calculator</div>
             <div class="tab" data-tab="overage">Overage Calculator</div>
             <div class="tab" data-tab="price">Price Match / Find</div>
-            <div class="tab" title="Use when you already know the incremental quantity and ACV" data-tab="amendment">Amendment Calculator 1</div>
+            <div class="tab" data-tooltip="Use when you already know the incremental/ additional quantity and price for that additional quantity only" data-tab="amendment">Amendment Calculator 1</div>
 
             <div style="display:flex; align-items:center; gap:6px;">
-                <div class="tab" title="Use to derive the incremental quantity and ACV" data-tab="amendment2">Amendment Calculator 2</div>
+                <div class="tab" data-tooltip="Use when you know the post-amendment full quantity and it's price" data-tab="amendment2">Amendment Calculator 2</div>
 
                 
                 <div class="tab-menu-wrapper">
