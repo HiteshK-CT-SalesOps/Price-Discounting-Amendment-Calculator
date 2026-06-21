@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%231c1c1e'/%3E%3Ccircle cx='18' cy='20' r='7' fill='%23636366'/%3E%3Ccircle cx='38' cy='20' r='7' fill='%23636366'/%3E%3Ccircle cx='58' cy='20' r='7' fill='%23636366'/%3E%3Ccircle cx='78' cy='20' r='7' fill='%23ff9f0a'/%3E%3Ccircle cx='18' cy='40' r='7' fill='%23636366'/%3E%3Ccircle cx='38' cy='40' r='7' fill='%23636366'/%3E%3Ccircle cx='58' cy='40' r='7' fill='%23636366'/%3E%3Ccircle cx='78' cy='40' r='7' fill='%23ff9f0a'/%3E%3Ccircle cx='18' cy='60' r='7' fill='%23636366'/%3E%3Ccircle cx='38' cy='60' r='7' fill='%23636366'/%3E%3Ccircle cx='58' cy='60' r='7' fill='%23636366'/%3E%3Ccircle cx='78' cy='60' r='7' fill='%23ff9f0a'/%3E%3Crect x='8' y='73' width='42' height='16' rx='8' fill='%23636366'/%3E%3Ccircle cx='58' cy='81' r='7' fill='%23636366'/%3E%3Ccircle cx='78' cy='81' r='7' fill='%23ff9f0a'/%3E%3C/svg%3E">
     <title>Price Discounting & Amendment Calculator</title>
     
     <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" rel="stylesheet">
@@ -1015,7 +1016,67 @@
                 border-color: #e5e7eb transparent transparent transparent;
             }
 
-
+            /* Sync button */
+            .sync-btn {
+                background: transparent;
+                border: 1px solid #cfd8e3;
+                font-size: 12px;
+                font-weight: 500;
+                color: #6b7280;
+                cursor: pointer;
+                padding: 4px 10px;
+                border-radius: 6px;
+                margin-top: 10px;
+                position: relative;
+                display: inline-block;
+                transition: all 0.2s ease;
+                opacity: 0;
+                pointer-events: none;
+            }
+            .sync-btn.visible {
+                opacity: 1;
+                pointer-events: auto;
+            }
+            .sync-btn:hover {
+                background: #e8f2fc;
+                border-color: #4a90e2;
+                color: #4a90e2;
+                transform: translateY(-1px);
+                box-shadow: 0 3px 8px rgba(74,144,226,0.2);
+            }
+            .sync-btn::after {
+                content: attr(data-tooltip);
+                position: absolute;
+                bottom: 135%;
+                left: 50%;
+                transform: translateX(-50%);
+                background: #1f2937;
+                color: #fff;
+                padding: 5px 9px;
+                border-radius: 6px;
+                font-size: 11px;
+                white-space: nowrap;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.2s ease;
+                z-index: 100;
+            }
+            .sync-btn:hover::after {
+                opacity: 1;
+            }
+            body.dark .sync-btn {
+                border-color: #444;
+                color: #9aa4b2;
+            }
+            body.dark .sync-btn:hover {
+                background: #333;
+                border-color: #4a90e2;
+                color: #7fb2ff;
+            }
+            body.dark .sync-btn::after {
+                background: #e5e7eb;
+                color: #111827;
+            }
 
 
     </style>
@@ -1104,7 +1165,7 @@
                             📊 New Blank Google Sheet
                         </a>
 
-                    </div>
+                        
                 </div>
             </div>
 
@@ -1314,16 +1375,19 @@
                         Overage %
                     </label>
 
-                    <select id="overagePercent">
-                        <option value="1.2">120%</option>
-                        <option value="1">100%</option>
-                    </select>
+                    <input type="number"
+                        id="overagePercent"
+                        value="120"
+                        min="0"
+                        step="1"
+                        style="width:100px;" 
+                    />
 
                     
                     <div id="financeNote"
                          class="warn"
                          style="display:none;">
-                        ⚠ Finance approval required for 100% overage.
+                        ⚠ Finance approval required for below 120% overage.
                     </div>
                 </div>
 
@@ -1460,6 +1524,8 @@
 
                     
                     <div id="baseEquiv"></div>
+
+                    <button type="button" id="syncBtn1" class="sync-btn" data-tooltip="" onclick="handleSyncClick(1)">⇄ Sync</button>
 
                     <div class="note">
                         💡 Enter ACV for the most accurate base calculation.
@@ -1629,6 +1695,9 @@
                     </div>
 
                     <div id="baseEquiv2"></div>
+
+                    <button type="button" id="syncBtn2" class="sync-btn" data-tooltip="" onclick="handleSyncClick(2)">⇄ Sync</button>
+
                     <div class="note">
                         💡 Enter ACV for the most accurate base calculation.
                     </div>
@@ -1763,7 +1832,7 @@
 
         const EXCHANGE_RATES = {
             USD: 1,
-            INR: 92,
+            INR: 87,
             SGD: 1.28
         };
 
@@ -1923,6 +1992,81 @@
 
             return html;
         }
+
+        function formatWithConversion(value, decimals) {
+            const selectedCurrency = document.getElementById('currency').value;
+            if (selectedCurrency === 'USD') return '';
+            const valueInUSD = value / EXCHANGE_RATES[selectedCurrency];
+            const usdFormatted = valueInUSD.toLocaleString('en-US', {
+                minimumFractionDigits: decimals,
+                maximumFractionDigits: decimals
+            });
+            return ` <span style="color:#9aa4b2; font-size:0.88em;">($ ${usdFormatted})</span>`;
+        }
+
+
+        function isBaseFilled(calc) {
+            const s = calc === 1 ? '' : '2';
+            return Number(document.getElementById('baseQty' + s).value || 0) > 0 ||
+                   Number(document.getElementById('basePrice' + s).value || 0) > 0;
+        }
+
+        function syncBase(from, to) {
+            const fs = from === 1 ? '' : '2';
+            const ts = to === 1 ? '' : '2';
+
+            document.getElementById('baseQty' + ts).value =
+                document.getElementById('baseQty' + fs).value;
+
+            document.getElementById('basePrice' + ts).value =
+                document.getElementById('basePrice' + fs).value;
+
+            const fromPeriod = document.querySelector(
+                'input[name="basePeriod' + fs + '"]:checked'
+            ).value;
+            document.querySelector(
+                'input[name="basePeriod' + ts + '"][value="' + fromPeriod + '"]'
+            ).checked = true;
+
+            document.getElementById('baseMonths' + ts).value =
+                document.getElementById('baseMonths' + fs).value;
+
+            document.getElementById('amendMonths' + ts).value =
+                document.getElementById('amendMonths' + fs).value;
+
+            if (to === 1) calculateAmendment();
+            else calculateAmendment2();
+
+            updateSyncButtons();
+        }
+
+        function handleSyncClick(callerCalc) {
+            if (isBaseFilled(callerCalc)) {
+                syncBase(callerCalc, callerCalc === 1 ? 2 : 1);
+            } else {
+                syncBase(callerCalc === 1 ? 2 : 1, callerCalc);
+            }
+        }
+
+        function updateSyncButtons() {
+            const filled1 = isBaseFilled(1);
+            const filled2 = isBaseFilled(2);
+
+            const btn1 = document.getElementById('syncBtn1');
+            const btn2 = document.getElementById('syncBtn2');
+            if (!btn1 || !btn2) return;
+
+            btn1.classList.toggle('visible', filled1 || filled2);
+            btn2.classList.toggle('visible', filled1 || filled2);
+
+            btn1.setAttribute('data-tooltip',
+                filled1 ? 'Push to Amendment Calculator 2' : 'Pull from Amendment Calculator 2'
+            );
+            btn2.setAttribute('data-tooltip',
+                filled2 ? 'Push to Amendment Calculator 1' : 'Pull from Amendment Calculator 1'
+            );
+        }
+
 
         function formatUnit(value) {
             return Number(value || 0).toFixed(6);
@@ -2172,7 +2316,9 @@
             const volume = Number(document.getElementById('overageVolume').value || 0);
             const price = Number(document.getElementById('overagePrice').value || 0);
             const decimals = Number(document.getElementById('overageDecimals').value || 6);
-            const percent = Number(document.getElementById('overagePercent').value || 1.2);
+            // const percent = Number(document.getElementById('overagePercent').value || 1.2);
+            const percentInput = Number(document.getElementById('overagePercent').value || 120);
+            const percent = percentInput / 100;
             const period = document.querySelector('input[name="ovgPeriod"]:checked').value;
             const ovgMonthsEl = document.getElementById('ovgMonths');
                 ovgMonthsEl.style.display =
@@ -2218,7 +2364,7 @@
             document.getElementById('ovgEquiv').innerHTML = ovgHTML;    
 
             document.getElementById('financeNote').style.display =
-                document.getElementById('overagePercent').value === '1' ? 'block' : 'none';
+                document.getElementById('overagePercent').value < '120' ? 'block' : 'none';
 
             
             let monthlyBasePrice = 0;
@@ -2532,7 +2678,7 @@
                 sfdcOutputs.push(
                     `<li>
                         <strong>Amendment Cost (${months} months):</strong>
-                                ${formatNumber(amendCost, decimals)}
+                                ${formatNumber(amendCost, decimals)}${formatWithConversion(amendCost, decimals)}
                                 <span class="use-discount"
                                     onclick="useInDiscount(${amendCost}, ${months})">
                                     Use in Discount Calculator ⎋
@@ -2547,18 +2693,18 @@
                 `<li><strong>Total Monthly Quantity:</strong> ${baseQty + amendQty}</li>`
             );
             customOutputs.push(
-                `<li><strong>Monthly Price:</strong> ${formatNumber(totalMonthly, decimals)}</li>`
+                `<li><strong>Monthly Price:</strong> ${formatNumber(totalMonthly, decimals)}${formatWithConversion(totalMonthly, decimals)}</li>`
             );
             if (months > 0) {
                 customOutputs.push(
                     `<li><strong>Total Subscription Cost (${months} months):</strong>
-                        ${formatNumber(totalMonthly * months, decimals)}
+                        ${formatNumber(totalMonthly * months, decimals)}${formatWithConversion(totalMonthly * months, decimals)}
                     </li>`
                 );
             }
             customOutputs.push(
                 `<li style="color:#777;">
-                    <strong>Annual:</strong> ${formatNumber(totalAnnual, decimals)}
+                    <strong>Annual:</strong> ${formatNumber(totalAnnual, decimals)}${formatWithConversion(totalAnnual, decimals)}
                 </li>`
             );
             customOutputs.push(
@@ -2743,7 +2889,7 @@
                 ${amendMonths > 0 ? `
                 <li>
                     <strong>Amendment Cost (${amendMonths} months):</strong>
-                    ${formatNumber(sfdcAmendmentCost, decimals)}
+                    ${formatNumber(sfdcAmendmentCost, decimals)}${formatWithConversion(sfdcAmendmentCost, decimals)}
                     <span class="use-discount"
                         onclick="useInDiscount(${sfdcAmendmentCost}, ${amendMonths})">
                         Use in Discount Calculator ⎋
@@ -2752,7 +2898,7 @@
 
                 <li style="color:#777;">
                     <strong>Amendment Cost monthly:</strong>
-                    ${formatNumber(monthlyDelta, decimals)}
+                    ${formatNumber(monthlyDelta, decimals)}${formatWithConversion(monthlyDelta, decimals)}
                 </li>
 
                 <li style="color:#777;">
@@ -2760,7 +2906,7 @@
                         Amendment Cost annually
                         (<sup class="asterisk">*</sup>IACV):
                     </strong>
-                    ${formatNumber(iacv, decimals)}
+                    ${formatNumber(iacv, decimals)}${formatWithConversion(iacv, decimals)}
                 </li>
 
 
@@ -2773,15 +2919,15 @@
 
                         const customSOHTML = `
                 <li><strong>Total Monthly Quantity:</strong> ${fullQty}</li>
-                <li><strong>Monthly Price:</strong> ${formatNumber(finalMonthly, decimals)}</li>
+                <li><strong>Monthly Price:</strong> ${formatNumber(finalMonthly, decimals)}${formatWithConversion(finalMonthly, decimals)}</li>
                 <li style="color:#777;">
-                    <strong>Annual:</strong> ${formatNumber(annualFinal, decimals)}
+                    <strong>Annual:</strong> ${formatNumber(annualFinal, decimals)}${formatWithConversion(annualFinal, decimals)}
                 </li>
 
                 ${amendMonths > 0 ? `
                 <li>
                     <strong>Full Amendment Cost (${amendMonths} months):</strong>
-                    ${formatNumber(fullAmendmentCost, decimals)}
+                    ${formatNumber(fullAmendmentCost, decimals)}${formatWithConversion(fullAmendmentCost, decimals)}
                 </li>
                 ` : ''}
 
@@ -2828,7 +2974,7 @@
             monthsEl.style.display = 'none';
 
                         document.getElementById('overageDecimals').value = '6';
-            document.getElementById('overagePercent').value = '1.2';
+            document.getElementById('overagePercent').value = '120';
             document.getElementById('isDP').checked = false;
 
                         document.getElementById('financeNote').style.display = 'none';
@@ -2878,6 +3024,7 @@
                 document.getElementById('amendCustomSO').innerHTML = '';
 
                 document.getElementById('amendMonths').classList.remove('amend-bounce','amend-glow');
+            updateSyncButtons();
             }
 
 
@@ -2902,6 +3049,7 @@
                 document.getElementById('amend2CustomSO').innerHTML = '';
 
                 document.getElementById('amendMonths2').classList.remove('amend-bounce','amend-glow');
+            updateSyncButtons();
             }
 
 
@@ -3036,6 +3184,33 @@
             });
 
 
+
+            document.addEventListener('keydown', (e) => {
+                if (e.metaKey && e.key === 'Backspace') {
+                    const priceTab = document.getElementById('price');
+                    if (!priceTab || !priceTab.classList.contains('active')) return;
+
+                    const activeEl = document.activeElement;
+                    if (!activeEl) return;
+
+                    const row = activeEl.closest('.price-row');
+                    if (!row) return;
+
+                    const container = document.getElementById('lineItems');
+                    if (!container) return;
+
+                    e.preventDefault();
+
+                    // Only remove if more than 1 row exists
+                    if (container.children.length > 0) {
+                        row.remove();
+                        calculatePriceMatch();
+                        toggleAddLineItemButton();
+                    }
+                }
+            });
+
+
             
             document.querySelectorAll(
                 '#baseQty,#basePrice,#amendQty,#amendPrice,#amendMonths,#amendDecimals,' +
@@ -3059,6 +3234,16 @@
             calculateAmendment2();
             handleAmendmentMonthsNudge();
             handleAmendmentMonthsNudge2();
+            updateSyncButtons();
+
+            ['baseQty', 'basePrice', 'baseQty2', 'basePrice2'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.addEventListener('input', updateSyncButtons);
+            });
+
+            document.querySelectorAll(
+                'input[name="basePeriod"], input[name="basePeriod2"]'
+            ).forEach(el => el.addEventListener('change', updateSyncButtons));
         });
 
         function updateLocalClock() {
