@@ -1048,6 +1048,93 @@
             color: #111827;
         }
 
+        /* Searchable dropdown */
+        .search-select-wrapper {
+            position: relative;
+            flex: 0.6;
+        }
+
+        .search-select-input {
+            width: 100%;
+            padding: 6px 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 13px;
+            box-sizing: border-box;
+            background: #fff;
+            cursor: pointer;
+        }
+
+        .search-select-input:focus {
+            outline: none;
+            border-color: #4a90e2;
+            box-shadow: 0 0 0 3px rgba(74,144,226,0.15);
+        }
+
+        .search-select-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: #fff;
+            border: 1px solid #cfd8e3;
+            border-radius: 6px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+            max-height: 220px;
+            overflow-y: auto;
+            z-index: 500;
+            display: none;
+        }
+
+        .search-select-dropdown.open {
+            display: block;
+        }
+
+        .search-select-option {
+            padding: 7px 10px;
+            font-size: 13px;
+            cursor: pointer;
+            color: #333;
+        }
+
+        .search-select-option:hover,
+        .search-select-option.highlighted {
+            background: #e8f2fc;
+            color: #4a90e2;
+        }
+
+        .search-select-option.no-results {
+            color: #999;
+            cursor: default;
+            font-style: italic;
+        }
+
+        .search-select-option.no-results:hover {
+            background: none;
+            color: #999;
+        }
+
+        body.dark .search-select-input {
+            background: #1a1a1a;
+            border-color: #444;
+            color: #e0e0e0;
+        }
+
+        body.dark .search-select-dropdown {
+            background: #2a2a2a;
+            border-color: #444;
+        }
+
+        body.dark .search-select-option {
+            color: #e0e0e0;
+        }
+
+        body.dark .search-select-option:hover,
+        body.dark .search-select-option.highlighted {
+            background: #333;
+            color: #7fb2ff;
+        }
+
 
     </style>
 </head>
@@ -1809,24 +1896,54 @@
 
         
         const LINE_ITEM_OPTIONS = [
-            "Platform Access and Usage Tier",
+            "Advanced Plan",
+            "Cutting-Edge Plan",
+            "Essentials Plan",
+            "Enterprise Plan Platform Access",
             "Advanced Email",
+            "Enterprise Plan",
+            "WhatsApp Trial Plan",
+            "Email Booster",
+            "Email Booster Max",
+            "Email with Expert Services",
             "WhatsApp Connect Plan",
+            "Advanced Email",
             "WhatsApp Direct Plan",
-            "Reminders",
-            "Additional Reminder Setups",
-            "SMS",
-            "RCS",
-            "Product Experiences",
-            "Promotions",
-            "Message Archiving",
-            "Advanced Web Personalisation",
-            "PII Encryption",
             "Additional Usage (Additional DP per MAU)",
+            "Insights",
+            "Product Experiences",
+            "Advanced Web Personalisation",
+            "SIEM Audit Logs Export",
+            "Message Archiving",
+            "PII Encryption",
+            "RCS India (Prepaid – Submission Basis)",
+            "RCS Connect",
+            "SMS India (Prepaid – Delivered Basis)",
+            "SMS India (Prepaid – Submission Basis)",
+            "SMS UK (Prepaid Basis)",
+            "SMS USA (Prepaid Basis)",
+            "SMS - UK Direct Add-On Fee",
+            "SMS - USA Direct Add-On Fee",
             "Additional Year (Lookback Period)",
+            "Notify",
+            "Salesforce Connector",
             "Integration Services",
+            "Promotions",
             "Premier Services",
-            "Licensed Seats",
+            "100 Seats",
+            "20 Seats",
+            "50 Seats",
+            "Reminders",
+            "Unlimited Seats",
+            "Additional Reminder Setups",
+            "Custom Product",
+            "2021 Ingestion",
+            "2021 MAU",
+            "Container",
+            "Discover",
+            "MME",
+            "Optimize",
+            "Self Service",
             "Others"
         ];
 
@@ -2384,29 +2501,81 @@
         }
 
         
+        function createSearchableSelect() {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'search-select-wrapper';
+
+            const searchInput = document.createElement('input');
+            searchInput.type = 'text';
+            searchInput.className = 'search-select-input';
+            searchInput.placeholder = 'Search or select a product...';
+            searchInput.autocomplete = 'off';
+
+            const dropdown = document.createElement('div');
+            dropdown.className = 'search-select-dropdown';
+
+            let selectedValue = '';
+
+            function renderOptions(filter = '') {
+                dropdown.innerHTML = '';
+                const filtered = LINE_ITEM_OPTIONS.filter(opt =>
+                    opt.toLowerCase().includes(filter.toLowerCase())
+                );
+
+                if (filtered.length === 0) {
+                    const none = document.createElement('div');
+                    none.className = 'search-select-option no-results';
+                    none.textContent = 'No matches found';
+                    dropdown.appendChild(none);
+                    return;
+                }
+
+                filtered.forEach(opt => {
+                    const item = document.createElement('div');
+                    item.className = 'search-select-option';
+                    item.textContent = opt;
+                    item.addEventListener('mousedown', (e) => {
+                        e.preventDefault();
+                        selectedValue = opt;
+                        searchInput.value = opt;
+                        dropdown.classList.remove('open');
+                    });
+                    dropdown.appendChild(item);
+                });
+            }
+
+            searchInput.addEventListener('focus', () => {
+                renderOptions(searchInput.value);
+                dropdown.classList.add('open');
+            });
+
+            searchInput.addEventListener('input', () => {
+                renderOptions(searchInput.value);
+                dropdown.classList.add('open');
+                selectedValue = '';
+            });
+
+            searchInput.addEventListener('blur', () => {
+                setTimeout(() => dropdown.classList.remove('open'), 150);
+            });
+
+            wrapper.appendChild(searchInput);
+            wrapper.appendChild(dropdown);
+
+            wrapper.getSelectedValue = () => selectedValue || searchInput.value;
+
+            renderOptions();
+            return wrapper;
+        }
+
         function addLineItem() {
             const container = document.getElementById('lineItems');
 
             const row = document.createElement('div');
             row.className = 'price-row';
 
-            
-            const select = document.createElement('select');
-            const emptyOpt = document.createElement('option');
-            emptyOpt.value = '';
-            emptyOpt.textContent = 'Select item';
-            emptyOpt.disabled = true;
-            emptyOpt.selected = true;
-            select.appendChild(emptyOpt);
+            const searchSelect = createSearchableSelect();
 
-            LINE_ITEM_OPTIONS.forEach(opt => {
-                const o = document.createElement('option');
-                o.value = opt;
-                o.textContent = opt;
-                select.appendChild(o);
-            });
-
-            
             const inputWrap = document.createElement('div');
             inputWrap.className = 'price-input-wrap';
 
@@ -2415,7 +2584,6 @@
             input.step = '0.01';
             input.placeholder = 'Amount';
 
-            
             const remove = document.createElement('span');
             remove.className = 'remove-icon';
             remove.innerHTML = '−';
@@ -2431,14 +2599,12 @@
             inputWrap.appendChild(input);
             inputWrap.appendChild(remove);
 
-            
             const add = document.createElement('span');
             add.className = 'add-icon';
             add.innerHTML = '+';
-
             add.onclick = () => addLineItem();
 
-            row.appendChild(select);
+            row.appendChild(searchSelect);
             row.appendChild(inputWrap);
             row.appendChild(add);
 
