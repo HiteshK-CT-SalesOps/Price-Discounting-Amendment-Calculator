@@ -2,10 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%231c1c1e'/%3E%3Ccircle cx='18' cy='20' r='7' fill='%23636366'/%3E%3Ccircle cx='38' cy='20' r='7' fill='%23636366'/%3E%3Ccircle cx='58' cy='20' r='7' fill='%23636366'/%3E%3Ccircle cx='78' cy='20' r='7' fill='%23ff9f0a'/%3E%3Ccircle cx='18' cy='40' r='7' fill='%23636366'/%3E%3Ccircle cx='38' cy='40' r='7' fill='%23636366'/%3E%3Ccircle cx='58' cy='40' r='7' fill='%23636366'/%3E%3Ccircle cx='78' cy='40' r='7' fill='%23ff9f0a'/%3E%3Ccircle cx='18' cy='60' r='7' fill='%23636366'/%3E%3Ccircle cx='38' cy='60' r='7' fill='%23636366'/%3E%3Ccircle cx='58' cy='60' r='7' fill='%23636366'/%3E%3Ccircle cx='78' cy='60' r='7' fill='%23ff9f0a'/%3E%3Crect x='8' y='73' width='42' height='16' rx='8' fill='%23636366'/%3E%3Ccircle cx='58' cy='81' r='7' fill='%23636366'/%3E%3Ccircle cx='78' cy='81' r='7' fill='%23ff9f0a'/%3E%3C/svg%3E">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%231c1c1e'/%3E%3Ccircle cx='18' cy='20' r='7' fill='%23636366'/%3E%3Ccircle cx='38' cy='20' r='7' fill='%23636366'/%3E%3Ccircle cx='58' cy='20' r='7' fill='%23636366'/%3E%3Ccircle cx='78' cy='20' r='7' fill='%23ff9f0a'/%3E%3Ccircle cx='18' cy='40' r='7' fill='%23636366'/%3E%3Ccircle cx='38' cy='40' r='7' fill='%23636366'/%3E%3Ccircle cx='58' cy='40' r='7' fill='%23636366'/%3E%3Ccircle cx='78' cy='40' r='7' fill='%23ff9f0a'/%3E%3Ccircle cx='18' cy='60' r='7' fill='%23636366'/%3E%3Ccircle cx='38' cy='60' r='7' fill='%23636366'/%3E%3Ccircle cx='58' cy='60' r='7' fill='%23636366'/%3E%3Ccircle cx='78' cy='60' r='7' fill='%23ff9f0a'/%3E%3Crect x='8' y='73' width='42' height='16' rx='8' fill='%23636366'/%3E%3Ccircle cx='58' cy='81' r='7' fill='%23636366'/%3E%3Ccircle cx='78' cy='81' r='7' fill='%23ff9f0a'/%3E%3C/svg%3E">
     <title>Price Discounting & Amendment Calculator</title>
     
     <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+
     
     <style>
         
@@ -71,6 +74,30 @@
             background: #d3e9f7;
         }
 
+        .sheet-link {
+            display: flex;
+            align-items: center;
+            margin-left: 8px;
+            cursor: pointer;
+        }
+
+        .sheet-link img {
+            height: 26px;
+            width: 26px;
+            object-fit: contain;
+            transition: transform 0.2s ease, filter 0.2s ease;
+        }
+
+        .sheet-link:hover img {
+            transform: scale(1.1);
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
+
+        
+        body.dark .sheet-link:hover img {
+            filter: drop-shadow(0 2px 6px rgba(255,255,255,0.3));
+        }
+
         .tab.active {
             background: #4a90e2;
             color: white;
@@ -98,7 +125,6 @@
         .tab-content.active {
             display: block;
             opacity: 1;
-            transform: scale(1) translateY(0);
         }
 
         
@@ -304,6 +330,10 @@
             text-align: center;
         }
 
+        .header-center {
+            text-align: center;
+        }
+
         .clock-box {
             position: absolute;
             top: 16px;
@@ -402,6 +432,16 @@
 
         body.dark .clock-box .date {
             color: #b0b0b0;
+        }
+
+        .clock-toggle {
+            margin-top: 8px;
+            display: flex;
+            justify-content: flex-end;
+
+            
+            transform: scale(1.00);        
+            transform-origin: left center;
         }
 
                 @keyframes fadePop {
@@ -580,6 +620,31 @@
                 background: #333;
                 box-shadow: 0 4px 12px rgba(74, 144, 226, 0.4);
             }
+
+
+                        .tab-reset {
+                font-size: 12px;
+                opacity: 0.9;
+                padding: 6px 12px;
+                font-weight: 500;
+            }
+
+            
+            .tab-reset.active {
+                background: #f10d24;
+                color: inherit;
+            }
+
+            
+            body.dark .tab-reset.active {
+                background: #df0808;
+            }
+
+            
+            .tab-reset:hover {
+                opacity: 1;
+            }
+
 
                         
             label.toggle {
@@ -1013,7 +1078,8 @@
                 color: #111827;
             }
 
-        /* Instant tab tooltips */
+
+            /* Instant tab tooltips */
         .tab[data-tooltip] {
             position: relative;
         }
@@ -1047,6 +1113,7 @@
             background: #e5e7eb;
             color: #111827;
         }
+
 
         /* Searchable dropdown */
         .search-select-wrapper {
@@ -1135,6 +1202,7 @@
             color: #7fb2ff;
         }
 
+
         .footer {
             margin-top: 20px;
             padding: 12px 0;
@@ -1158,6 +1226,491 @@
             background: #1e1e1e;
             border-color: #2a2a2a;
         }
+
+    /* Guided Tour */
+        .guide-btn {
+            background: transparent;
+            border: 1px solid #4a90e2;
+            font-size: 12px;
+            font-weight: 500;
+            color: #4a90e2;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+        .guide-btn:hover {
+            background: #e8f2fc;
+            transform: translateY(-1px);
+            box-shadow: 0 3px 8px rgba(74,144,226,0.2);
+        }
+        body.dark .guide-btn {
+            border-color: #4a90e2;
+            color: #7fb2ff;
+        }
+        body.dark .guide-btn:hover {
+            background: #1a2535;
+        }
+
+        .tour-spotlight {
+            position: fixed;
+            border-radius: 10px;
+            box-shadow:
+                0 0 0 3px #4a90e2,
+                0 0 0 9999px rgba(0, 0, 0, 0.6);
+            z-index: 9001;
+            pointer-events: none;
+            display: none;
+            animation: tourGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes tourGlow {
+            0%, 100% {
+                box-shadow: 0 0 0 3px #4a90e2, 0 0 0 9999px rgba(0,0,0,0.6);
+            }
+            50% {
+                box-shadow: 0 0 0 5px #4a90e2, 0 0 20px rgba(74,144,226,0.5), 0 0 0 9999px rgba(0,0,0,0.6);
+            }
+        }
+
+        .tour-tooltip {
+            position: fixed;
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 16px 18px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            width: 280px;
+            z-index: 9004;
+            display: none;
+        }
+
+        .tour-tooltip-step {
+            font-size: 11px;
+            color: #9aa4b2;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+
+        .tour-tooltip-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 6px;
+        }
+
+        .tour-tooltip-text {
+            font-size: 13px;
+            color: #4b5563;
+            line-height: 1.5;
+            margin-bottom: 14px;
+        }
+
+        .tour-tooltip-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .tour-progress {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+        }
+
+        .tour-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #e2e8f0;
+            transition: all 0.25s ease;
+        }
+
+        .tour-dot.active {
+            background: #4a90e2;
+            width: 18px;
+            border-radius: 3px;
+        }
+
+        .tour-btn-exit {
+            background: transparent;
+            border: none;
+            font-size: 11px;
+            color: #9aa4b2;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .tour-btn-exit:hover { color: #6b7280; }
+
+        .tour-btn-next {
+            background: #4a90e2;
+            border: none;
+            color: #fff;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 7px 18px;
+            border-radius: 7px;
+            cursor: pointer;
+            transition: background 0.2s ease, transform 0.15s ease;
+        }
+
+        .tour-btn-next:hover {
+            background: #3a7bc8;
+            transform: translateY(-1px);
+        }
+
+        body.dark .tour-tooltip {
+            background: #252525;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        body.dark .tour-tooltip-title { color: #e0e0e0; }
+        body.dark .tour-tooltip-text  { color: #aaa; }
+        body.dark .tour-dot            { background: #444; }
+        body.dark .tour-btn-exit       { color: #666; }
+        body.dark .tour-btn-exit:hover { color: #9aa4b2; }  
+
+
+
+/* Tour overlay — blocks all background clicks during tour */
+        .tour-overlay {
+            position: fixed;
+            inset: 0;
+            background: transparent;
+            z-index: 9000;
+            display: none;
+            pointer-events: none;
+        }
+        .tour-overlay.active { display: block; }
+
+        /* Inspect ? button */
+        .inspect-btn {
+            background: transparent;
+            border: 1.5px solid #9ca3af;
+            font-size: 12px;
+            font-weight: 700;
+            color: #9ca3af;
+            cursor: pointer;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+            padding: 0;
+            line-height: 1;
+        }
+        .inspect-btn:hover  { background: #e8f2fc; border-color: #4a90e2; color: #4a90e2; }
+        .inspect-btn.active { background: #4a90e2; border-color: #4a90e2; color: #fff; }
+        body.dark .inspect-btn              { border-color: #555; color: #9aa4b2; }
+        body.dark .inspect-btn:hover        { background: #1a2535; border-color: #4a90e2; color: #7fb2ff; }
+        body.dark .inspect-btn.active       { background: #4a90e2; border-color: #4a90e2; color: #fff; }
+
+        /* Inspect floating cursor */
+        .inspect-cursor {
+            position: fixed;
+            pointer-events: none;
+            z-index: 10000;
+            display: none;
+            font-size: 13px;
+            font-weight: 700;
+            color: #4a90e2;
+            background: #fff;
+            border: 2px solid #4a90e2;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            line-height: 18px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(74,144,226,0.4);
+            transform: translate(8px, 8px);
+        }
+        body.inspect-active * { cursor: none !important; }
+        body.dark .inspect-cursor { background: #1e1e1e; }
+
+        /* Inspect hover highlight (only in inspect-active mode) */
+        body.inspect-active [data-inspect-key] { cursor: none !important; }
+        body.inspect-active [data-inspect-key]:hover {
+            outline: 2px dashed #4a90e2 !important;
+            outline-offset: 4px;
+            border-radius: 4px;
+        }
+
+        /* Inspect info tooltip */
+        .inspect-tooltip {
+            position: fixed;
+            background: #ffffff;
+            border-radius: 10px;
+            padding: 12px 14px 12px 16px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            width: 240px;
+            z-index: 10001;
+            display: none;
+            border-left: 3px solid #4a90e2;
+            pointer-events: none;
+        }
+        .inspect-tooltip-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 5px;
+        }
+        .inspect-tooltip-text {
+            font-size: 12px;
+            color: #4b5563;
+            line-height: 1.5;
+        }
+        body.dark .inspect-tooltip           { background: #252525; box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
+        body.dark .inspect-tooltip-title     { color: #e0e0e0; }
+        body.dark .inspect-tooltip-text      { color: #aaa; }
+
+        /* Escape confirmation dialog */
+        .tour-confirm {
+            position: fixed;
+            inset: 0;
+            z-index: 9010;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            pointer-events: all;
+        }
+        .tour-confirm.active { display: flex; }
+        .tour-confirm-box {
+            background: #ffffff;
+            border-radius: 14px;
+            padding: 22px 24px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            text-align: center;
+            max-width: 270px;
+            width: 90%;
+        }
+        .tour-confirm-box h4 {
+            font-size: 15px;
+            font-weight: 700;
+            color: #1f2937;
+            margin: 0 0 6px 0;
+        }
+        .tour-confirm-box p {
+            font-size: 12px;
+            color: #6b7280;
+            margin: 0 0 18px 0;
+            line-height: 1.6;
+        }
+        .tour-confirm-actions { display: flex; gap: 8px; justify-content: center; }
+        .tour-confirm-stay {
+            background: #4a90e2;
+            border: none;
+            color: #fff;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 7px 16px;
+            border-radius: 7px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .tour-confirm-stay:hover { background: #3a7bc8; }
+        .tour-confirm-exit {
+            background: transparent;
+            border: 1px solid #e2e8f0;
+            color: #6b7280;
+            font-size: 13px;
+            padding: 7px 16px;
+            border-radius: 7px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .tour-confirm-exit:hover { border-color: #cbd5e0; color: #374151; }
+        body.dark .tour-confirm-box          { background: #252525; box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
+        body.dark .tour-confirm-box h4       { color: #e0e0e0; }
+        body.dark .tour-confirm-box p        { color: #9aa4b2; }
+        body.dark .tour-confirm-exit         { border-color: #333; color: #9aa4b2; }
+        body.dark .tour-confirm-exit:hover   { border-color: #555; color: #e0e0e0; }
+
+        /* Tour restart button (inside tooltip footer) */
+        .tour-btn-restart {
+            background: transparent;
+            border: none;
+            font-size: 12px;
+            color: #9aa4b2;
+            cursor: pointer;
+            padding: 0 2px;
+            transition: color 0.2s;
+            title: "Restart from beginning";
+        }
+        .tour-btn-restart:hover { color: #6b7280; }
+        body.dark .tour-btn-restart       { color: #555; }
+        body.dark .tour-btn-restart:hover { color: #9aa4b2; }
+
+        /* Tooltip header row (step counter + flip toggle) */
+        .tour-tooltip-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+        .tour-tooltip-header .tour-tooltip-step { margin-bottom: 0; }
+
+        /* Flip position toggle */
+        .tour-btn-flip {
+            background: transparent;
+            border: none;
+            font-size: 15px;
+            color: #9aa4b2;
+            cursor: pointer;
+            padding: 0 2px;
+            line-height: 1;
+            flex-shrink: 0;
+            transition: color 0.2s ease, transform 0.35s ease;
+        }
+        .tour-btn-flip:hover { color: #4a90e2; transform: rotate(180deg); }
+        body.dark .tour-btn-flip       { color: #555; }
+        body.dark .tour-btn-flip:hover { color: #7fb2ff; }
+
+        /* Prev button */
+        .tour-btn-prev {
+            background: transparent;
+            border: 1px solid #e2e8f0;
+            color: #6b7280;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 7px 14px;
+            border-radius: 7px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .tour-btn-prev:hover:not(:disabled) {
+            background: #f9fafb;
+            border-color: #cbd5e0;
+            color: #374151;
+        }
+        .tour-btn-prev:disabled { opacity: 0.35; cursor: default; }
+        body.dark .tour-btn-prev                       { border-color: #333; color: #9aa4b2; }
+        body.dark .tour-btn-prev:hover:not(:disabled)  { background: #1f1f1f; border-color: #555; color: #e0e0e0; }
+
+        /* Prev + Next grouped */
+        .tour-nav-btns { display: flex; gap: 6px; align-items: center; }
+
+
+/* Segmented button group (Amendment toolbars) */
+        .amend-btn-group {
+            display: inline-flex;
+            align-items: stretch;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .amend-btn-group > button {
+            background: transparent;
+            border: none;
+            border-right: 1px solid #c8dcf5;
+            border-radius: 0;
+            padding: 6px 13px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            color: #4a90e2;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            white-space: nowrap;
+            position: relative;
+            transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .amend-btn-group > button:last-child {
+            border-right: none;
+        }
+
+        /* Guide me + ? — same hover animation as Reset */
+        .amend-btn-group .guide-btn:hover,
+        .amend-btn-group .inspect-btn:hover {
+            background: #e8f2fc;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 10px rgba(74, 144, 226, 0.22);
+            font-weight: 600;
+        }
+
+        .amend-btn-group .guide-btn:active,
+        .amend-btn-group .inspect-btn:active {
+            transform: translateY(0);
+        }
+
+        .amend-btn-group .guide-btn::before,
+        .amend-btn-group .inspect-btn::before {
+            content: "";
+            position: absolute;
+            bottom: 4px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: #9fbfe3;
+            transform: translateX(-50%);
+            transition: width 0.35s ease;
+        }
+
+        .amend-btn-group .guide-btn:hover::before,
+        .amend-btn-group .inspect-btn:hover::before {
+            width: 70%;
+        }
+
+        body.dark .amend-btn-group .guide-btn:hover,
+        body.dark .amend-btn-group .inspect-btn:hover {
+            background: #1a2535;
+            box-shadow: 0 4px 12px rgba(74, 144, 226, 0.4);
+        }
+
+        .amend-btn-group > button:hover {
+            background: #e8f2fc;
+        }
+
+        /* Inspect ? inside group — override circle shape */
+        .amend-btn-group .inspect-btn {
+            width: auto;
+            height: auto;
+            border: none;
+            border-right: 1px solid #c8dcf5;
+            border-radius: 0;
+            padding: 6px 13px;
+            font-size: 13px;
+        }
+
+        .amend-btn-group .inspect-btn.active {
+            background: #4a90e2;
+            color: #fff;
+        }
+
+        /* Reset inside group — matches other tabs */
+        .amend-btn-group .reset-btn:hover {
+            background: #fbe6ea;
+        }
+
+        body.dark .amend-btn-group {
+            border-color: #4a90e2;
+        }
+
+        body.dark .amend-btn-group > button {
+            color: #7fb2ff;
+            border-right-color: #2e3d52;
+        }
+
+        body.dark .amend-btn-group > button:hover {
+            background: #1a2535;
+        }
+
+        body.dark .amend-btn-group .inspect-btn.active {
+            background: #4a90e2;
+            color: #fff;
+        }
+
+        body.dark .amend-btn-group .reset-btn:hover {
+            background: #2a1515;
+        }
+
+
 
 
     </style>
@@ -1229,7 +1782,7 @@
             <div class="tab" data-tooltip="Use when you already know the incremental/ additional quantity and price for that additional quantity only" data-tab="amendment">Amendment Calculator 1</div>
 
             <div style="display:flex; align-items:center; gap:6px;">
-                <div class="tab" data-tooltip="Use when you know the post-amendment full quantity and it's price" data-tab="amendment2">Amendment Calculator 2</div>
+                <div class="tab" data-tooltip="Use when you know the full post-amendment quantity and it's price" data-tab="amendment2">Amendment Calculator 2</div>
 
                 
                 <div class="tab-menu-wrapper">
@@ -1556,9 +2109,15 @@
         <div id="amendment" class="tab-content">
         
             <div style="text-align:right; margin-bottom:10px; padding-right:6px;">
-                <button type="button" class="reset-btn" onclick="resetAmendment1()">
-                    ↺ Reset
-                </button>
+                <div class="amend-btn-group">
+                    <button type="button" class="guide-btn" id="guideBtn1" onclick="Tour.start('amendment')">
+                        <i class="bx bx-info-circle"></i> <span id="guideBtnText1">Guide me</span>
+                    </button>
+                    <button type="button" class="inspect-btn" id="inspectBtn1" onclick="InspectMode.toggle()" title="Click any field to see what it does">?</button>
+                    <button type="button" class="reset-btn" onclick="resetAmendment1()">
+                        ↺ Reset
+                    </button>
+                </div>
             </div>
 
 
@@ -1574,17 +2133,17 @@
                     </label>
 
                     <input type="number"
-                           id="baseQty"
+                           id="baseQty" data-inspect-key="amend1-baseQty"
                            step="0.01"
                            min="0"
                            placeholder="Enter monthly quantity" />
 
-                    <label>
+                    <label data-inspect-key="amend1-basePrice">
                         Active Subscription Price <span id="basePriceCurrency"></span>
                     </label>
 
                     <input type="number"
-                           id="basePrice"
+                           id="basePrice" data-inspect-key="amend1-basePrice"
                            step="0.01"
                            min="0"
                            placeholder="Enter subscription price" />
@@ -1623,17 +2182,17 @@
                     </label>
 
                     <input type="number"
-                           id="amendQty"
+                           id="amendQty" data-inspect-key="amend1-amendQty"
                            step="0.01"
                            min="0"
                            placeholder="Enter monthly quantity" />
 
-                    <label>
+                    <label data-inspect-key="amend1-amendPrice">
                         Incremental Amendment Price <span id="amendPriceCurrency"></span>
                     </label>
 
                     <input type="number"
-                           id="amendPrice"
+                           id="amendPrice" data-inspect-key="amend1-amendPrice"
                            step="0.01"
                            min="0"
                            placeholder="Enter amendment price" />
@@ -1688,7 +2247,7 @@
                         Amendment Months
                     </label>
 
-                    <select id="amendMonths">
+                    <select id="amendMonths" data-inspect-key="amend1-amendMonths">
                         <option value="0" selected>0</option>
                         
                     </select>
@@ -1699,7 +2258,7 @@
                 </div>
 
                 
-                <div class="input-group">
+                <div class="input-group" id="amendOutputCard" data-inspect-key="amend1-output">
 
                     <div class="section-title with-icon">
                         <img src="https://www.salesforce.com/content/dam/sfdc-docs/www/logos/logo-salesforce.svg"
@@ -1707,7 +2266,6 @@
                              style="height:20px; width:auto;">
                         This goes in SFDC
                     </div>
-
                     <ul id="amendSFDC"
                         style="list-style: none; padding-left: 0; line-height: 1.6; font-size: 13px;">
                     </ul>
@@ -1732,9 +2290,15 @@
         <div id="amendment2" class="tab-content">
             
             <div style="text-align:right; margin-bottom:10px; padding-right:6px;">
-                <button type="button" class="reset-btn" onclick="resetAmendment2()">
-                    ↺ Reset
-                </button>
+                <div class="amend-btn-group">
+                    <button type="button" class="guide-btn" id="guideBtn2" onclick="Tour.start('amendment2')">
+                        <i class="bx bx-info-circle"></i> <span id="guideBtnText2">Guide me</span>
+                    </button>
+                    <button type="button" class="inspect-btn" id="inspectBtn2" onclick="InspectMode.toggle()" title="Click any field to see what it does">?</button>
+                    <button type="button" class="reset-btn" onclick="resetAmendment2()">
+                        ↺ Reset
+                    </button>
+                </div>
             </div>
 
 
@@ -1749,16 +2313,16 @@
                         Current Active Monthly Quantity
                     </label>
                     <input type="number"
-                           id="baseQty2"
+                           id="baseQty2" data-inspect-key="amend2-baseQty"
                            step="0.01"
                            min="0"
                            placeholder="Enter monthly quantity" />
 
-                    <label>
+                    <label data-inspect-key="amend2-basePrice">
                         Active Subscription Price <span id="basePriceCurrency2"></span>
                     </label>
                     <input type="number"
-                           id="basePrice2"
+                           id="basePrice2" data-inspect-key="amend2-basePrice"
                            step="0.01"
                            min="0"
                            placeholder="Enter subscription price" />
@@ -1795,16 +2359,16 @@
                         Full Monthly Quantity (Post Amendment)
                     </label>
                     <input type="number"
-                           id="fullQty"
+                           id="fullQty" data-inspect-key="amend2-fullQty"
                            step="0.01"
                            min="0"
                            placeholder="Enter full monthly quantity" />
 
-                    <label>
+                    <label data-inspect-key="amend2-amendPrice">
                         Full Amendment Price <span id="amendPriceCurrency2"></span>
                     </label>
                     <input type="number"
-                           id="amendPrice2"
+                           id="amendPrice2" data-inspect-key="amend2-amendPrice"
                            step="0.01"
                            min="0"
                            placeholder="Enter final monthly price" />
@@ -1854,7 +2418,7 @@
                     <label for="amendMonths2">
                         Amendment Months
                     </label>
-                    <select id="amendMonths2">
+                    <select id="amendMonths2" data-inspect-key="amend2-amendMonths">
                         <option value="0" selected>0</option>
                     </select>
                     <div class="note">
@@ -1864,15 +2428,14 @@
                 </div>
                 
                 
-                <div class="input-group">
+                <div class="input-group" id="amend2OutputCard" data-inspect-key="amend2-output">
 
                     <div class="section-title with-icon">
                         <img src="https://www.salesforce.com/content/dam/sfdc-docs/www/logos/logo-salesforce.svg"
                              alt="Salesforce"
-                             style="height:20px; width:auto;">
+                             style="height:20px; width:24;">
                         This goes in SFDC
                     </div>
-
                     <ul id="amend2SFDC"
                         style="list-style:none; padding-left:0; line-height:1.6; font-size:13px;">
                     </ul>
@@ -2035,7 +2598,14 @@
             return symbol + ' ' + formatted;
         }
 
-    
+        function convertFromSelectedCurrency(value, targetCurrency) {
+            const selected = document.getElementById('currency').value;
+
+            
+            const valueInUSD = value / EXCHANGE_RATES[selected];
+            return valueInUSD * EXCHANGE_RATES[targetCurrency];
+        }
+
         function formatConverted(value, targetCurrency, decimals = 2) {
             if (value === null || value === undefined) return '';
 
@@ -2168,6 +2738,482 @@
                 filled2 ? 'Push to Amendment Calculator 1' : 'Pull from Amendment Calculator 1'
             );
         }
+
+
+// ── Inspect data ─────────────────────────────────────────────────────
+        const INSPECT_DATA = {
+            'amend1-baseQty':     { title: 'Current Active Monthly Quantity',       text: 'The current active monthly MAU (or unit) quantity on the existing subscription.' },
+            'amend1-basePrice':   { title: 'Active Subscription Price + Period',    text: 'The active subscription price. Select the billing period — Monthly, Annual, Other, or Multi-year — just below the field.' },
+            'amend1-amendQty':    { title: 'Incremental Monthly Quantity',          text: 'The additional monthly quantity being added on top of the existing subscription.' },
+            'amend1-amendPrice':  { title: 'Incremental Amendment Price + Period',  text: 'The price for the incremental quantity only — not the total. Select the billing period below.' },
+            'amend1-amendMonths': { title: 'Amendment Months',                      text: 'Number of months this amendment applies for. Used to calculate the total amendment cost.' },
+            'amend1-output':      { title: 'Results',                               text: 'Results appear here as you fill in the fields. Top section goes into SFDC, bottom section goes into the Custom SO.' },
+            'amend2-baseQty':     { title: 'Current Active Monthly Quantity',       text: 'The current active monthly MAU (or unit) quantity on the existing subscription.' },
+            'amend2-basePrice':   { title: 'Active Subscription Price + Period',    text: 'The active subscription price. Select the billing period — Monthly, Annual, Other, or Multi-year — just below the field.' },
+            'amend2-fullQty':     { title: 'Full Monthly Quantity (Post Amendment)', text: 'The total monthly quantity after the amendment — base quantity plus the new addition combined.' },
+            'amend2-amendPrice':  { title: 'Full Amendment Price + Period',         text: 'The final total price for the full amended quantity — not just the incremental part. Select the billing period below.' },
+            'amend2-amendMonths': { title: 'Amendment Months',                      text: 'Number of months this amendment applies for. Used to calculate the total amendment cost.' },
+            'amend2-output':      { title: 'Results',                               text: 'Results appear here as you fill in the fields. Top section goes into SFDC, bottom section goes into the Custom SO.' }
+        };
+
+        // ── Tour steps ────────────────────────────────────────────────────────
+        // targetParent:true → spotlight expands to cover the whole .input-group
+        // (includes price input + billing period radio buttons together)
+        const TOUR_STEPS = {
+            amendment: [
+                { target: 'baseQty',
+                  title: 'Current Active Monthly Quantity',
+                  text: 'Enter the current active monthly MAU (or unit) quantity for the existing subscription.',
+                  interactiveXpaths: ['//*[@id="baseQty"]']
+                },
+                { target: 'basePrice',
+                  title: 'Active Subscription Price + Period',
+                  text: 'Enter the active subscription price. Then select the billing period — Monthly, Annual, Other, or Multi-year — just below.',
+                  xpathGroup: [
+                      '//*[@id="amendment"]/div[2]/div[1]/label[2]',
+                      '//*[@id="amendment"]/div[2]/div[1]/div[3]'
+                  ],
+                  interactiveXpaths: ['//*[@id="basePrice"]', '//*[@id="amendment"]/div[2]/div[1]/div[3]']
+                },
+                { target: 'amendQty',
+                  title: 'Incremental Monthly Quantity',
+                  text: 'Enter the additional monthly quantity being added on top of the existing subscription.',
+                  interactiveXpaths: ['//*[@id="amendQty"]']
+                },
+                { target: 'amendPrice',
+                  title: 'Incremental Amendment Price + Period',
+                  text: 'Enter the price for the incremental quantity only — not the total. Select the billing period below.',
+                  xpathGroup: [
+                      '//*[@id="amendment"]/div[2]/div[2]/label[2]',
+                      '//*[@id="amendment"]/div[2]/div[2]/div[3]'
+                  ],
+                  interactiveXpaths: ['//*[@id="amendPrice"]', '//*[@id="amendment"]/div[2]/div[2]/div[3]']
+                },
+                { target: 'amendMonths',
+                  title: 'Amendment Months',
+                  text: 'Select the number of months this amendment applies for, as shown in the amendment quote on SFDC. This calculates the total amendment cost.',
+                  interactiveXpaths: ['//*[@id="amendMonths"]']
+                },
+                { target: 'amendOutputCard',
+                  title: 'Your Results',
+                  text: 'Results appear here as you fill in the fields. Top section goes into SFDC, bottom section goes into the Custom SO.',
+                  interactiveXpaths: []
+                }
+            ],
+            amendment2: [
+                { target: 'baseQty2',
+                  title: 'Current Active Monthly Quantity',
+                  text: 'Enter the current active monthly MAU (or unit) quantity for the existing subscription.',
+                  interactiveXpaths: ['//*[@id="baseQty2"]']
+                },
+                { target: 'basePrice2',
+                  title: 'Active Subscription Price + Period',
+                  text: 'Enter the active subscription price. Then select the billing period — Monthly, Annual, Other, or Multi-year — just below.',
+                  xpathGroup: [
+                      '//*[@id="amendment2"]/div[2]/div[1]/label[2]',
+                      '//*[@id="amendment2"]/div[2]/div[1]/div[3]'
+                  ],
+                  interactiveXpaths: ['//*[@id="basePrice2"]', '//*[@id="amendment2"]/div[2]/div[1]/div[3]']
+                },
+                { target: 'fullQty',
+                  title: 'Full Monthly Quantity (Post Amendment)',
+                  text: 'Enter the total monthly quantity after the amendment — base quantity plus the new addition combined.',
+                  interactiveXpaths: ['//*[@id="fullQty"]']
+                },
+                { target: 'amendPrice2',
+                  title: 'Full Amendment Price + Period',
+                  text: 'Enter the final total price for the full amended quantity — not just the incremental part. Select the billing period below.',
+                  xpathGroup: [
+                      '//*[@id="amendment2"]/div[2]/div[2]/label[2]',
+                      '//*[@id="amendment2"]/div[2]/div[2]/div[3]'
+                  ],
+                  interactiveXpaths: ['//*[@id="amendPrice2"]', '//*[@id="amendment2"]/div[2]/div[2]/div[3]']
+                },
+                { target: 'amendMonths2',
+                  title: 'Amendment Months',
+                  text: 'Select the number of months this amendment applies for, as shown in the amendment quote on SFDC. This calculates the total amendment cost.',
+                  interactiveXpaths: ['//*[@id="amendMonths2"]']
+                },
+                { target: 'amend2OutputCard',
+                  title: 'Your Results',
+                  text: 'Results appear here as you fill in the fields. Top section goes into SFDC, bottom section goes into the Custom SO.',
+                  interactiveXpaths: []
+                }
+            ]
+        };
+
+        // ── Resume state (in-memory; -1 = no saved position) ─────────────────
+        const savedPositions = { amendment: -1, amendment2: -1 };
+
+        function updateGuideButtons() {
+            const b1 = document.getElementById('guideBtnText1');
+            const b2 = document.getElementById('guideBtnText2');
+            if (b1) b1.textContent = (savedPositions.amendment   > 0) ? 'Resume guide' : 'Guide me';
+            if (b2) b2.textContent = (savedPositions.amendment2  > 0) ? 'Resume guide' : 'Guide me';
+        }
+
+        // ── Tour ──────────────────────────────────────────────────────────────
+        const Tour = {
+            active:          false,
+            confirmShowing:  false,
+            currentStep:     0,
+            steps:           [],
+            tabId:           null,
+            _forceSide:      null,
+            _currentRect:    null,
+
+            start(tabId) {
+                if (InspectMode.active) InspectMode.end();
+                this.tabId  = tabId;
+                this.steps  = TOUR_STEPS[tabId];
+                this.active = true;
+                const saved   = savedPositions[tabId];
+                const startAt = (saved > 0 && saved < this.steps.length) ? saved : 0;
+                document.getElementById('tourOverlay').classList.add('active');
+                this.showStep(startAt);
+            },
+
+            showStep(index) {
+                this.currentStep = index;
+                const step = this.steps[index];
+                let scrollTarget = document.getElementById(step.target);
+                if (!scrollTarget) return;
+
+                // For xpathGroup steps, scroll to the first XPath element
+                if (step.xpathGroup && step.xpathGroup.length > 0) {
+                    const first = document.evaluate(
+                        step.xpathGroup[0], document, null,
+                        XPathResult.FIRST_ORDERED_NODE_TYPE, null
+                    ).singleNodeValue;
+                    if (first) scrollTarget = first;
+                }
+
+                document.body.style.overflow = '';
+                scrollTarget.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                setTimeout(() => {
+                    document.body.style.overflow = 'hidden';
+
+                    let rect;
+
+                    if (step.xpathGroup) {
+                        const els = step.xpathGroup
+                            .map(xp => document.evaluate(
+                                xp, document, null,
+                                XPathResult.FIRST_ORDERED_NODE_TYPE, null
+                            ).singleNodeValue)
+                            .filter(Boolean);
+
+                        if (els.length > 0) {
+                            const rects  = els.map(e => e.getBoundingClientRect());
+                            const top    = Math.min(...rects.map(r => r.top));
+                            const left   = Math.min(...rects.map(r => r.left));
+                            const bottom = Math.max(...rects.map(r => r.bottom));
+                            const right  = Math.max(...rects.map(r => r.right));
+                            rect = { top, left, bottom, right,
+                                     width: right - left, height: bottom - top };
+                        } else {
+                            rect = document.getElementById(step.target).getBoundingClientRect();
+                        }
+                    } else {
+                        rect = document.getElementById(step.target).getBoundingClientRect();
+                    }
+
+                    const pad       = 10;
+                    const spotlight = document.getElementById('tourSpotlight');
+
+                    // Place spotlight at new position while invisible
+                    spotlight.style.transition = 'none';
+                    spotlight.style.left       = (rect.left   - pad) + 'px';
+                    spotlight.style.top        = (rect.top    - pad) + 'px';
+                    spotlight.style.width      = (rect.width  + pad * 2) + 'px';
+                    spotlight.style.height     = (rect.height + pad * 2) + 'px';
+                    spotlight.style.opacity    = '0';
+                    spotlight.style.transform  = 'scale(0.82)';
+                    spotlight.style.display    = 'block';
+
+                    // Bloom in — spring easing gives the organic feel
+                    requestAnimationFrame(() => {
+                        requestAnimationFrame(() => {
+                            spotlight.style.transition = 'opacity 0.32s ease, transform 0.42s cubic-bezier(0.34, 1.56, 0.64, 1)';
+                            spotlight.style.opacity    = '1';
+                            spotlight.style.transform  = 'scale(1)';
+                            setTimeout(() => {
+                                spotlight.style.transition = '';
+                                spotlight.style.transform  = '';
+                            }, 450);
+                        });
+                    });
+
+                    // Tooltip: render first, then float up into place
+                    this.positionTooltip(rect, step, index);
+                    const ttEl          = document.getElementById('tourTooltip');
+                    ttEl.style.opacity  = '0';
+                    ttEl.style.transform = 'translateY(12px)';
+                    ttEl.style.transition = 'none';
+
+                    setTimeout(() => {
+                        ttEl.style.transition = 'opacity 0.28s ease, transform 0.34s cubic-bezier(0.34, 1.56, 0.64, 1)';
+                        ttEl.style.opacity    = '1';
+                        ttEl.style.transform  = 'translateY(0)';
+                        setTimeout(() => {
+                            ttEl.style.transition = '';
+                            ttEl.style.transform  = '';
+                        }, 360);
+                    }, 100);
+
+                }, 400);
+            },
+
+            positionTooltip(rect, step, index) {
+                const tooltip = document.getElementById('tourTooltip');
+                const total   = this.steps.length;
+                const isLast  = index === total - 1;
+                const isFirst = index === 0;
+
+                let dotsHTML = '';
+                for (let i = 0; i < total; i++) {
+                    dotsHTML += `<span class="tour-dot${i === index ? ' active' : ''}"></span>`;
+                }
+
+                const showRestart = savedPositions[this.tabId] > 0 && index > 0;
+                const restartBtn  = showRestart
+                    ? `<button class="tour-btn-restart" onclick="Tour.restart()" title="Restart from Step 1">↩ Restart</button>`
+                    : '';
+
+                tooltip.innerHTML = `
+                    <div class="tour-tooltip-header">
+                        <div class="tour-tooltip-step">Step ${index + 1} of ${total}</div>
+                        <button class="tour-btn-flip" onclick="Tour.toggleSide()" title="Flip position">⇄</button>
+                    </div>
+                    <div class="tour-tooltip-title">${step.title}</div>
+                    <div class="tour-tooltip-text">${step.text}</div>
+                    <div class="tour-tooltip-footer">
+                        <button class="tour-btn-exit" onclick="Tour.end(false)">✕ Exit</button>
+                        <div class="tour-progress">${dotsHTML}</div>
+                        ${restartBtn}
+                        <div class="tour-nav-btns">
+                            <button class="tour-btn-prev" onclick="Tour.prev()" ${isFirst ? 'disabled' : ''}>← Prev</button>
+                            <button class="tour-btn-next" onclick="Tour.next()">
+                                ${isLast ? '✓ Done' : 'Next →'}
+                            </button>
+                        </div>
+                    </div>
+                `;
+                tooltip.style.display = 'block';
+                this._currentRect = rect;
+
+                const tw = 280;
+                const th = tooltip.offsetHeight || 160;
+                const vw = window.innerWidth;
+                const vh = window.innerHeight;
+
+                const autoRight = (rect.right - 12 + tw <= vw - 8);
+                let left;
+                if      (this._forceSide === 'left')  left = rect.left - tw - 20;
+                else if (this._forceSide === 'right')  left = rect.right - 12;
+                else left = autoRight ? rect.right - 12 : rect.left - tw - 20;
+
+                let top = rect.top + rect.height / 2 - th / 2;
+                top = Math.max(8, Math.min(top, vh - th - 8));
+                tooltip.style.left = left + 'px';
+                tooltip.style.top  = top  + 'px';
+            },
+
+            prev() {
+                if (this.currentStep > 0) {
+                    this._forceSide = null;
+                    this._stepTransition(this.currentStep - 1);
+                }
+            },
+
+            next() {
+                this._forceSide = null;
+                if (this.currentStep < this.steps.length - 1) {
+                    this._stepTransition(this.currentStep + 1);
+                } else {
+                    savedPositions[this.tabId] = -1;
+                    updateGuideButtons();
+                    this.end(true);
+                }
+            },
+
+            toggleSide() {
+                const rect = this._currentRect;
+                if (!rect) return;
+                const tw  = 280;
+                const vw  = window.innerWidth;
+                const autoRight = (rect.right - 12 + tw <= vw - 8);
+                const current   = this._forceSide || (autoRight ? 'right' : 'left');
+                this._forceSide = current === 'right' ? 'left' : 'right';
+                this.positionTooltip(rect, this.steps[this.currentStep], this.currentStep);
+            },
+
+            _stepTransition(index) {
+                const spotlight = document.getElementById('tourSpotlight');
+                const tooltip   = document.getElementById('tourTooltip');
+
+                // ── Exit: shrink + fade out ──
+                spotlight.style.transition = 'opacity 0.18s ease, transform 0.2s ease';
+                spotlight.style.opacity    = '0';
+                spotlight.style.transform  = 'scale(0.88)';
+                tooltip.style.transition   = 'opacity 0.15s ease, transform 0.15s ease';
+                tooltip.style.opacity      = '0';
+                tooltip.style.transform    = 'translateY(-5px)';
+
+                setTimeout(() => {
+                    spotlight.style.transition = 'none';
+                    spotlight.style.transform  = '';
+                    spotlight.style.display    = 'none';
+                    tooltip.style.display      = 'none';
+                    tooltip.style.transition   = '';
+                    tooltip.style.transform    = '';
+                    this.showStep(index);
+                }, 210);
+            },
+
+            restart() {
+                savedPositions[this.tabId] = -1;
+                updateGuideButtons();
+                this.showStep(0);
+            },
+
+            end(completed) {
+                if (!completed && this.currentStep > 0) {
+                    // Save position for resume
+                    savedPositions[this.tabId] = this.currentStep;
+                } else if (completed) {
+                    savedPositions[this.tabId] = -1;
+                }
+                updateGuideButtons();
+                this._forceSide  = null;
+                this._currentRect = null;
+                this.active       = false;
+                this.confirmShowing  = false;
+                document.body.style.overflow = '';
+                document.getElementById('tourOverlay').classList.remove('active');
+                document.getElementById('tourSpotlight').style.display = 'none';
+                document.getElementById('tourTooltip').style.display   = 'none';
+                document.getElementById('tourConfirm').classList.remove('active');
+            },
+
+            showConfirm() {
+                this.confirmShowing = true;
+                document.getElementById('tourConfirm').classList.add('active');
+            },
+
+            dismissConfirm() {
+                this.confirmShowing = false;
+                document.getElementById('tourConfirm').classList.remove('active');
+            },
+
+            confirmExit() {
+                this.end(false);
+            }
+        };
+
+        // ── Inspect Mode ──────────────────────────────────────────────────────
+        const InspectMode = {
+            active: false,
+
+            toggle() {
+                this.active ? this.end() : this.start();
+            },
+
+            start() {
+                if (Tour.active) return;
+                this.active = true;
+                document.body.classList.add('inspect-active');
+                document.getElementById('inspectCursor').style.display = 'block';
+                document.querySelectorAll('.inspect-btn').forEach(b => b.classList.add('active'));
+            },
+
+            end() {
+                this.active = false;
+                document.body.classList.remove('inspect-active');
+                document.getElementById('inspectCursor').style.display  = 'none';
+                document.getElementById('inspectTooltip').style.display = 'none';
+                document.querySelectorAll('.inspect-btn').forEach(b => b.classList.remove('active'));
+            },
+
+            showInfo(key, x, y) {
+                const data = INSPECT_DATA[key];
+                if (!data) return;
+                document.getElementById('inspectTooltipTitle').textContent = data.title;
+                document.getElementById('inspectTooltipText').textContent  = data.text;
+                const tt = document.getElementById('inspectTooltip');
+                tt.style.display = 'block';
+                const tw = 240, th = tt.offsetHeight || 100;
+                const vw = window.innerWidth,  vh = window.innerHeight;
+                let left = x + 18, top = y + 10;
+                if (left + tw > vw - 10) left = x - tw - 8;
+                if (top  + th > vh - 10) top  = y - th - 8;
+                tt.style.left = left + 'px';
+                tt.style.top  = top  + 'px';
+            }
+        };
+
+        // ── Mouse tracking — inspect cursor follows pointer ───────────────────
+        document.addEventListener('mousemove', function(e) {
+            if (!InspectMode.active) return;
+            const c = document.getElementById('inspectCursor');
+            c.style.left = e.clientX + 'px';
+            c.style.top  = e.clientY + 'px';
+        });
+
+        // ── Click handler — inspect mode field info ───────────────────────────
+        document.addEventListener('click', function(e) {
+            if (!InspectMode.active) return;
+            if (e.target.closest('.inspect-btn')) return;
+
+            // 1. Direct data-inspect-key on element or ancestor
+            let keyEl = e.target.closest('[data-inspect-key]');
+
+            // 2. label[for] → find keyed input
+            if (!keyEl) {
+                const lbl = e.target.closest('label[for]');
+                if (lbl) {
+                    const inp = document.getElementById(lbl.getAttribute('for'));
+                    if (inp && inp.dataset.inspectKey) keyEl = inp;
+                }
+            }
+
+            if (keyEl) {
+                e.preventDefault();
+                e.stopPropagation();
+                const key = keyEl.dataset.inspectKey;
+                const x = e.clientX, y = e.clientY;
+
+                InspectMode.end();            // deactivate cursor first
+                InspectMode.showInfo(key, x, y); // re-show tooltip after end() hid it
+
+                // Dismiss tooltip on the very next click anywhere
+                setTimeout(() => {
+                    document.addEventListener('click', function dismissInspectTooltip() {
+                        document.getElementById('inspectTooltip').style.display = 'none';
+                        document.removeEventListener('click', dismissInspectTooltip, true);
+                    }, { once: true, capture: true });
+                }, 80);
+            }
+        }, true);
+
+        // ── Keyboard handler — Esc confirmation + Enter to stay ───────────────
+        document.addEventListener('keydown', function(e) {
+            if (Tour.active) {
+                if (e.key === 'Escape') {
+                    e.preventDefault();
+                    Tour.confirmShowing ? Tour.confirmExit() : Tour.showConfirm();
+                } else if (e.key === 'Enter' && Tour.confirmShowing) {
+                    e.preventDefault();
+                    Tour.dismissConfirm();
+                }
+            } else if (InspectMode.active) {
+                if (e.key === 'Escape') {
+                    e.preventDefault();
+                    InspectMode.end();
+                }
+            }
+        });
 
 
         function formatUnit(value) {
@@ -2429,6 +3475,10 @@
                 const months = Number(ovgMonthsEl.value);
             const isDP = document.getElementById('isDP').checked;
 
+            
+            let monthly = null;
+            let annual = null;
+            let html = '';
 
             let ovgHTML = '';
             let ovgMonthly = null;
@@ -2462,7 +3512,7 @@
             document.getElementById('ovgEquiv').innerHTML = ovgHTML;    
 
             document.getElementById('financeNote').style.display =
-                document.getElementById('overagePercent').value < 120 ? 'block' : 'none';
+                Number(document.getElementById('overagePercent').value) < 120 ? 'block' : 'none';
 
             
             let monthlyBasePrice = 0;
@@ -3490,5 +4540,23 @@
             updateLogoForTheme();
         });
     </script>
+<div id="tourOverlay"   class="tour-overlay"></div>
+    <div id="tourSpotlight" class="tour-spotlight"></div>
+    <div id="tourTooltip"   class="tour-tooltip"></div>
+    <div id="tourConfirm"   class="tour-confirm">
+        <div class="tour-confirm-box">
+            <h4>Exit the guide?</h4>
+            <p>Press <strong>Enter</strong> to stay in the guide,<br>or <strong>Esc</strong> again to exit.</p>
+            <div class="tour-confirm-actions">
+                <button class="tour-confirm-stay" onclick="Tour.dismissConfirm()">↩ Stay in guide</button>
+                <button class="tour-confirm-exit" onclick="Tour.confirmExit()">Exit guide</button>
+            </div>
+        </div>
+    </div>
+    <div id="inspectCursor"  class="inspect-cursor">?</div>
+    <div id="inspectTooltip" class="inspect-tooltip">
+        <div class="inspect-tooltip-title" id="inspectTooltipTitle"></div>
+        <div class="inspect-tooltip-text"  id="inspectTooltipText"></div>
+    </div>
 </body>
 </html>
