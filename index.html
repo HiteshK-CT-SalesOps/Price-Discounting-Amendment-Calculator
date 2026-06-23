@@ -136,9 +136,6 @@
             }
         }
 
-
-        
-
         .tab-menu-wrapper {
             position: relative;
             cursor: pointer;
@@ -234,8 +231,6 @@
             background: #333;
         }
 
-
-        
         .group-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -516,9 +511,6 @@
         }
 
 
-        
-
-        
         @keyframes softBounce {
             0%, 100% {
                 transform: translateY(0);
@@ -1016,7 +1008,6 @@
                 border-color: #e5e7eb transparent transparent transparent;
             }
 
-            /* Sync button */
             .sync-btn {
                 background: transparent;
                 border: 1px solid #cfd8e3;
@@ -1079,7 +1070,6 @@
             }
 
 
-            /* Instant tab tooltips */
         .tab[data-tooltip] {
             position: relative;
         }
@@ -1115,7 +1105,6 @@
         }
 
 
-        /* Searchable dropdown */
         .search-select-wrapper {
             position: relative;
             flex: 0.6;
@@ -1227,7 +1216,6 @@
             border-color: #2a2a2a;
         }
 
-    /* Guided Tour */
         .guide-btn {
             background: transparent;
             border: 1px solid #4a90e2;
@@ -1275,10 +1263,13 @@
 
         .tour-tooltip {
             position: fixed;
-            background: #ffffff;
+            background: rgba(255, 255, 255, 0.72);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
             border-radius: 12px;
             padding: 16px 18px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.14), 0 2px 8px rgba(0,0,0,0.08);
             width: 280px;
             z-index: 9004;
             display: none;
@@ -1362,9 +1353,11 @@
         }
 
         body.dark .tour-tooltip {
-            background: #252525;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            background: rgba(28, 28, 28, 0.72);
+            border-color: rgba(255, 255, 255, 0.07);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45), 0 2px 8px rgba(0,0,0,0.2);
         }
+
 
         body.dark .tour-tooltip-title { color: #e0e0e0; }
         body.dark .tour-tooltip-text  { color: #aaa; }
@@ -1373,8 +1366,6 @@
         body.dark .tour-btn-exit:hover { color: #9aa4b2; }  
 
 
-
-/* Tour overlay — blocks all background clicks during tour */
         .tour-overlay {
             position: fixed;
             inset: 0;
@@ -1385,7 +1376,6 @@
         }
         .tour-overlay.active { display: block; }
 
-        /* Inspect ? button */
         .inspect-btn {
             background: transparent;
             border: 1.5px solid #9ca3af;
@@ -1410,7 +1400,7 @@
         body.dark .inspect-btn:hover        { background: #1a2535; border-color: #4a90e2; color: #7fb2ff; }
         body.dark .inspect-btn.active       { background: #4a90e2; border-color: #4a90e2; color: #fff; }
 
-        /* Inspect floating cursor */
+     
         .inspect-cursor {
             position: fixed;
             pointer-events: none;
@@ -1432,7 +1422,7 @@
         body.inspect-active * { cursor: none !important; }
         body.dark .inspect-cursor { background: #1e1e1e; }
 
-        /* Inspect hover highlight (only in inspect-active mode) */
+   
         body.inspect-active [data-inspect-key] { cursor: none !important; }
         body.inspect-active [data-inspect-key]:hover {
             outline: 2px dashed #4a90e2 !important;
@@ -1440,7 +1430,7 @@
             border-radius: 4px;
         }
 
-        /* Inspect info tooltip */
+      
         .inspect-tooltip {
             position: fixed;
             background: #ffffff;
@@ -1468,7 +1458,7 @@
         body.dark .inspect-tooltip-title     { color: #e0e0e0; }
         body.dark .inspect-tooltip-text      { color: #aaa; }
 
-        /* Escape confirmation dialog */
+    
         .tour-confirm {
             position: fixed;
             inset: 0;
@@ -1530,7 +1520,7 @@
         body.dark .tour-confirm-exit         { border-color: #333; color: #9aa4b2; }
         body.dark .tour-confirm-exit:hover   { border-color: #555; color: #e0e0e0; }
 
-        /* Tour restart button (inside tooltip footer) */
+       
         .tour-btn-restart {
             background: transparent;
             border: none;
@@ -1545,7 +1535,7 @@
         body.dark .tour-btn-restart       { color: #555; }
         body.dark .tour-btn-restart:hover { color: #9aa4b2; }
 
-        /* Tooltip header row (step counter + flip toggle) */
+      
         .tour-tooltip-header {
             display: flex;
             justify-content: space-between;
@@ -1554,7 +1544,6 @@
         }
         .tour-tooltip-header .tour-tooltip-step { margin-bottom: 0; }
 
-        /* Flip position toggle */
         .tour-btn-flip {
             background: transparent;
             border: none;
@@ -1570,7 +1559,6 @@
         body.dark .tour-btn-flip       { color: #555; }
         body.dark .tour-btn-flip:hover { color: #7fb2ff; }
 
-        /* Prev button */
         .tour-btn-prev {
             background: transparent;
             border: 1px solid #e2e8f0;
@@ -1591,11 +1579,9 @@
         body.dark .tour-btn-prev                       { border-color: #333; color: #9aa4b2; }
         body.dark .tour-btn-prev:hover:not(:disabled)  { background: #1f1f1f; border-color: #555; color: #e0e0e0; }
 
-        /* Prev + Next grouped */
         .tour-nav-btns { display: flex; gap: 6px; align-items: center; }
 
 
-/* Segmented button group (Amendment toolbars) */
         .amend-btn-group {
             display: inline-flex;
             align-items: stretch;
@@ -1625,7 +1611,6 @@
             border-right: none;
         }
 
-        /* Guide me + ? — same hover animation as Reset */
         .amend-btn-group .guide-btn:hover,
         .amend-btn-group .inspect-btn:hover {
             background: #e8f2fc;
@@ -1667,7 +1652,6 @@
             background: #e8f2fc;
         }
 
-        /* Inspect ? inside group — override circle shape */
         .amend-btn-group .inspect-btn {
             width: auto;
             height: auto;
@@ -1683,7 +1667,6 @@
             color: #fff;
         }
 
-        /* Reset inside group — matches other tabs */
         .amend-btn-group .reset-btn:hover {
             background: #fbe6ea;
         }
@@ -2740,7 +2723,6 @@
         }
 
 
-// ── Inspect data ─────────────────────────────────────────────────────
         const INSPECT_DATA = {
             'amend1-baseQty':     { title: 'Current Active Monthly Quantity',       text: 'The current active monthly MAU (or unit) quantity on the existing subscription.' },
             'amend1-basePrice':   { title: 'Active Subscription Price + Period',    text: 'The active subscription price. Select the billing period — Monthly, Annual, Other, or Multi-year — just below the field.' },
@@ -2756,9 +2738,6 @@
             'amend2-output':      { title: 'Results',                               text: 'Results appear here as you fill in the fields. Top section goes into SFDC, bottom section goes into the Custom SO.' }
         };
 
-        // ── Tour steps ────────────────────────────────────────────────────────
-        // targetParent:true → spotlight expands to cover the whole .input-group
-        // (includes price input + billing period radio buttons together)
         const TOUR_STEPS = {
             amendment: [
                 { target: 'baseQty',
@@ -2842,7 +2821,6 @@
             ]
         };
 
-        // ── Resume state (in-memory; -1 = no saved position) ─────────────────
         const savedPositions = { amendment: -1, amendment2: -1 };
 
         function updateGuideButtons() {
@@ -2852,7 +2830,6 @@
             if (b2) b2.textContent = (savedPositions.amendment2  > 0) ? 'Resume guide' : 'Guide me';
         }
 
-        // ── Tour ──────────────────────────────────────────────────────────────
         const Tour = {
             active:          false,
             confirmShowing:  false,
@@ -2879,7 +2856,6 @@
                 let scrollTarget = document.getElementById(step.target);
                 if (!scrollTarget) return;
 
-                // For xpathGroup steps, scroll to the first XPath element
                 if (step.xpathGroup && step.xpathGroup.length > 0) {
                     const first = document.evaluate(
                         step.xpathGroup[0], document, null,
@@ -2922,7 +2898,6 @@
                     const pad       = 10;
                     const spotlight = document.getElementById('tourSpotlight');
 
-                    // Place spotlight at new position while invisible
                     spotlight.style.transition = 'none';
                     spotlight.style.left       = (rect.left   - pad) + 'px';
                     spotlight.style.top        = (rect.top    - pad) + 'px';
@@ -2932,7 +2907,6 @@
                     spotlight.style.transform  = 'scale(0.82)';
                     spotlight.style.display    = 'block';
 
-                    // Bloom in — spring easing gives the organic feel
                     requestAnimationFrame(() => {
                         requestAnimationFrame(() => {
                             spotlight.style.transition = 'opacity 0.32s ease, transform 0.42s cubic-bezier(0.34, 1.56, 0.64, 1)';
@@ -2945,7 +2919,6 @@
                         });
                     });
 
-                    // Tooltip: render first, then float up into place
                     this.positionTooltip(rect, step, index);
                     const ttEl          = document.getElementById('tourTooltip');
                     ttEl.style.opacity  = '0';
@@ -3053,7 +3026,6 @@
                 const spotlight = document.getElementById('tourSpotlight');
                 const tooltip   = document.getElementById('tourTooltip');
 
-                // ── Exit: shrink + fade out ──
                 spotlight.style.transition = 'opacity 0.18s ease, transform 0.2s ease';
                 spotlight.style.opacity    = '0';
                 spotlight.style.transform  = 'scale(0.88)';
@@ -3080,7 +3052,6 @@
 
             end(completed) {
                 if (!completed && this.currentStep > 0) {
-                    // Save position for resume
                     savedPositions[this.tabId] = this.currentStep;
                 } else if (completed) {
                     savedPositions[this.tabId] = -1;
@@ -3111,8 +3082,7 @@
                 this.end(false);
             }
         };
-
-        // ── Inspect Mode ──────────────────────────────────────────────────────
+        
         const InspectMode = {
             active: false,
 
@@ -3153,7 +3123,6 @@
             }
         };
 
-        // ── Mouse tracking — inspect cursor follows pointer ───────────────────
         document.addEventListener('mousemove', function(e) {
             if (!InspectMode.active) return;
             const c = document.getElementById('inspectCursor');
@@ -3161,15 +3130,12 @@
             c.style.top  = e.clientY + 'px';
         });
 
-        // ── Click handler — inspect mode field info ───────────────────────────
         document.addEventListener('click', function(e) {
             if (!InspectMode.active) return;
             if (e.target.closest('.inspect-btn')) return;
 
-            // 1. Direct data-inspect-key on element or ancestor
             let keyEl = e.target.closest('[data-inspect-key]');
 
-            // 2. label[for] → find keyed input
             if (!keyEl) {
                 const lbl = e.target.closest('label[for]');
                 if (lbl) {
@@ -3184,10 +3150,9 @@
                 const key = keyEl.dataset.inspectKey;
                 const x = e.clientX, y = e.clientY;
 
-                InspectMode.end();            // deactivate cursor first
-                InspectMode.showInfo(key, x, y); // re-show tooltip after end() hid it
+                InspectMode.end();            
+                InspectMode.showInfo(key, x, y); 
 
-                // Dismiss tooltip on the very next click anywhere
                 setTimeout(() => {
                     document.addEventListener('click', function dismissInspectTooltip() {
                         document.getElementById('inspectTooltip').style.display = 'none';
@@ -3197,7 +3162,6 @@
             }
         }, true);
 
-        // ── Keyboard handler — Esc confirmation + Enter to stay ───────────────
         document.addEventListener('keydown', function(e) {
             if (Tour.active) {
                 if (e.key === 'Escape') {
@@ -3220,6 +3184,11 @@
             return Number(value || 0).toFixed(6);
         }
 
+        function formatQty(value) {
+            const num = Number(value) || 0;
+            return Math.abs(num).toLocaleString('en-US', { maximumFractionDigits: 2 });
+        }
+
                 function animateOutput(id) {
             const el = document.getElementById(id);
             if (!el) return;
@@ -3228,34 +3197,25 @@
             void el.offsetWidth;             el.classList.add('output-animate');
         }
 
-        function useInDiscount(value, months) {
-            if (value === undefined || value === null) return;
+        function useInDiscount(offeredTCV, months, listTCV) {
+            if (offeredTCV === undefined || offeredTCV === null) return;
 
-           
             document.querySelector('.tab[data-tab="discount"]').click();
 
-            
             const discountedInput = document.getElementById('discountedPrice');
-            discountedInput.value = Number(value).toFixed(2);
-
-           
+            discountedInput.value = Number(offeredTCV).toFixed(2);
             document.querySelector('input[name="discPeriod"][value="other"]').checked = true;
             const discMonthsEl = document.getElementById('discMonths');
             discMonthsEl.style.display = 'inline-block';
+            if (months && Number(months) > 0) discMonthsEl.value = Number(months);
 
-           
-            if (months && Number(months) > 0) {
-                discMonthsEl.value = Number(months);
+            if (listTCV !== undefined && listTCV !== null) {
+                document.getElementById('listPrice').value = Number(listTCV).toFixed(2);
             }
-
-            
             document.querySelector('input[name="listPeriod"][value="other"]').checked = true;
             const listMonthsEl = document.getElementById('listMonths');
             listMonthsEl.style.display = 'inline-block';
-
-            if (months && Number(months) > 0) {
-                listMonthsEl.value = Number(months);
-            }
+            if (months && Number(months) > 0) listMonthsEl.value = Number(months);
 
             calculateDiscount();
             discountedInput.focus();
@@ -3445,7 +3405,12 @@
 
             if (listACV > 0) {
                 const discountPct = ((listACV - discACV) / listACV) * 100;
-                const discountAbs = listACV - discACV;
+
+                const discountAbs =
+                    (listPeriod === 'other' && discPeriod === 'other' &&
+                     listMonths === discMonths && listMonths > 0)
+                        ? listPrice - discountedPrice
+                        : listACV - discACV;
 
                 document.getElementById('discountPercent').textContent =
                     'Discount %: ' + discountPct.toFixed(decimals);
@@ -3464,7 +3429,6 @@
             const volume = Number(document.getElementById('overageVolume').value || 0);
             const price = Number(document.getElementById('overagePrice').value || 0);
             const decimals = Number(document.getElementById('overageDecimals').value || 6);
-            // const percent = Number(document.getElementById('overagePercent').value || 1.2);
             const percentInput = Number(document.getElementById('overagePercent').value || 120);
             const percent = percentInput / 100;
             const period = document.querySelector('input[name="ovgPeriod"]:checked').value;
@@ -3868,7 +3832,7 @@
                         const sfdcOutputs = [];
 
             sfdcOutputs.push(
-                `<li><strong>Total Monthly Quantity:</strong> ${baseQty + amendQty}</li>`
+                `<li><strong>Total Monthly Quantity:</strong> ${formatQty(baseQty + amendQty)}</li>`
             );
 
             if (months > 0) {
@@ -3887,7 +3851,7 @@
                         const customOutputs = [];
 
             customOutputs.push(
-                `<li><strong>Total Monthly Quantity:</strong> ${baseQty + amendQty}</li>`
+                `<li><strong>Total Monthly Quantity:</strong> ${formatQty(baseQty + amendQty)}</li>`
             );
             customOutputs.push(
                 `<li><strong>Monthly Price:</strong> ${formatNumber(totalMonthly, decimals)}${formatWithConversion(totalMonthly, decimals)}</li>`
@@ -4043,7 +4007,6 @@
             const baseMonthly = toMonthly(basePrice, basePeriod, baseMonths);
             const finalMonthly = toMonthly(finalPrice, finalPeriod, finalMonths);
 
-            /* Calculate IACV */
             function toAnnual(price, period, months) {
                 if (period === 'annual') return price;
                 if (period === 'monthly') return price * 12;
@@ -4077,9 +4040,9 @@
 
                     const sfdcHTML = `
                 <li>
-                    <strong>Total Monthly Quantity:</strong> ${fullQty}
+                    <strong>Total Monthly Quantity:</strong> ${formatQty(fullQty)}
                     <span style="color:#777;">
-                        (Amendment quantity is: ${amendmentQty >= 0 ? '+' : ''}${amendmentQty})
+                        (Amendment quantity is: ${amendmentQty >= 0 ? '+' : ''}${formatQty(Math.abs(amendmentQty))})
                     </span>
                 </li>
 
@@ -4088,7 +4051,7 @@
                     <strong>Amendment Cost (${amendMonths} months):</strong>
                     ${formatNumber(sfdcAmendmentCost, decimals)}${formatWithConversion(sfdcAmendmentCost, decimals)}
                     <span class="use-discount"
-                        onclick="useInDiscount(${sfdcAmendmentCost}, ${amendMonths})">
+                        onclick="useInDiscount(${finalMonthly * amendMonths}, ${amendMonths}, ${baseMonthly * amendMonths})">
                         Use in Discount Calculator ⎋
                     </span>
                 </li>
@@ -4115,7 +4078,7 @@
             animateOutput('amend2SFDC');
 
                         const customSOHTML = `
-                <li><strong>Total Monthly Quantity:</strong> ${fullQty}</li>
+                <li><strong>Total Monthly Quantity:</strong> ${formatQty(fullQty)}</li>
                 <li><strong>Monthly Price:</strong> ${formatNumber(finalMonthly, decimals)}${formatWithConversion(finalMonthly, decimals)}</li>
                 <li style="color:#777;">
                     <strong>Annual:</strong> ${formatNumber(annualFinal, decimals)}${formatWithConversion(annualFinal, decimals)}
@@ -4351,18 +4314,15 @@
             document.getElementById('expectedPrice').addEventListener('input', calculatePriceMatch);
             document.getElementById('priceDecimals').addEventListener('input', calculatePriceMatch);
 
-            // ⏎ Enter key → add new Price Match line item
             document.addEventListener('keydown', (e) => {
                 if (e.key !== 'Enter') return;
 
-                // Only when Price Match tab is active
                 const priceTab = document.getElementById('price');
                 if (!priceTab || !priceTab.classList.contains('active')) return;
 
                 const activeEl = document.activeElement;
                 if (!activeEl) return;
 
-                // Only if focus is inside Price Match inputs
                 const isPriceMatchInput =
                     activeEl.closest('#price') &&
                     (activeEl.tagName === 'INPUT' || activeEl.tagName === 'SELECT');
@@ -4373,7 +4333,6 @@
 
                 addLineItem();
 
-                // Focus the newly added amount field
                 const inputs = document.querySelectorAll('#lineItems input');
                 if (inputs.length) {
                     inputs[inputs.length - 1].focus();
@@ -4398,7 +4357,6 @@
 
                     e.preventDefault();
 
-                    // Only remove if more than 1 row exists
                     if (container.children.length > 0) {
                         row.remove();
                         calculatePriceMatch();
