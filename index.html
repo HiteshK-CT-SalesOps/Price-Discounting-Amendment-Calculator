@@ -4051,7 +4051,7 @@
                     <strong>Amendment Cost (${amendMonths} months):</strong>
                     ${formatNumber(sfdcAmendmentCost, decimals)}${formatWithConversion(sfdcAmendmentCost, decimals)}
                     <span class="use-discount"
-                        onclick="useInDiscount(${finalMonthly * amendMonths}, ${amendMonths}, ${baseMonthly * amendMonths})">
+                        onclick="useInDiscount(${sfdcAmendmentCost}, ${amendMonths})">
                         Use in Discount Calculator ⎋
                     </span>
                 </li>
