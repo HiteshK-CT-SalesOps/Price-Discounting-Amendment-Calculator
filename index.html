@@ -136,6 +136,9 @@
             }
         }
 
+
+        
+
         .tab-menu-wrapper {
             position: relative;
             cursor: pointer;
@@ -231,6 +234,8 @@
             background: #333;
         }
 
+
+        
         .group-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -511,6 +516,9 @@
         }
 
 
+        
+
+        
         @keyframes softBounce {
             0%, 100% {
                 transform: translateY(0);
@@ -1008,6 +1016,7 @@
                 border-color: #e5e7eb transparent transparent transparent;
             }
 
+            
             .sync-btn {
                 background: transparent;
                 border: 1px solid #cfd8e3;
@@ -1070,6 +1079,7 @@
             }
 
 
+            
         .tab[data-tooltip] {
             position: relative;
         }
@@ -1105,6 +1115,7 @@
         }
 
 
+        
         .search-select-wrapper {
             position: relative;
             flex: 0.6;
@@ -1216,6 +1227,7 @@
             border-color: #2a2a2a;
         }
 
+    
         .guide-btn {
             background: transparent;
             border: 1px solid #4a90e2;
@@ -1366,6 +1378,8 @@
         body.dark .tour-btn-exit:hover { color: #9aa4b2; }  
 
 
+
+
         .tour-overlay {
             position: fixed;
             inset: 0;
@@ -1376,6 +1390,7 @@
         }
         .tour-overlay.active { display: block; }
 
+        
         .inspect-btn {
             background: transparent;
             border: 1.5px solid #9ca3af;
@@ -1400,7 +1415,7 @@
         body.dark .inspect-btn:hover        { background: #1a2535; border-color: #4a90e2; color: #7fb2ff; }
         body.dark .inspect-btn.active       { background: #4a90e2; border-color: #4a90e2; color: #fff; }
 
-     
+        
         .inspect-cursor {
             position: fixed;
             pointer-events: none;
@@ -1422,7 +1437,7 @@
         body.inspect-active * { cursor: none !important; }
         body.dark .inspect-cursor { background: #1e1e1e; }
 
-   
+        
         body.inspect-active [data-inspect-key] { cursor: none !important; }
         body.inspect-active [data-inspect-key]:hover {
             outline: 2px dashed #4a90e2 !important;
@@ -1430,7 +1445,7 @@
             border-radius: 4px;
         }
 
-      
+        
         .inspect-tooltip {
             position: fixed;
             background: #ffffff;
@@ -1458,7 +1473,7 @@
         body.dark .inspect-tooltip-title     { color: #e0e0e0; }
         body.dark .inspect-tooltip-text      { color: #aaa; }
 
-    
+        
         .tour-confirm {
             position: fixed;
             inset: 0;
@@ -1520,7 +1535,7 @@
         body.dark .tour-confirm-exit         { border-color: #333; color: #9aa4b2; }
         body.dark .tour-confirm-exit:hover   { border-color: #555; color: #e0e0e0; }
 
-       
+        
         .tour-btn-restart {
             background: transparent;
             border: none;
@@ -1535,7 +1550,7 @@
         body.dark .tour-btn-restart       { color: #555; }
         body.dark .tour-btn-restart:hover { color: #9aa4b2; }
 
-      
+        
         .tour-tooltip-header {
             display: flex;
             justify-content: space-between;
@@ -1544,6 +1559,7 @@
         }
         .tour-tooltip-header .tour-tooltip-step { margin-bottom: 0; }
 
+        
         .tour-btn-flip {
             background: transparent;
             border: none;
@@ -1558,7 +1574,12 @@
         .tour-btn-flip:hover { color: #4a90e2; transform: rotate(180deg); }
         body.dark .tour-btn-flip       { color: #555; }
         body.dark .tour-btn-flip:hover { color: #7fb2ff; }
+        @keyframes flipBtnFromLeft  { from { opacity:0; transform: translateX(-8px) scale(0.8); } to { opacity:1; transform: translateX(0) scale(1); } }
+        @keyframes flipBtnFromRight { from { opacity:0; transform: translateX( 8px) scale(0.8); } to { opacity:1; transform: translateX(0) scale(1); } }
+        .tour-btn-flip--right { animation: flipBtnFromLeft  0.22s ease-out; }
+        .tour-btn-flip--left  { animation: flipBtnFromRight 0.22s ease-out; }
 
+        
         .tour-btn-prev {
             background: transparent;
             border: 1px solid #e2e8f0;
@@ -1579,7 +1600,9 @@
         body.dark .tour-btn-prev                       { border-color: #333; color: #9aa4b2; }
         body.dark .tour-btn-prev:hover:not(:disabled)  { background: #1f1f1f; border-color: #555; color: #e0e0e0; }
 
+        
         .tour-nav-btns { display: flex; gap: 6px; align-items: center; }
+
 
 
         .amend-btn-group {
@@ -1611,6 +1634,7 @@
             border-right: none;
         }
 
+        /* Guide me + ? — same hover animation as Reset */
         .amend-btn-group .guide-btn:hover,
         .amend-btn-group .inspect-btn:hover {
             background: #e8f2fc;
@@ -1652,6 +1676,7 @@
             background: #e8f2fc;
         }
 
+        /* Inspect ? inside group — override circle shape */
         .amend-btn-group .inspect-btn {
             width: auto;
             height: auto;
@@ -1667,6 +1692,7 @@
             color: #fff;
         }
 
+        /* Reset inside group — matches other tabs */
         .amend-btn-group .reset-btn:hover {
             background: #fbe6ea;
         }
@@ -2041,9 +2067,14 @@
                            id="expectedPrice"
                            step="0.01"
                            placeholder="Enter expected price" />
-
+                    <div class="controls" style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center; min-height: 40px; margin-bottom: 8px;">
+                        <input type="radio" name="expectedPeriod" value="monthly" checked> Monthly
+                        <input type="radio" name="expectedPeriod" value="annual"> Annual
+                        <input type="radio" name="expectedPeriod" value="other"> Other / Multi-year
+                        <select id="expectedMonths" style="display:none; width:54px;"></select>
+                    </div>
+                    <div id="expectedEquiv"></div>
                     <div class="divider"></div>
-
                     <label for="priceDecimals">
                         Decimal Precision
                     </label>
@@ -2944,6 +2975,11 @@
                 const isLast  = index === total - 1;
                 const isFirst = index === 0;
 
+                const tw = 280;
+                const vw = window.innerWidth;
+                const autoRight = (rect.right - 12 + tw <= vw - 8);
+                const currentSide = this._forceSide || (autoRight ? 'right' : 'left');
+
                 let dotsHTML = '';
                 for (let i = 0; i < total; i++) {
                     dotsHTML += `<span class="tour-dot${i === index ? ' active' : ''}"></span>`;
@@ -2954,10 +2990,14 @@
                     ? `<button class="tour-btn-restart" onclick="Tour.restart()" title="Restart from Step 1">↩ Restart</button>`
                     : '';
 
+                const stepLabel  = `<div class="tour-tooltip-step">Step ${index + 1} of ${total}</div>`;
+                const buttonSide = currentSide === 'right' ? 'left' : 'right';
+                const flipBtn    = `<button class="tour-btn-flip tour-btn-flip--${buttonSide}" onclick="Tour.toggleSide()" title="Flip position">⇄</button>`;
+                const headerRow  = currentSide === 'right' ? `${flipBtn}${stepLabel}` : `${stepLabel}${flipBtn}`;
+
                 tooltip.innerHTML = `
                     <div class="tour-tooltip-header">
-                        <div class="tour-tooltip-step">Step ${index + 1} of ${total}</div>
-                        <button class="tour-btn-flip" onclick="Tour.toggleSide()" title="Flip position">⇄</button>
+                        ${headerRow}
                     </div>
                     <div class="tour-tooltip-title">${step.title}</div>
                     <div class="tour-tooltip-text">${step.text}</div>
@@ -2976,12 +3016,9 @@
                 tooltip.style.display = 'block';
                 this._currentRect = rect;
 
-                const tw = 280;
                 const th = tooltip.offsetHeight || 160;
-                const vw = window.innerWidth;
                 const vh = window.innerHeight;
 
-                const autoRight = (rect.right - 12 + tw <= vw - 8);
                 let left;
                 if      (this._forceSide === 'left')  left = rect.left - tw - 20;
                 else if (this._forceSide === 'right')  left = rect.right - 12;
@@ -3082,7 +3119,7 @@
                 this.end(false);
             }
         };
-        
+
         const InspectMode = {
             active: false,
 
@@ -3150,8 +3187,8 @@
                 const key = keyEl.dataset.inspectKey;
                 const x = e.clientX, y = e.clientY;
 
-                InspectMode.end();            
-                InspectMode.showInfo(key, x, y); 
+                InspectMode.end();           
+                InspectMode.showInfo(key, x, y);
 
                 setTimeout(() => {
                     document.addEventListener('click', function dismissInspectTooltip() {
@@ -3197,25 +3234,35 @@
             void el.offsetWidth;             el.classList.add('output-animate');
         }
 
-        function useInDiscount(offeredTCV, months, listTCV) {
+        function useInDiscount(offeredTCV, months, listTCV, period) {
             if (offeredTCV === undefined || offeredTCV === null) return;
 
             document.querySelector('.tab[data-tab="discount"]').click();
 
+            const discPeriod = period || (months && Number(months) > 0 ? 'other' : 'monthly');
+
             const discountedInput = document.getElementById('discountedPrice');
             discountedInput.value = Number(offeredTCV).toFixed(2);
-            document.querySelector('input[name="discPeriod"][value="other"]').checked = true;
+            document.querySelector(`input[name="discPeriod"][value="${discPeriod}"]`).checked = true;
             const discMonthsEl = document.getElementById('discMonths');
-            discMonthsEl.style.display = 'inline-block';
-            if (months && Number(months) > 0) discMonthsEl.value = Number(months);
+            if (discPeriod === 'other') {
+                discMonthsEl.style.display = 'inline-block';
+                if (months && Number(months) > 0) discMonthsEl.value = Number(months);
+            } else {
+                discMonthsEl.style.display = 'none';
+            }
 
             if (listTCV !== undefined && listTCV !== null) {
                 document.getElementById('listPrice').value = Number(listTCV).toFixed(2);
             }
-            document.querySelector('input[name="listPeriod"][value="other"]').checked = true;
+            document.querySelector(`input[name="listPeriod"][value="${discPeriod}"]`).checked = true;
             const listMonthsEl = document.getElementById('listMonths');
-            listMonthsEl.style.display = 'inline-block';
-            if (months && Number(months) > 0) listMonthsEl.value = Number(months);
+            if (discPeriod === 'other') {
+                listMonthsEl.style.display = 'inline-block';
+                if (months && Number(months) > 0) listMonthsEl.value = Number(months);
+            } else {
+                listMonthsEl.style.display = 'none';
+            }
 
             calculateDiscount();
             discountedInput.focus();
@@ -3656,19 +3703,51 @@
             const expected = Number(document.getElementById('expectedPrice').value || 0);
             const decimals = Number(document.getElementById('priceDecimals').value || 2);
 
+            const expectedPeriod = document.querySelector('input[name="expectedPeriod"]:checked').value;
+            const expectedMonthsEl = document.getElementById('expectedMonths');
+            expectedMonthsEl.style.display = expectedPeriod === 'other' ? 'inline-block' : 'none';
+            if (expectedPeriod === 'other') ensureDefaultMonths(expectedMonthsEl);
+            const expectedMonths = Number(expectedMonthsEl.value);
+
+            let expMonthly = null, expAnnual = null, expHTML = '';
+            if (expected > 0) {
+                if (expectedPeriod === 'other') {
+                    expMonthly = expected / expectedMonths;
+                    expAnnual  = (expected * 12) / expectedMonths;
+                    expHTML = `<strong>Monthly Value:</strong> ${formatEquivalent(expMonthly)} | <strong>Annual Value:</strong> ${formatEquivalent(expAnnual)}`;
+                } else if (expectedPeriod === 'annual') {
+                    expMonthly = expected / 12;
+                    expHTML = `<strong>Monthly Value:</strong> ${formatEquivalent(expMonthly)}`;
+                } else {
+                    expAnnual = expected * 12;
+                    expHTML = `<strong>Annual Value:</strong> ${formatEquivalent(expAnnual)}`;
+                }
+                expHTML = appendConvertedEquiv({ html: expHTML, monthly: expMonthly, annual: expAnnual });
+            }
+            document.getElementById('expectedEquiv').innerHTML = expHTML;
+
             let sum = 0;
-            document.querySelectorAll('#lineItems input').forEach(inp => {
+            document.querySelectorAll('#lineItems input[type="number"]').forEach(inp => {
                 sum += Number(inp.value || 0);
             });
 
             const diff = expected - sum;
-            document.getElementById('priceMatchOutput').innerHTML =
-            `Price Match Difference: ${formatNumber(diff, decimals)}
-            <span class="use-discount"
-                onclick="useInDiscount(${diff})">
-                Use in Discount Calculator ⎋
-            </span>`;
 
+            let discArgs;
+            if (expectedPeriod === 'other') {
+                discArgs = `${diff}, ${expectedMonths}`;
+            } else if (expectedPeriod === 'annual') {
+                discArgs = `${diff}, null, null, 'annual'`;
+            } else {
+                discArgs = `${diff}, null, null, 'monthly'`;
+            }
+
+            document.getElementById('priceMatchOutput').innerHTML =
+                `Price Match Difference: ${formatNumber(diff, decimals)}
+                <span class="use-discount" onclick="useInDiscount(${discArgs})">
+                    Use in Discount Calculator ⎋
+                </span>`;
+            animateOutput('priceMatchOutput');
         }
 
 
@@ -4007,6 +4086,7 @@
             const baseMonthly = toMonthly(basePrice, basePeriod, baseMonths);
             const finalMonthly = toMonthly(finalPrice, finalPeriod, finalMonths);
 
+            /* Calculate IACV */
             function toAnnual(price, period, months) {
                 if (period === 'annual') return price;
                 if (period === 'monthly') return price * 12;
@@ -4148,18 +4228,15 @@
 
 
                 function resetPriceMatch() {
-                        document.getElementById('expectedPrice').value = '';
-
-                        document.getElementById('priceDecimals').value = '2';
-
-                        const container = document.getElementById('lineItems');
-            container.innerHTML = '';
-
-                        document.getElementById('priceMatchOutput').textContent =
-                'Price Match Difference: --';
-
+            document.getElementById('expectedPrice').value = '';
+            document.getElementById('priceDecimals').value = '2';
+            document.querySelector('input[name="expectedPeriod"][value="monthly"]').checked = true;
+            document.getElementById('expectedMonths').value = 12;
+            document.getElementById('expectedMonths').style.display = 'none';
+            document.getElementById('expectedEquiv').innerHTML = '';
+            document.getElementById('lineItems').innerHTML = '';
+            document.getElementById('priceMatchOutput').textContent = 'Price Match Difference: --';
             toggleAddLineItemButton();
-
         }
 
 
@@ -4223,6 +4300,8 @@
             document.getElementById('discMonths').value = 12;
             populateMonths('ovgMonths');
             document.getElementById('ovgMonths').value = 12;
+            populateMonths('expectedMonths');
+            document.getElementById('expectedMonths').value = 12;
             populateMonths('amendMonths');
             
             ['baseQty','amendQty','basePrice','amendPrice'].forEach(id => {
@@ -4313,6 +4392,9 @@
             
             document.getElementById('expectedPrice').addEventListener('input', calculatePriceMatch);
             document.getElementById('priceDecimals').addEventListener('input', calculatePriceMatch);
+            document.querySelectorAll('input[name="expectedPeriod"]')
+                .forEach(el => el.addEventListener('change', calculatePriceMatch));
+            document.getElementById('expectedMonths').addEventListener('change', calculatePriceMatch);
 
             document.addEventListener('keydown', (e) => {
                 if (e.key !== 'Enter') return;
