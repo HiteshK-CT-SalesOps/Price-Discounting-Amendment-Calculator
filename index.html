@@ -3407,8 +3407,8 @@
                 const discountPct = ((listACV - discACV) / listACV) * 100;
 
                 const discountAbs =
-                    (listPeriod === 'other' && discPeriod === 'other' &&
-                     listMonths === discMonths && listMonths > 0)
+                    (listPeriod === discPeriod &&
+                     (listPeriod !== 'other' || (listMonths === discMonths && listMonths > 0)))
                         ? listPrice - discountedPrice
                         : listACV - discACV;
 
