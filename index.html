@@ -1016,7 +1016,7 @@
                 border-color: #e5e7eb transparent transparent transparent;
             }
 
-            
+            /* Sync button */
             .sync-btn {
                 background: transparent;
                 border: 1px solid #cfd8e3;
@@ -1079,7 +1079,7 @@
             }
 
 
-            
+            /* Instant tab tooltips */
         .tab[data-tooltip] {
             position: relative;
         }
@@ -1115,7 +1115,7 @@
         }
 
 
-        
+        /* Searchable dropdown */
         .search-select-wrapper {
             position: relative;
             flex: 0.6;
@@ -1227,7 +1227,7 @@
             border-color: #2a2a2a;
         }
 
-    
+    /* Guided Tour */
         .guide-btn {
             background: transparent;
             border: 1px solid #4a90e2;
@@ -1379,7 +1379,7 @@
 
 
 
-
+/* Tour overlay — blocks all background clicks during tour */
         .tour-overlay {
             position: fixed;
             inset: 0;
@@ -1390,7 +1390,7 @@
         }
         .tour-overlay.active { display: block; }
 
-        
+        /* Inspect ? button */
         .inspect-btn {
             background: transparent;
             border: 1.5px solid #9ca3af;
@@ -1415,7 +1415,7 @@
         body.dark .inspect-btn:hover        { background: #1a2535; border-color: #4a90e2; color: #7fb2ff; }
         body.dark .inspect-btn.active       { background: #4a90e2; border-color: #4a90e2; color: #fff; }
 
-        
+        /* Inspect floating cursor */
         .inspect-cursor {
             position: fixed;
             pointer-events: none;
@@ -1437,7 +1437,7 @@
         body.inspect-active * { cursor: none !important; }
         body.dark .inspect-cursor { background: #1e1e1e; }
 
-        
+        /* Inspect hover highlight (only in inspect-active mode) */
         body.inspect-active [data-inspect-key] { cursor: none !important; }
         body.inspect-active [data-inspect-key]:hover {
             outline: 2px dashed #4a90e2 !important;
@@ -1445,7 +1445,7 @@
             border-radius: 4px;
         }
 
-        
+        /* Inspect info tooltip */
         .inspect-tooltip {
             position: fixed;
             background: #ffffff;
@@ -1473,7 +1473,7 @@
         body.dark .inspect-tooltip-title     { color: #e0e0e0; }
         body.dark .inspect-tooltip-text      { color: #aaa; }
 
-        
+        /* Escape confirmation dialog */
         .tour-confirm {
             position: fixed;
             inset: 0;
@@ -1535,7 +1535,7 @@
         body.dark .tour-confirm-exit         { border-color: #333; color: #9aa4b2; }
         body.dark .tour-confirm-exit:hover   { border-color: #555; color: #e0e0e0; }
 
-        
+        /* Tour restart button (inside tooltip footer) */
         .tour-btn-restart {
             background: transparent;
             border: none;
@@ -1550,7 +1550,7 @@
         body.dark .tour-btn-restart       { color: #555; }
         body.dark .tour-btn-restart:hover { color: #9aa4b2; }
 
-        
+        /* Tooltip header row (step counter + flip toggle) */
         .tour-tooltip-header {
             display: flex;
             justify-content: space-between;
@@ -1559,7 +1559,7 @@
         }
         .tour-tooltip-header .tour-tooltip-step { margin-bottom: 0; }
 
-        
+        /* Flip position toggle */
         .tour-btn-flip {
             background: transparent;
             border: none;
@@ -1579,7 +1579,7 @@
         .tour-btn-flip--right { animation: flipBtnFromLeft  0.22s ease-out; }
         .tour-btn-flip--left  { animation: flipBtnFromRight 0.22s ease-out; }
 
-        
+        /* Prev button */
         .tour-btn-prev {
             background: transparent;
             border: 1px solid #e2e8f0;
@@ -1600,11 +1600,11 @@
         body.dark .tour-btn-prev                       { border-color: #333; color: #9aa4b2; }
         body.dark .tour-btn-prev:hover:not(:disabled)  { background: #1f1f1f; border-color: #555; color: #e0e0e0; }
 
-        
+        /* Prev + Next grouped */
         .tour-nav-btns { display: flex; gap: 6px; align-items: center; }
 
 
-
+/* Segmented button group (Amendment toolbars) */
         .amend-btn-group {
             display: inline-flex;
             align-items: stretch;
@@ -1723,6 +1723,16 @@
 
 
     </style>
+    <style>
+        /* Product POC tab — greener variant (same shape, hover, underline & animations) */
+        .tab[data-tab="poc"]          { background:#cfe9dd; }
+        .tab[data-tab="poc"]:hover    { background:#e0f3ea; color:#2f6b52; box-shadow:0 6px 14px rgba(58,169,129,0.25); }
+        .tab[data-tab="poc"].active   { background:#3aa981; color:#fff; }
+        .tab[data-tab="poc"]::before  { background:#8fcfae; }
+        body.dark .tab[data-tab="poc"]        { background:#26382f; color:#bfe3d0; }
+        body.dark .tab[data-tab="poc"]:hover  { background:#2f4a3c; box-shadow:0 6px 14px rgba(58,169,129,0.4); }
+        body.dark .tab[data-tab="poc"].active { background:#3aa981; color:#fff; }
+    </style>
 </head>
 
 <body class="light">
@@ -1785,15 +1795,17 @@
 
         <div class="tabs">
 
-            <div class="tab active" data-tab="discount">Discount Calculator</div>
-            <div class="tab" data-tab="overage">Overage Calculator</div>
+            <div class="tab active" data-tab="discount">Discount</div>
+            <div class="tab" data-tab="overage">Overage</div>
             <div class="tab" data-tab="price">Price Match / Find</div>
-            <div class="tab" data-tooltip="Use when you already know the incremental/ additional quantity and price for that additional quantity only" data-tab="amendment">Amendment Calculator 1</div>
+            <div class="tab" data-tooltip="Use when you already know the incremental/ additional quantity and price for that additional quantity only" data-tab="amendment">Amendment 1</div>
 
             <div style="display:flex; align-items:center; gap:6px;">
-                <div class="tab" data-tooltip="Use when you know the full post-amendment quantity and it's price" data-tab="amendment2">Amendment Calculator 2</div>
+                <div class="tab" data-tooltip="Use when you know the full post-amendment quantity and it's price" data-tab="amendment2">Amendment 2</div>
 
-                
+                <div class="tab" data-tooltip="Find which team, PM and lead owns a feature / add-on / product" data-tab="poc">Product POC  👤 🔎 </div>
+
+
                 <div class="tab-menu-wrapper">
                     <img
                         src="https://ssl.gstatic.com/gb/images/bar/al-icon.png"
@@ -2474,6 +2486,29 @@
 
 
 
+        <div id="poc" class="tab-content">
+
+            <div style="text-align:right; margin-bottom:10px; padding-right:6px;">
+                <button type="button" class="reset-btn" onclick="resetPOC()">↺ Reset</button>
+            </div>
+
+            <div class="group-grid" style="grid-template-columns:1fr;">
+                <div class="input-group">
+                    <label>Find Product Point of Contact</label>
+                    <div class="note" style="margin-top:0; margin-bottom:10px;">
+                        Type a feature, add-on or product name to see the owning team, sub-area, PM owner and lead.
+                    </div>
+                    <div class="search-select-wrapper" style="max-width:560px; flex:none;">
+                        <input type="text" id="pocSearch" class="search-select-input" autocomplete="off"
+                               placeholder="e.g. WhatsApp, Journeys, Webhooks, Analytics, RBAC…" />
+                    </div>
+                    <div class="note" id="pocStatus" style="margin-top:10px;">Loading directory…</div>
+                </div>
+            </div>
+
+            <div id="pocResults" style="margin-top:4px;"></div>
+
+        </div>
     </div>
     </div>
         <div class="footer">
@@ -2754,6 +2789,7 @@
         }
 
 
+// ── Inspect data ─────────────────────────────────────────────────────
         const INSPECT_DATA = {
             'amend1-baseQty':     { title: 'Current Active Monthly Quantity',       text: 'The current active monthly MAU (or unit) quantity on the existing subscription.' },
             'amend1-basePrice':   { title: 'Active Subscription Price + Period',    text: 'The active subscription price. Select the billing period — Monthly, Annual, Other, or Multi-year — just below the field.' },
@@ -2769,6 +2805,9 @@
             'amend2-output':      { title: 'Results',                               text: 'Results appear here as you fill in the fields. Top section goes into SFDC, bottom section goes into the Custom SO.' }
         };
 
+        // ── Tour steps ────────────────────────────────────────────────────────
+        // targetParent:true → spotlight expands to cover the whole .input-group
+        // (includes price input + billing period radio buttons together)
         const TOUR_STEPS = {
             amendment: [
                 { target: 'baseQty',
@@ -2852,6 +2891,7 @@
             ]
         };
 
+        // ── Resume state (in-memory; -1 = no saved position) ─────────────────
         const savedPositions = { amendment: -1, amendment2: -1 };
 
         function updateGuideButtons() {
@@ -2861,6 +2901,7 @@
             if (b2) b2.textContent = (savedPositions.amendment2  > 0) ? 'Resume guide' : 'Guide me';
         }
 
+        // ── Tour ──────────────────────────────────────────────────────────────
         const Tour = {
             active:          false,
             confirmShowing:  false,
@@ -2887,6 +2928,7 @@
                 let scrollTarget = document.getElementById(step.target);
                 if (!scrollTarget) return;
 
+                // For xpathGroup steps, scroll to the first XPath element
                 if (step.xpathGroup && step.xpathGroup.length > 0) {
                     const first = document.evaluate(
                         step.xpathGroup[0], document, null,
@@ -2929,6 +2971,7 @@
                     const pad       = 10;
                     const spotlight = document.getElementById('tourSpotlight');
 
+                    // Place spotlight at new position while invisible
                     spotlight.style.transition = 'none';
                     spotlight.style.left       = (rect.left   - pad) + 'px';
                     spotlight.style.top        = (rect.top    - pad) + 'px';
@@ -2938,6 +2981,7 @@
                     spotlight.style.transform  = 'scale(0.82)';
                     spotlight.style.display    = 'block';
 
+                    // Bloom in — spring easing gives the organic feel
                     requestAnimationFrame(() => {
                         requestAnimationFrame(() => {
                             spotlight.style.transition = 'opacity 0.32s ease, transform 0.42s cubic-bezier(0.34, 1.56, 0.64, 1)';
@@ -2950,6 +2994,7 @@
                         });
                     });
 
+                    // Tooltip: render first, then float up into place
                     this.positionTooltip(rect, step, index);
                     const ttEl          = document.getElementById('tourTooltip');
                     ttEl.style.opacity  = '0';
@@ -2975,6 +3020,7 @@
                 const isLast  = index === total - 1;
                 const isFirst = index === 0;
 
+                // Determine side early so flip button renders on the correct side
                 const tw = 280;
                 const vw = window.innerWidth;
                 const autoRight = (rect.right - 12 + tw <= vw - 8);
@@ -3063,6 +3109,7 @@
                 const spotlight = document.getElementById('tourSpotlight');
                 const tooltip   = document.getElementById('tourTooltip');
 
+                // ── Exit: shrink + fade out ──
                 spotlight.style.transition = 'opacity 0.18s ease, transform 0.2s ease';
                 spotlight.style.opacity    = '0';
                 spotlight.style.transform  = 'scale(0.88)';
@@ -3089,6 +3136,7 @@
 
             end(completed) {
                 if (!completed && this.currentStep > 0) {
+                    // Save position for resume
                     savedPositions[this.tabId] = this.currentStep;
                 } else if (completed) {
                     savedPositions[this.tabId] = -1;
@@ -3120,6 +3168,7 @@
             }
         };
 
+        // ── Inspect Mode ──────────────────────────────────────────────────────
         const InspectMode = {
             active: false,
 
@@ -3160,6 +3209,7 @@
             }
         };
 
+        // ── Mouse tracking — inspect cursor follows pointer ───────────────────
         document.addEventListener('mousemove', function(e) {
             if (!InspectMode.active) return;
             const c = document.getElementById('inspectCursor');
@@ -3167,12 +3217,15 @@
             c.style.top  = e.clientY + 'px';
         });
 
+        // ── Click handler — inspect mode field info ───────────────────────────
         document.addEventListener('click', function(e) {
             if (!InspectMode.active) return;
             if (e.target.closest('.inspect-btn')) return;
 
+            // 1. Direct data-inspect-key on element or ancestor
             let keyEl = e.target.closest('[data-inspect-key]');
 
+            // 2. label[for] → find keyed input
             if (!keyEl) {
                 const lbl = e.target.closest('label[for]');
                 if (lbl) {
@@ -3187,9 +3240,10 @@
                 const key = keyEl.dataset.inspectKey;
                 const x = e.clientX, y = e.clientY;
 
-                InspectMode.end();           
-                InspectMode.showInfo(key, x, y);
+                InspectMode.end();            // deactivate cursor first
+                InspectMode.showInfo(key, x, y); // re-show tooltip after end() hid it
 
+                // Dismiss tooltip on the very next click anywhere
                 setTimeout(() => {
                     document.addEventListener('click', function dismissInspectTooltip() {
                         document.getElementById('inspectTooltip').style.display = 'none';
@@ -3199,6 +3253,7 @@
             }
         }, true);
 
+        // ── Keyboard handler — Esc confirmation + Enter to stay ───────────────
         document.addEventListener('keydown', function(e) {
             if (Tour.active) {
                 if (e.key === 'Escape') {
@@ -3239,8 +3294,10 @@
 
             document.querySelector('.tab[data-tab="discount"]').click();
 
+            // Determine period — legacy: default 'other' when months supplied, else 'monthly'
             const discPeriod = period || (months && Number(months) > 0 ? 'other' : 'monthly');
 
+            // Offered / Negotiated Price
             const discountedInput = document.getElementById('discountedPrice');
             discountedInput.value = Number(offeredTCV).toFixed(2);
             document.querySelector(`input[name="discPeriod"][value="${discPeriod}"]`).checked = true;
@@ -3252,6 +3309,7 @@
                 discMonthsEl.style.display = 'none';
             }
 
+            // List Price — pre-fill TCV if provided, set matching period
             if (listTCV !== undefined && listTCV !== null) {
                 document.getElementById('listPrice').value = Number(listTCV).toFixed(2);
             }
@@ -3453,6 +3511,8 @@
             if (listACV > 0) {
                 const discountPct = ((listACV - discACV) / listACV) * 100;
 
+                // When both sides share the same multi-year term, use TCV diff
+                // so the absolute reflects the full contract period, not one year
                 const discountAbs =
                     (listPeriod === discPeriod &&
                      (listPeriod !== 'other' || (listMonths === discMonths && listMonths > 0)))
@@ -3476,6 +3536,7 @@
             const volume = Number(document.getElementById('overageVolume').value || 0);
             const price = Number(document.getElementById('overagePrice').value || 0);
             const decimals = Number(document.getElementById('overageDecimals').value || 6);
+            // const percent = Number(document.getElementById('overagePercent').value || 1.2);
             const percentInput = Number(document.getElementById('overagePercent').value || 120);
             const percent = percentInput / 100;
             const period = document.querySelector('input[name="ovgPeriod"]:checked').value;
@@ -3703,6 +3764,7 @@
             const expected = Number(document.getElementById('expectedPrice').value || 0);
             const decimals = Number(document.getElementById('priceDecimals').value || 2);
 
+            // Expected Price period + breakdown
             const expectedPeriod = document.querySelector('input[name="expectedPeriod"]:checked').value;
             const expectedMonthsEl = document.getElementById('expectedMonths');
             expectedMonthsEl.style.display = expectedPeriod === 'other' ? 'inline-block' : 'none';
@@ -4396,15 +4458,18 @@
                 .forEach(el => el.addEventListener('change', calculatePriceMatch));
             document.getElementById('expectedMonths').addEventListener('change', calculatePriceMatch);
 
+            // ⏎ Enter key → add new Price Match line item
             document.addEventListener('keydown', (e) => {
                 if (e.key !== 'Enter') return;
 
+                // Only when Price Match tab is active
                 const priceTab = document.getElementById('price');
                 if (!priceTab || !priceTab.classList.contains('active')) return;
 
                 const activeEl = document.activeElement;
                 if (!activeEl) return;
 
+                // Only if focus is inside Price Match inputs
                 const isPriceMatchInput =
                     activeEl.closest('#price') &&
                     (activeEl.tagName === 'INPUT' || activeEl.tagName === 'SELECT');
@@ -4415,6 +4480,7 @@
 
                 addLineItem();
 
+                // Focus the newly added amount field
                 const inputs = document.querySelectorAll('#lineItems input');
                 if (inputs.length) {
                     inputs[inputs.length - 1].focus();
@@ -4439,6 +4505,7 @@
 
                     e.preventDefault();
 
+                    // Only remove if more than 1 row exists
                     if (container.children.length > 0) {
                         row.remove();
                         calculatePriceMatch();
@@ -4598,5 +4665,130 @@
         <div class="inspect-tooltip-title" id="inspectTooltipTitle"></div>
         <div class="inspect-tooltip-text"  id="inspectTooltipText"></div>
     </div>
+    <script>
+    (function () {
+        const SHEET_ID  = "1MQAcQvU6EvTwxfWoFHGDwVlL5rCHluyjfgw6HKTt5wI";
+        const SHEET_GID = "240916340";
+        const GVIZ_URL  = "https://docs.google.com/spreadsheets/d/" + SHEET_ID +
+                          "/gviz/tq?tqx=out:csv&gid=" + SHEET_GID;
+
+        const SNAPSHOT = [{"path":"Demo Projects","feature":"Demo Projects","l1":"","l2":"","l3":"","lane":"Product-Led Growth","pod":"Onboarding & Billing","pm":"Saurav","lead":"Saurav","podfull":"Onboarding & Billing"},{"path":"Campaigns › Email","feature":"Campaigns","l1":"Email","l2":"","l3":"","lane":"Channels","pod":"Email","pm":"Shreejith","lead":"Harsh","podfull":"Email"},{"path":"Settings › Channels › Email","feature":"Settings","l1":"Channels","l2":"Email","l3":"","lane":"Channels","pod":"Email","pm":"Shreejith","lead":"Harsh","podfull":"Email"},{"path":"Settings › Setup › Subscription Groups","feature":"Settings","l1":"Setup","l2":"Subscription Groups","l3":"","lane":"Channels","pod":"Email","pm":"Shreejith","lead":"Harsh","podfull":"Email"},{"path":"APIs › Profile › Subscribe Email","feature":"APIs","l1":"Profile","l2":"Subscribe Email","l3":"","lane":"Channels","pod":"Email","pm":"Shreejith","lead":"Harsh","podfull":"Email"},{"path":"APIs › Settings › Subscription Groups","feature":"APIs","l1":"Settings","l2":"Subscription Groups","l3":"","lane":"Channels","pod":"Email","pm":"Shreejith","lead":"Harsh","podfull":"Email"},{"path":"APIs › Events › Upload Events","feature":"APIs","l1":"Events","l2":"Upload Events","l3":"","lane":"Platform","pod":"Ingestion","pm":"Afzal","lead":"Sagar","podfull":"Ingestion"},{"path":"Journeys › List","feature":"Journeys","l1":"List","l2":"","l3":"","lane":"Core Application","pod":"Journeys","pm":"Sabyasachi","lead":"Ritu","podfull":"Journeys"},{"path":"Journeys › Canvas","feature":"Journeys","l1":"Canvas","l2":"","l3":"","lane":"Core Application","pod":"Journeys","pm":"Sabyasachi","lead":"Ritu","podfull":"Journeys"},{"path":"Journeys › Reporting","feature":"Journeys","l1":"Reporting","l2":"","l3":"","lane":"Core Application","pod":"Journeys","pm":"Sabyasachi","lead":"Ritu","podfull":"Journeys"},{"path":"Journeys › Segments","feature":"Journeys","l1":"Segments","l2":"","l3":"","lane":"Core Application","pod":"Journeys","pm":"Sabyasachi","lead":"Ritu","podfull":"Journeys"},{"path":"Journeys › Engagnments","feature":"Journeys","l1":"Engagnments","l2":"","l3":"","lane":"Core Application","pod":"Journeys","pm":"Sabyasachi","lead":"Ritu","podfull":"Journeys"},{"path":"Journeys › Controllers","feature":"Journeys","l1":"Controllers","l2":"","l3":"","lane":"Core Application","pod":"Journeys","pm":"Sabyasachi","lead":"Ritu","podfull":"Journeys"},{"path":"Scribe","feature":"Scribe","l1":"","l2":"","l3":"","lane":"Core Application","pod":"Core functions","pm":"Charul","lead":"Ritu","podfull":"Core functions"},{"path":"Campaigns › In-App messages","feature":"Campaigns","l1":"In-App messages","l2":"","l3":"","lane":"Channels","pod":"Online Channels","pm":"Soumya","lead":"Harsh","podfull":"Online Channels"},{"path":"Campaigns › Push Notifications (orchestration BE)","feature":"Campaigns","l1":"Push Notifications (orchestration BE)","l2":"","l3":"","lane":"Core Application","pod":"Workflow","pm":"Suvidhi","lead":"Ritu","podfull":"Workflows"},{"path":"Campaigns › Push Templates + SDK","feature":"Campaigns","l1":"Push Templates + SDK","l2":"","l3":"","lane":"Core Application","pod":"Workflow","pm":"Suvidhi","lead":"Ritu","podfull":"Workflows"},{"path":"Campaigns › Native Display › Mobile","feature":"Campaigns","l1":"Native Display","l2":"Mobile","l3":"","lane":"Channels","pod":"Online Channels","pm":"Soumya","lead":"Harsh","podfull":"Online Channels"},{"path":"Settings › Channels › Mobile Push","feature":"Settings","l1":"Channels","l2":"Mobile Push","l3":"","lane":"Core Application","pod":"Workflow","pm":"Suvidhi","lead":"Ritu","podfull":"Mobile Channels & SDK"},{"path":"Internal Tooling","feature":"Internal Tooling","l1":"","l2":"","l3":"","lane":"Platform","pod":"Security & Tools","pm":"Sagar","lead":"Sagar","podfull":"Security & Tools"},{"path":"Internal Update and Transactional Emails e.g CSV Upload Completed, Billing Change, Product Announcements etc","feature":"Internal Update and Transactional Emails e.g CSV Upload Completed, Billing Change, Product Announcements etc","l1":"","l2":"","l3":"","lane":"Product-Led Growth","pod":"Onboarding & Billing","pm":"Saurav","lead":"Saurav","podfull":"Onboarding & Billing"},{"path":"Organisation › Projects","feature":"Organisation","l1":"Projects","l2":"","l3":"","lane":"Product-Led Growth","pod":"Onboarding & Billing","pm":"Saurav","lead":"Saurav","podfull":"Onboarding & Billing"},{"path":"Organisation › Billing › My Plan","feature":"Organisation","l1":"Billing","l2":"My Plan","l3":"","lane":"Product-Led Growth","pod":"Onboarding & Billing","pm":"Saurav","lead":"Saurav","podfull":"Onboarding & Billing"},{"path":"Organisation › Billing › Billing Details","feature":"Organisation","l1":"Billing","l2":"Billing Details","l3":"","lane":"Product-Led Growth","pod":"Onboarding & Billing","pm":"Saurav","lead":"Saurav","podfull":"Onboarding & Billing"},{"path":"Organisation › Billing › Card details","feature":"Organisation","l1":"Billing","l2":"Card details","l3":"","lane":"Product-Led Growth","pod":"Onboarding & Billing","pm":"Saurav","lead":"Saurav","podfull":"Onboarding & Billing"},{"path":"Account Switcher › Dashboard","feature":"Account Switcher","l1":"Dashboard","l2":"","l3":"","lane":"Platform","pod":"Dashboard Platform","pm":"Sagar","lead":"Sagar","podfull":"Security & Tools"},{"path":"Customer Account Internal Access","feature":"Customer Account Internal Access","l1":"","l2":"","l3":"","lane":"Platform","pod":"Security & Tools","pm":"Sagar","lead":"Sagar","podfull":"Security & Tools"},{"path":"Create New Project","feature":"Create New Project","l1":"","l2":"","l3":"","lane":"Product-Led Growth","pod":"Onboarding & Billing","pm":"Saurav","lead":"Saurav","podfull":"Onboarding & Billing"},{"path":"Settings › Project","feature":"Settings","l1":"Project","l2":"","l3":"","lane":"Product-Led Growth","pod":"Onboarding & Billing","pm":"Saurav","lead":"Saurav","podfull":"Onboarding & Billing"},{"path":"Settings › Project › Details","feature":"Settings","l1":"Project","l2":"Details","l3":"","lane":"Product-Led Growth","pod":"Onboarding & Billing","pm":"Saurav","lead":"Saurav","podfull":"Onboarding & Billing"},{"path":"Settings › User Identity","feature":"Settings","l1":"User Identity","l2":"","l3":"","lane":"Platform","pod":"Storage & Processing","pm":"Afzal","lead":"Sagar","podfull":"Onboarding & Billing"},{"path":"Settings › Users","feature":"Settings","l1":"Users","l2":"","l3":"","lane":"Platform","pod":"Dashboard Platform","pm":"Sagar","lead":"Sagar","podfull":""},{"path":"Settings › Roles & RBAC","feature":"Settings","l1":"Roles & RBAC","l2":"","l3":"","lane":"Platform","pod":"Dashboard Platform","pm":"Sagar","lead":"Sagar","podfull":""},{"path":"Settings › Passcodes","feature":"Settings","l1":"Passcodes","l2":"","l3":"","lane":"Platform","pod":"Dashboard Platform","pm":"Sagar","lead":"Sagar","podfull":"Dashboard Platform"},{"path":"Settings › Security › 2FA","feature":"Settings","l1":"Security","l2":"2FA","l3":"","lane":"Platform","pod":"Dashboard Platform","pm":"Sagar","lead":"Sagar","podfull":"Dashboard Platform"},{"path":"Settings › IP Whitelisting","feature":"Settings","l1":"","l2":"IP Whitelisting","l3":"","lane":"Platform","pod":"Dashboard Platform","pm":"Sagar","lead":"Sagar","podfull":"Dashboard Platform"},{"path":"Settings › Audit Logs","feature":"Settings","l1":"Audit Logs","l2":"","l3":"","lane":"Platform","pod":"Dashboard Platform","pm":"Sagar","lead":"Sagar","podfull":"Dashboard Platform"},{"path":"Notifications","feature":"Notifications","l1":"","l2":"","l3":"","lane":"Platform","pod":"Dashboard Platform","pm":"Sagar","lead":"Sagar","podfull":"Dashboard Platform"},{"path":"Organisation › SSO","feature":"Organisation","l1":"SSO","l2":"","l3":"","lane":"Platform","pod":"Dashboard Platform","pm":"Sagar","lead":"Sagar","podfull":"Dashboard Platform"},{"path":"Organisation › CleverTap Compliance & Certifications › Compliance","feature":"Organisation","l1":"CleverTap Compliance & Certifications","l2":"Compliance","l3":"","lane":"Platform","pod":"Security & Tools","pm":"Sagar","lead":"Sagar","podfull":"Security & Tools"},{"path":"Organisation › CleverTap Compliance & Certifications › Certifications","feature":"Organisation","l1":"CleverTap Compliance & Certifications","l2":"Certifications","l3":"","lane":"Platform","pod":"Security & Tools","pm":"Sagar","lead":"Sagar","podfull":"Security & Tools"},{"path":"Settings › Project › Activity","feature":"Settings","l1":"Project","l2":"Activity","l3":"","lane":"Product-Led Growth","pod":"Onboarding & Billing","pm":"Saurav","lead":"Saurav","podfull":"Onboarding & Billing"},{"path":"Debugger","feature":"Debugger","l1":"","l2":"","l3":"","lane":"Product-Led Growth","pod":"Onboarding & Billing","pm":"Saurav","lead":"Saurav","podfull":"Onboarding & Billing"},{"path":"Trial Accounts","feature":"Trial Accounts","l1":"","l2":"","l3":"","lane":"Product-Led Growth","pod":"Onboarding & Billing","pm":"Saurav","lead":"Saurav","podfull":"Onboarding & Billing"},{"path":"Need Help ? › NPS Feedback","feature":"Need Help ?","l1":"NPS Feedback","l2":"","l3":"","lane":"Platform","pod":"","pm":"Sagar","lead":"Sagar","podfull":""},{"path":"Need Help ? › CleverTap Documentation","feature":"Need Help ?","l1":"CleverTap Documentation","l2":"","l3":"","lane":"Platform","pod":"","pm":"Sagar","lead":"Sagar","podfull":""},{"path":"Need Help ? › CleverTap University","feature":"Need Help ?","l1":"CleverTap University","l2":"","l3":"","lane":"Platform","pod":"","pm":"Sagar","lead":"Sagar","podfull":""},{"path":"Need Help ? › Upskill with CleverTap","feature":"Need Help ?","l1":"Upskill with CleverTap","l2":"","l3":"","lane":"Product-Led Growth","pod":"Onboarding & Billing","pm":"Saurav","lead":"Saurav","podfull":"Onboarding & Billing"},{"path":"Need Help ? › Integration Videos","feature":"Need Help ?","l1":"Integration Videos","l2":"","l3":"","lane":"Product-Led Growth","pod":"Onboarding & Billing","pm":"Saurav","lead":"Saurav","podfull":"Product Analytics"},{"path":"Need Help ? › Support › Create a Support Ticket","feature":"Need Help ?","l1":"Support","l2":"Create a Support Ticket","l3":"","lane":"Platform","pod":"","pm":"Sagar","lead":"Sagar","podfull":""},{"path":"Need Help ? › Support › Ticket Dashboard","feature":"Need Help ?","l1":"Support","l2":"Ticket Dashboard","l3":"","lane":"Platform","pod":"","pm":"Sagar","lead":"Sagar","podfull":""},{"path":"Profile Page › Logout (and Logout of all sessions)","feature":"Profile Page","l1":"Logout (and Logout of all sessions)","l2":"","l3":"","lane":"Platform","pod":"Dashboard Platform","pm":"Sagar","lead":"Sagar","podfull":""},{"path":"Profile Page › Reset password","feature":"Profile Page","l1":"Reset password","l2":"","l3":"","lane":"Platform","pod":"Dashboard Platform","pm":"Sagar","lead":"Sagar","podfull":""},{"path":"Profile Page › Reset account data","feature":"Profile Page","l1":"Reset account data","l2":"","l3":"","lane":"Platform","pod":"Storage & Processing","pm":"Afzal","lead":"Sagar","podfull":""},{"path":"Campaigns › List Page","feature":"Campaigns","l1":"List Page","l2":"","l3":"","lane":"Core Application","pod":"Orchestration","pm":"Suvidhi","lead":"Ritu","podfull":"Orchestration"},{"path":"Campaigns › Detail Page","feature":"Campaigns","l1":"Detail Page","l2":"","l3":"","lane":"Core Application","pod":"Orchestration","pm":"Suvidhi","lead":"Ritu","podfull":"Orchestration"},{"path":"Campaigns › Stats","feature":"Campaigns","l1":"Stats","l2":"","l3":"","lane":"Core Application","pod":"Workflow","pm":"Suvidhi","lead":"Ritu","podfull":"Orchestration"},{"path":"Campaigns › Personalisation › Profile","feature":"Campaigns","l1":"Personalisation","l2":"Profile","l3":"","lane":"Core Application","pod":"Orchestration","pm":"Suvidhi","lead":"Ritu","podfull":"Orchestration"},{"path":"Campaigns › Personalisation › Event","feature":"Campaigns","l1":"Personalisation","l2":"Event","l3":"","lane":"Core Application","pod":"Orchestration","pm":"Suvidhi","lead":"Ritu","podfull":"Orchestration"},{"path":"Campaigns › Personalisation › Linked Content","feature":"Campaigns","l1":"Personalisation","l2":"Linked Content","l3":"","lane":"Core Application","pod":"Orchestration","pm":"Suvidhi","lead":"Ritu","podfull":"Orchestration"},{"path":"Campaigns › Personalisation › Liquid tags","feature":"Campaigns","l1":"Personalisation","l2":"Liquid tags","l3":"","lane":"Core Application","pod":"Orchestration","pm":"Suvidhi","lead":"Ritu","podfull":"Orchestration"},{"path":"Campaigns › Send Test","feature":"Campaigns","l1":"Send Test","l2":"","l3":"","lane":"Core Application","pod":"Orchestration","pm":"Suvidhi","lead":"Ritu","podfull":"Orchestration"},{"path":"Campaigns › Preview","feature":"Campaigns","l1":"Preview","l2":"","l3":"","lane":"Core Application","pod":"Orchestration","pm":"Suvidhi","lead":"Ritu","podfull":"Orchestration"},{"path":"Multi App","feature":"Multi App","l1":"","l2":"","l3":"","lane":"Core Application","pod":"Orchestration","pm":"Suvidhi","lead":"Ritu","podfull":"Orchestration"},{"path":"Settings › Control Groups","feature":"Settings","l1":"Control Groups","l2":"","l3":"","lane":"Core Application","pod":"Orchestration","pm":"Suvidhi","lead":"Ritu","podfull":"Orchestration"},{"path":"Settings › Campaign Approval","feature":"Settings","l1":"","l2":"Campaign Approval","l3":"","lane":"Core Application","pod":"Orchestration","pm":"Suvidhi","lead":"Ritu","podfull":"Orchestration"},{"path":"Settings › Setup › Campaign Limits","feature":"Settings","l1":"Setup","l2":"Campaign Limits","l3":"","lane":"Core Application","pod":"Orchestration","pm":"Suvidhi","lead":"Ritu","podfull":"Orchestration"},{"path":"Settings › Setup › Best Time","feature":"Settings","l1":"Setup","l2":"Best Time","l3":"","lane":"Core Application","pod":"Orchestration","pm":"Suvidhi","lead":"Ritu","podfull":"Orchestration"},{"path":"Settings › Setup › Labels","feature":"Settings","l1":"Setup","l2":"Labels","l3":"","lane":"Core Application","pod":"Orchestration","pm":"Suvidhi","lead":"Ritu","podfull":"Orchestration"},{"path":"Settings › Setup › Linked Content","feature":"Settings","l1":"Setup","l2":"Linked Content","l3":"","lane":"Core Application","pod":"Orchestration","pm":"Suvidhi","lead":"Ritu","podfull":"Orchestration"},{"path":"Settings › Geofences","feature":"Settings","l1":"Geofences","l2":"","l3":"","lane":"Core Application","pod":"Core functions","pm":"Charul","lead":"Ritu","podfull":"Core functions"},{"path":"APIs › Campaigns","feature":"APIs","l1":"Campaigns","l2":"","l3":"","lane":"Core Application","pod":"Orchestration","pm":"Suvidhi","lead":"Ritu","podfull":"Orchestration"},{"path":"Settings › CSV profile Uploads","feature":"Settings","l1":"CSV profile Uploads","l2":"","l3":"","lane":"Partner Integrations","pod":"Partner Integrations","pm":"Parth","lead":"Harsh","podfull":"Partner (Data) Integration"},{"path":"Campaigns › Webhooks","feature":"Campaigns","l1":"Webhooks","l2":"","l3":"","lane":"Partner Integrations","pod":"Partner Integrations","pm":"Parth","lead":"Harsh","podfull":"Partner (Data) Integration"},{"path":"Campaigns › Amazon Eventbridge","feature":"Campaigns","l1":"Amazon Eventbridge","l2":"","l3":"","lane":"Partner Integrations","pod":"Partner Integrations","pm":"Parth","lead":"Harsh","podfull":"Partner (Data) Integration"},{"path":"Campaigns › Segment","feature":"Campaigns","l1":"Segment","l2":"","l3":"","lane":"Partner Integrations","pod":"Partner Integrations","pm":"Parth","lead":"Harsh","podfull":"Partner (Data) Integration"},{"path":"Campaigns › mParticle","feature":"Campaigns","l1":"mParticle","l2":"","l3":"","lane":"Partner Integrations","pod":"Partner Integrations","pm":"Parth","lead":"Harsh","podfull":"Partner (Data) Integration"},{"path":"Settings › Channels › Webhooks","feature":"Settings","l1":"Channels","l2":"Webhooks","l3":"","lane":"Partner Integrations","pod":"Partner Integrations","pm":"Parth","lead":"Harsh","podfull":"Partner (Data) Integration"},{"path":"Settings › Partners","feature":"Settings","l1":"Partners","l2":"","l3":"","lane":"Partner Integrations","pod":"Partner Integrations","pm":"Parth","lead":"Harsh","podfull":"Partner (Data) Integration"},{"path":"Settings › Imports","feature":"Settings","l1":"Imports","l2":"","l3":"","lane":"Partner Integrations","pod":"Partner Integrations","pm":"Parth","lead":"Harsh","podfull":"Partner (Data) Integration"},{"path":"Localisation for content","feature":"Localisation for content","l1":"","l2":"","l3":"","lane":"Core Application","pod":"Core functions","pm":"Charul","lead":"Ritu","podfull":"Core functions"},{"path":"Boards › Snapshot","feature":"Boards","l1":"Snapshot","l2":"","l3":"","lane":"Product Analytics","pod":"Product Analytics","pm":"Saurav","lead":"Saurav","podfull":"Product Analytics"},{"path":"Boards › Today","feature":"Boards","l1":"Today","l2":"","l3":"","lane":"Product Analytics","pod":"Product Analytics","pm":"Saurav","lead":"Saurav","podfull":"Product Analytics"},{"path":"Boards › Mobile App","feature":"Boards","l1":"Mobile App","l2":"","l3":"","lane":"Product Analytics","pod":"Product Analytics","pm":"Saurav","lead":"Saurav","podfull":"Product Analytics"},{"path":"Boards › Uninstall","feature":"Boards","l1":"Uninstall","l2":"","l3":"","lane":"Product Analytics","pod":"Product Analytics","pm":"Saurav","lead":"Saurav","podfull":"Product Analytics"},{"path":"Boards › Revenue","feature":"Boards","l1":"Revenue","l2":"","l3":"","lane":"Product Analytics","pod":"Product Analytics","pm":"Saurav","lead":"Saurav","podfull":"Product Analytics"},{"path":"Boards › Custom Boards","feature":"Boards","l1":"Custom Boards","l2":"","l3":"","lane":"Product Analytics","pod":"Product Analytics","pm":"Saurav","lead":"Saurav","podfull":"Product Analytics"},{"path":"Analytics › Events","feature":"Analytics","l1":"Events","l2":"","l3":"","lane":"Product Analytics","pod":"Product Analytics","pm":"Saurav","lead":"Saurav","podfull":"Product Analytics"},{"path":"Analytics › Funnels","feature":"Analytics","l1":"Funnels","l2":"","l3":"","lane":"Product Analytics","pod":"Product Analytics","pm":"Saurav","lead":"Saurav","podfull":"Product Analytics"},{"path":"Analytics › Cohorts","feature":"Analytics","l1":"Cohorts","l2":"","l3":"","lane":"Product Analytics","pod":"Product Analytics","pm":"Saurav","lead":"Saurav","podfull":"Product Analytics"},{"path":"Analytics › Trends","feature":"Analytics","l1":"Trends","l2":"","l3":"","lane":"Product Analytics","pod":"Product Analytics","pm":"Saurav","lead":"Saurav","podfull":"Product Analytics"},{"path":"Analytics › Pivots","feature":"Analytics","l1":"Pivots","l2":"","l3":"","lane":"Product Analytics","pod":"Product Analytics","pm":"Saurav","lead":"Saurav","podfull":"Product Analytics"},{"path":"Analytics › Flows","feature":"Analytics","l1":"Flows","l2":"","l3":"","lane":"Product Analytics","pod":"Product Analytics","pm":"Saurav","lead":"Saurav","podfull":"Product Analytics"},{"path":"Analytics › Real Impact","feature":"Analytics","l1":"Real Impact","l2":"","l3":"","lane":"Product Analytics","pod":"Product Analytics","pm":"Saurav","lead":"Saurav","podfull":"Product Analytics"},{"path":"Segments › RFM","feature":"Segments","l1":"RFM","l2":"","l3":"","lane":"Core Application","pod":"Segmentation","pm":"Sanskriti","lead":"Ritu","podfull":"Segmentation"},{"path":"Settings › Session Analytics","feature":"Settings","l1":"Session Analytics","l2":"","l3":"","lane":"Product Analytics","pod":"Product Analytics","pm":"Saurav","lead":"Saurav","podfull":"Product Analytics"},{"path":"Settings › Bookmarks","feature":"Settings","l1":"Bookmarks","l2":"","l3":"","lane":"Product Analytics","pod":"Product Analytics","pm":"Saurav","lead":"Saurav","podfull":"Product Analytics"},{"path":"Bookmarks","feature":"Bookmarks","l1":"","l2":"","l3":"","lane":"Product Analytics","pod":"Product Analytics","pm":"Saurav","lead":"Saurav","podfull":"Product Analytics"},{"path":"Analytics Mode","feature":"Analytics Mode","l1":"","l2":"","l3":"","lane":"Product Analytics","pod":"Product Analytics","pm":"Saurav","lead":"Saurav","podfull":"Product Analytics"},{"path":"APIs › Events › Download Events","feature":"APIs","l1":"Events","l2":"Download Events","l3":"","lane":"Product Analytics","pod":"Product Analytics","pm":"Saurav","lead":"Saurav","podfull":"Product Analytics"},{"path":"APIs › Events › Event Count","feature":"APIs","l1":"Events","l2":"Event Count","l3":"","lane":"Product Analytics","pod":"Product Analytics","pm":"Saurav","lead":"Saurav","podfull":"Product Analytics"},{"path":"APIs › Report › Real-Time Counts","feature":"APIs","l1":"Report","l2":"Real-Time Counts","l3":"","lane":"Product Analytics","pod":"Product Analytics","pm":"Saurav","lead":"Saurav","podfull":"Product Analytics"},{"path":"APIs › Report › Top Property Counts","feature":"APIs","l1":"Report","l2":"Top Property Counts","l3":"","lane":"Product Analytics","pod":"Product Analytics","pm":"Saurav","lead":"Saurav","podfull":"Product Analytics"},{"path":"APIs › Report › Trends","feature":"APIs","l1":"Report","l2":"Trends","l3":"","lane":"Product Analytics","pod":"Product Analytics","pm":"Saurav","lead":"Saurav","podfull":"Product Analytics"},{"path":"ROI Reports","feature":"ROI Reports","l1":"","l2":"","l3":"","lane":"Product Analytics","pod":"Product Analytics","pm":"Saurav","lead":"Saurav","podfull":"Product Analytics"},{"path":"Engagnment Analytics","feature":"Engagnment Analytics","l1":"","l2":"","l3":"","lane":"Product Analytics","pod":"Product Analytics","pm":"Saurav","lead":"Saurav","podfull":"Product Analytics"},{"path":"Security and Compliance › ATT, GDPR, HIPPA, SOC 2 etc","feature":"Security and Compliance","l1":"ATT, GDPR, HIPPA, SOC 2 etc","l2":"","l3":"","lane":"Platform","pod":"Security & Tools","pm":"Afzal","lead":"Sagar","podfull":"Security & Tools"},{"path":"Segments › Find People","feature":"Segments","l1":"Find People","l2":"","l3":"","lane":"Core Application","pod":"Segmentation","pm":"Sanskriti","lead":"Ritu","podfull":"Segmentation"},{"path":"Segments › Find People › Profile Page","feature":"Segments","l1":"Find People","l2":"Profile Page","l3":"","lane":"Core Application","pod":"Segmentation","pm":"Sanskriti","lead":"Ritu","podfull":"Segmentation"},{"path":"Segments › Segments","feature":"Segments","l1":"Segments","l2":"","l3":"","lane":"Core Application","pod":"Segmentation","pm":"Sanskriti","lead":"Ritu","podfull":"Segmentation"},{"path":"Segments › Segments › IBS","feature":"Segments","l1":"Segments","l2":"IBS","l3":"","lane":"Core Application","pod":"Segmentation","pm":"Sanskriti","lead":"Ritu","podfull":"Segmentation"},{"path":"Settings › Schema › User Properties","feature":"Settings","l1":"Schema","l2":"User Properties","l3":"","lane":"Platform","pod":"Storage & Processing","pm":"Sagar","lead":"Sagar","podfull":"Platform"},{"path":"Settings › Schema › Events › System events","feature":"Settings","l1":"Schema","l2":"Events","l3":"System events","lane":"Platform","pod":"Storage & Processing","pm":"Sagar","lead":"Sagar","podfull":"Platform"},{"path":"Settings › Schema › Events › Custom events","feature":"Settings","l1":"Schema","l2":"Events","l3":"Custom events","lane":"Platform","pod":"Storage & Processing","pm":"Sagar","lead":"Sagar","podfull":"Platform"},{"path":"Settings › Schema › Events › Composite Events","feature":"Settings","l1":"Schema","l2":"Events","l3":"Composite Events","lane":"Platform","pod":"Storage & Processing","pm":"Sagar","lead":"Sagar","podfull":"Platform"},{"path":"Settings › Schema › Events › Qualifying event","feature":"Settings","l1":"Schema","l2":"Events","l3":"Qualifying event","lane":"Product Analytics","pod":"Product Analytics","pm":"Saurav","lead":"Saurav","podfull":"Product Analytics"},{"path":"Settings › Schema › Events › Converstion event","feature":"Settings","l1":"Schema","l2":"Events","l3":"Converstion event","lane":"Platform","pod":"Storage & Processing","pm":"Sagar","lead":"Sagar","podfull":"Platform"},{"path":"Settings › Schema › Events › Alias event property","feature":"Settings","l1":"Schema","l2":"Events","l3":"Alias event property","lane":"Platform","pod":"Storage & Processing","pm":"Sagar","lead":"Sagar","podfull":"Platform"},{"path":"Settings › Schema › Events › System Events","feature":"Settings","l1":"Schema","l2":"Events","l3":"System Events","lane":"Product Analytics","pod":"Product Analytics","pm":"Saurav","lead":"Saurav","podfull":""},{"path":"Settings › External User Segment","feature":"Settings","l1":"External User Segment","l2":"","l3":"","lane":"Core Application","pod":"Segmentation","pm":"Sanskriti","lead":"Ritu","podfull":"Segmentation"},{"path":"Settings › CSV profile Downloads","feature":"Settings","l1":"CSV profile Downloads","l2":"","l3":"","lane":"Core Application","pod":"Segmentation","pm":"Sanskriti","lead":"Ritu","podfull":"Segmentation"},{"path":"APIs › Custom List","feature":"APIs","l1":"Custom List","l2":"","l3":"","lane":"Core Application","pod":"Segmentation","pm":"Sanskriti","lead":"Ritu","podfull":"Segmentation"},{"path":"APIs › Profile › Get User Profiles","feature":"APIs","l1":"Profile","l2":"Get User Profiles","l3":"","lane":"Core Application","pod":"Segmentation","pm":"Sanskriti","lead":"Ritu","podfull":"Segmentation"},{"path":"APIs › Profile › Get Profile Count","feature":"APIs","l1":"Profile","l2":"Get Profile Count","l3":"","lane":"Core Application","pod":"Segmentation","pm":"Sanskriti","lead":"Ritu","podfull":"Segmentation"},{"path":"Segment Export","feature":"Segment Export","l1":"","l2":"","l3":"","lane":"Core Application","pod":"Segmentation","pm":"Sanskriti","lead":"Ritu","podfull":"Segmentation"},{"path":"Campaigns › SMS","feature":"Campaigns","l1":"SMS","l2":"","l3":"","lane":"Channels","pod":"WhatsApp,SMS & Remarketing","pm":"Jithendra","lead":"Harsh","podfull":"WhatsApp,SMS & Remarketing"},{"path":"Settings › Channels › SMS","feature":"Settings","l1":"Channels","l2":"SMS","l3":"","lane":"Channels","pod":"WhatsApp,SMS & Remarketing","pm":"Jithendra","lead":"Harsh","podfull":"WhatsApp,SMS & Remarketing"},{"path":"APIs › Profile › Subscribe SMS","feature":"APIs","l1":"Profile","l2":"Subscribe SMS","l3":"","lane":"Channels","pod":"WhatsApp,SMS & Remarketing","pm":"Jithendra","lead":"Harsh","podfull":"WhatsApp,SMS & Remarketing"},{"path":"APIs › Profile › Disassociate a Phone Number","feature":"APIs","l1":"Profile","l2":"Disassociate a Phone Number","l3":"","lane":"Channels","pod":"WhatsApp,SMS & Remarketing","pm":"Jithendra","lead":"Harsh","podfull":"WhatsApp,SMS & Remarketing"},{"path":"User Profile Deletion","feature":"User Profile Deletion","l1":"","l2":"","l3":"","lane":"Platform","pod":"Storage & Processing","pm":"Afzal","lead":"Sagar","podfull":"Storage & Processing"},{"path":"APIs › Profile › Upload User Profiles","feature":"APIs","l1":"Profile","l2":"Upload User Profiles","l3":"","lane":"Platform","pod":"Storage & Processing","pm":"Afzal","lead":"Sagar","podfull":"Storage & Processing"},{"path":"APIs › Profile › Delete User Profile","feature":"APIs","l1":"Profile","l2":"Delete User Profile","l3":"","lane":"Platform","pod":"Storage & Processing","pm":"Afzal","lead":"Sagar","podfull":"Storage & Processing"},{"path":"Campaigns › App Inbox","feature":"Campaigns","l1":"App Inbox","l2":"","l3":"","lane":"Channels","pod":"Online Channels","pm":"Soumya","lead":"Harsh","podfull":"Online Channels"},{"path":"Campaigns › Unified Inbox","feature":"Campaigns","l1":"Unified Inbox","l2":"","l3":"","lane":"Channels","pod":"Online Channels","pm":"Soumya","lead":"Harsh","podfull":"Online Channels"},{"path":"Product Experiences › Mobile","feature":"Product Experiences","l1":"Mobile","l2":"","l3":"","lane":"Channels","pod":"Online Channels","pm":"Soumya","lead":"Harsh","podfull":"Online Channels"},{"path":"Product Experiences › Web","feature":"Product Experiences","l1":"Web","l2":"","l3":"","lane":"Channels","pod":"Online Channels","pm":"Soumya","lead":"Harsh","podfull":"Online Channels"},{"path":"Content Manager › Files","feature":"Content Manager","l1":"Files","l2":"","l3":"","lane":"Core Application","pod":"Core functions","pm":"Charul","lead":"Ritu","podfull":"Core functions"},{"path":"Content Manager › Folders","feature":"Content Manager","l1":"Folders","l2":"","l3":"","lane":"Core Application","pod":"Core functions","pm":"Charul","lead":"Ritu","podfull":"Core functions"},{"path":"Content Manager › Content Blocks","feature":"Content Manager","l1":"Content Blocks","l2":"","l3":"","lane":"Core Application","pod":"Core functions","pm":"Charul","lead":"Ritu","podfull":"Core functions"},{"path":"Content Manager › Templates","feature":"Content Manager","l1":"Templates","l2":"","l3":"","lane":"Core Application","pod":"Core functions","pm":"Charul","lead":"Ritu","podfull":"Core functions"},{"path":"Boards › NPS","feature":"Boards","l1":"NPS","l2":"","l3":"","lane":"Web","pod":"Web","pm":"Soumya","lead":"Harsh","podfull":"Web"},{"path":"Campaigns › Web Push","feature":"Campaigns","l1":"Web Push","l2":"","l3":"","lane":"Web","pod":"Web","pm":"Soumya","lead":"Harsh","podfull":"Web"},{"path":"Campaigns › Web Popup","feature":"Campaigns","l1":"Web Popup","l2":"","l3":"","lane":"Web","pod":"Web","pm":"Soumya","lead":"Harsh","podfull":"Web"},{"path":"Campaigns › Web Native Display","feature":"Campaigns","l1":"Web Native Display","l2":"","l3":"","lane":"Web","pod":"Web","pm":"Soumya","lead":"Harsh","podfull":"Web"},{"path":"Campaigns › Web Exit Intent","feature":"Campaigns","l1":"Web Exit Intent","l2":"","l3":"","lane":"Web","pod":"Web","pm":"Soumya","lead":"Harsh","podfull":"Web"},{"path":"Campaigns › Web Inbox","feature":"Campaigns","l1":"Web Inbox","l2":"","l3":"","lane":"Web","pod":"Web","pm":"Soumya","lead":"Harsh","podfull":"Web"},{"path":"Settings › Channels › Web Push","feature":"Settings","l1":"Channels","l2":"Web Push","l3":"","lane":"Web","pod":"Web","pm":"Soumya","lead":"Harsh","podfull":"Web"},{"path":"Settings › Channels › Web Inbox","feature":"Settings","l1":"Channels","l2":"Web Inbox","l3":"","lane":"Web","pod":"Web","pm":"Soumya","lead":"Harsh","podfull":"Web"},{"path":"Shopify Integration","feature":"Shopify Integration","l1":"","l2":"","l3":"","lane":"Web","pod":"Web","pm":"Soumya","lead":"Harsh","podfull":"Web"},{"path":"Campaigns › WhatsApp","feature":"Campaigns","l1":"WhatsApp","l2":"","l3":"","lane":"Channels","pod":"WhatsApp/SMS/Remarketing","pm":"Jithendra","lead":"Harsh","podfull":"WhatsApp/SMS/Remarketing"},{"path":"Campaigns › Google Ads","feature":"Campaigns","l1":"Google Ads","l2":"","l3":"","lane":"Channels","pod":"WhatsApp/SMS/Remarketing","pm":"Harsh","lead":"#N/A","podfull":"WhatsApp/SMS/Remarketing"},{"path":"Campaigns › Facebook Audiences","feature":"Campaigns","l1":"Facebook Audiences","l2":"","l3":"","lane":"Channels","pod":"WhatsApp/SMS/Remarketing","pm":"Harsh","lead":"#N/A","podfull":"WhatsApp/SMS/Remarketing"},{"path":"Conversations","feature":"Conversations","l1":"","l2":"","l3":"","lane":"Channels","pod":"WhatsApp/SMS/Remarketing","pm":"Jithendra","lead":"Harsh","podfull":"WhatsApp/SMS/Remarketing"},{"path":"Settings › Channels › WhatsApp","feature":"Settings","l1":"Channels","l2":"WhatsApp","l3":"","lane":"Channels","pod":"WhatsApp/SMS/Remarketing","pm":"Jithendra","lead":"Harsh","podfull":"WhatsApp/SMS/Remarketing"},{"path":"Settings › Channels › Google","feature":"Settings","l1":"Channels","l2":"Google","l3":"","lane":"Channels","pod":"WhatsApp/SMS/Remarketing","pm":"Jithendra","lead":"Harsh","podfull":"WhatsApp/SMS/Remarketing"},{"path":"Settings › Channels › FB","feature":"Settings","l1":"Channels","l2":"FB","l3":"","lane":"Channels","pod":"WhatsApp/SMS/Remarketing","pm":"Jithendra","lead":"Harsh","podfull":"WhatsApp/SMS/Remarketing"},{"path":"Campaigns › Setup › External Trigger / Transactional","feature":"Campaigns","l1":"Setup","l2":"External Trigger / Transactional","l3":"","lane":"Core Application","pod":"Workflow","pm":"Suvidhi","lead":"Ritu","podfull":"Workflows"},{"path":"Campaigns › Personalisation › Reccomendation","feature":"Campaigns","l1":"Personalisation","l2":"Reccomendation","l3":"","lane":"Core Application","pod":"Workflow","pm":"Suvidhi","lead":"Ritu","podfull":"Workflows"},{"path":"Campaigns › Personalisation › Catalog Send","feature":"Campaigns","l1":"Personalisation","l2":"Catalog Send","l3":"","lane":"Core Application","pod":"Workflow","pm":"Suvidhi","lead":"Ritu","podfull":"Workflows"},{"path":"Campaigns › Reporting","feature":"Campaigns","l1":"Reporting","l2":"","l3":"","lane":"Core Application","pod":"Workflow","pm":"Suvidhi","lead":"Ritu","podfull":"Workflows"},{"path":"Reminders","feature":"Reminders","l1":"","l2":"","l3":"","lane":"Core Application","pod":"Workflow","pm":"Suvidhi","lead":"Ritu","podfull":"Workflows"},{"path":"Bulletins","feature":"Bulletins","l1":"","l2":"","l3":"","lane":"Core Application","pod":"Workflow","pm":"Suvidhi","lead":"Ritu","podfull":"Workflows"},{"path":"LCO","feature":"LCO","l1":"","l2":"","l3":"","lane":"Core Application","pod":"Workflow","pm":"Suvidhi","lead":"Ritu","podfull":"Workflows"},{"path":"Settings › Setup › Reports","feature":"Settings","l1":"Setup","l2":"Reports","l3":"","lane":"Core Application","pod":"Workflow","pm":"Suvidhi","lead":"Ritu","podfull":"Workflows"},{"path":"Settings › Catalogs","feature":"Settings","l1":"Catalogs","l2":"","l3":"","lane":"Core Application","pod":"Workflow","pm":"Suvidhi","lead":"Ritu","podfull":"Workflows"},{"path":"Settings › Recommendations","feature":"Settings","l1":"Recommendations","l2":"","l3":"","lane":"Core Application","pod":"Workflow","pm":"Suvidhi","lead":"Ritu","podfull":"Workflows"},{"path":"APIs › Bulletins","feature":"APIs","l1":"Bulletins","l2":"","l3":"","lane":"Core Application","pod":"Workflow","pm":"Suvidhi","lead":"Ritu","podfull":"Workflows"},{"path":"APIs › Catalog","feature":"APIs","l1":"Catalog","l2":"","l3":"","lane":"Core Application","pod":"Workflow","pm":"Suvidhi","lead":"Ritu","podfull":"Workflows"},{"path":"APIs › Report › Get Message Reports","feature":"APIs","l1":"Report","l2":"Get Message Reports","l3":"","lane":"Core Application","pod":"Workflow","pm":"Suvidhi","lead":"Ritu","podfull":"Workflows"},{"path":"Settings › Channels","feature":"Settings","l1":"Channels","l2":"","l3":"","lane":"Channels","pod":"Channels","pm":"","lead":"Harsh","podfull":""},{"path":"Errors","feature":"Errors","l1":"","l2":"","l3":"","lane":"Platform","pod":"","pm":"Afzal","lead":"Sagar","podfull":""},{"path":"PayTM Kafka Translation","feature":"PayTM Kafka Translation","l1":"","l2":"","l3":"","lane":"Platform","pod":"","pm":"Afzal","lead":"Sagar","podfull":"Platform"},{"path":"Campaigns › Webpop › Image Intestital - new","feature":"Campaigns","l1":"Webpop","l2":"Image Intestital - new","l3":"","lane":"Channels","pod":"Web","pm":"Soumya","lead":"Harsh","podfull":"Web"},{"path":"Campaigns › InApp › Image Intestital - new › In-App","feature":"Campaigns","l1":"InApp","l2":"Image Intestital - new","l3":"In-App","lane":"Channels","pod":"Online Channels","pm":"Soumya","lead":"Harsh","podfull":"Online Channels"},{"path":"Settings › Setup › Pull Notifications","feature":"Settings","l1":"Setup","l2":"Pull Notifications","l3":"","lane":"Core Application","pod":"Workflow","pm":"Suvidhi","lead":"Ritu","podfull":"Workflows"},{"path":"Settings › Uninstall Tracking","feature":"Settings","l1":"Uninstall Tracking","l2":"","l3":"","lane":"Core Application","pod":"Workflow","pm":"Suvidhi","lead":"Ritu","podfull":"Workflows"},{"path":"Settings › Teams","feature":"Settings","l1":"Teams","l2":"","l3":"","lane":"Platform","pod":"Platform","pm":"Sagar","lead":"Sagar","podfull":"Platform"},{"path":"Settings › Advance RBAC","feature":"Settings","l1":"Advance RBAC","l2":"","l3":"","lane":"Platform","pod":"Dashboard","pm":"Afzal","lead":"Sagar","podfull":""},{"path":"APIs › Profile › Upload Device Token","feature":"APIs","l1":"Profile","l2":"Upload Device Token","l3":"","lane":"Core Application","pod":"Workflow","pm":"Suvidhi","lead":"Ritu","podfull":"Workflows"},{"path":"Top + Left Navigation","feature":"Top + Left Navigation","l1":"","l2":"","l3":"","lane":"Platform","pod":"Dashboard","pm":"","lead":"Sagar","podfull":""},{"path":"Device SDKs Generic","feature":"Device SDKs Generic","l1":"","l2":"","l3":"","lane":"Channels","pod":"SDK","pm":"Murtaza","lead":"Harsh","podfull":"Mobile Channels & SDK"},{"path":"Web SDK","feature":"Web SDK","l1":"","l2":"","l3":"","lane":"Channels","pod":"Web","pm":"Soumya","lead":"Harsh","podfull":"Web"},{"path":"Online Channels SDK","feature":"Online Channels SDK","l1":"","l2":"","l3":"","lane":"Channels","pod":"Online Channels","pm":"Soumya","lead":"Harsh","podfull":"Online Channels"}];
+        let POC_DATA = SNAPSHOT.slice();
+
+        function clean(v){ v=(v==null?"":String(v)).trim(); return (v===""||v==="#N/A"||v==="#REF!"||v==="#N/A ")?"":v; }
+        function dash(v){ v=clean(v); return v===""?"—":v; }
+        function buildPath(feature,l1,l2,l3){ return [feature,l1,l2,l3].map(clean).filter(Boolean).join(" › "); }
+
+        function parseCSV(text){
+            const rows=[]; let row=[]; let field=""; let i=0; let inQ=false;
+            while(i<text.length){
+                const c=text[i];
+                if(inQ){
+                    if(c === '"'){ if(text[i+1] === '"'){ field+='"'; i+=2; continue; } inQ=false; i++; continue; }
+                    field+=c; i++; continue;
+                }
+                if(c === '"'){ inQ=true; i++; continue; }
+                if(c === ','){ row.push(field); field=""; i++; continue; }
+                if(c === '\r'){ i++; continue; }
+                if(c === '\n'){ row.push(field); rows.push(row); row=[]; field=""; i++; continue; }
+                field+=c; i++;
+            }
+            if(field!=="" || row.length){ row.push(field); rows.push(row); }
+            return rows;
+        }
+
+        function rowsToData(rows){
+            if(!rows.length) return [];
+            const header=rows[0].map(h=>clean(h).toLowerCase());
+            const idx=name=>header.indexOf(name);
+            const iF=idx("feature"), i1=idx("level 1"), i2=idx("level 2"), i3=idx("level 3"),
+                  iLane=idx("lane"), iPod=idx("pod"), iPM=idx("pm owner"), iLead=idx("lane lead"), iPf=idx("pod full name");
+            if(iF===-1 || iLane===-1) return [];
+            const out=[];
+            for(let r=1;r<rows.length;r++){
+                const row=rows[r]; if(!row) continue;
+                const g=k=> (k>=0 && k<row.length) ? row[k] : "";
+                const feature=clean(g(iF)), l1=clean(g(i1)), l2=clean(g(i2)), l3=clean(g(i3));
+                if(!feature && !l1 && !l2 && !l3) continue;
+                out.push({ path: buildPath(feature,l1,l2,l3), feature, l1, l2, l3,
+                    lane: clean(g(iLane)), pod: clean(g(iPod)), pm: clean(g(iPM)), lead: clean(g(iLead)), podfull: clean(g(iPf)) });
+            }
+            return out;
+        }
+
+        function esc(s){ return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+        function card(item){
+            const rows=[["Team", dash(item.lane)],["Sub-area (POD)", dash(item.pod)],["PM Owner", dash(item.pm)],["Lane Lead", dash(item.lead)]];
+            const grid=rows.map(function(kv){ return '<span class="note" style="margin:0;">'+esc(kv[0])+'</span><strong>'+esc(kv[1])+'</strong>'; }).join("");
+            return '<div class="input-group" style="margin-bottom:14px;">'+
+                     '<div class="section-title" style="font-size:15px; margin:0 0 8px;">'+esc(item.path)+'</div>'+
+                     '<div class="divider" style="margin:8px 0;"></div>'+
+                     '<div style="display:grid; grid-template-columns:max-content 1fr; gap:8px 20px; font-size:14px; align-items:center;">'+grid+'</div>'+
+                   '</div>';
+        }
+
+        function search(q){
+            q=clean(q).toLowerCase(); if(!q) return [];
+            const tokens=q.split(/\s+/).filter(Boolean);
+            const scored=[];
+            for(const it of POC_DATA){
+                const hayPath=(it.path||"").toLowerCase();
+                const hay=[hayPath,it.feature,it.l1,it.l2,it.l3,it.lane,it.pod,it.pm,it.lead,it.podfull].map(x=>(x||"").toLowerCase()).join(" | ");
+                if(!tokens.every(t=>hay.indexOf(t)!==-1)) continue;
+                let score=0;
+                if(hayPath.startsWith(q)) score-=100;
+                if((it.feature||"").toLowerCase().startsWith(q)) score-=40;
+                if(hayPath.indexOf(q)!==-1) score-=10;
+                score+=hayPath.length*0.001;
+                scored.push([score,it]);
+            }
+            scored.sort((a,b)=>a[0]-b[0]);
+            return scored.map(s=>s[1]);
+        }
+
+        function render(){
+            const input=document.getElementById("pocSearch");
+            const box=document.getElementById("pocResults");
+            if(!input||!box) return;
+            const q=input.value;
+            if(!clean(q)){ box.innerHTML='<div class="note" style="padding:6px 2px;">Start typing above to find the right contact. '+POC_DATA.length+' features indexed.</div>'; return; }
+            const res=search(q);
+            if(!res.length){ box.innerHTML='<div class="warn">No feature matches “'+esc(q)+'”. Try a shorter or different term (e.g. the channel or module name).</div>'; return; }
+            const MAX=60; const shown=res.slice(0,MAX);
+            let html=shown.map(card).join("");
+            if(res.length>MAX){ html+='<div class="note" style="padding:4px 2px;">Showing first '+MAX+' of '+res.length+' matches — refine your search to narrow down.</div>'; }
+            box.innerHTML=html;
+        }
+
+        function setStatus(msg){ const el=document.getElementById("pocStatus"); if(el) el.textContent=msg; }
+
+        window.resetPOC=function(){ const input=document.getElementById("pocSearch"); if(input){ input.value=""; input.focus(); } render(); };
+
+        function initPOC(){
+            const input=document.getElementById("pocSearch"); if(!input) return;
+            input.addEventListener("input", render);
+            setStatus("Showing built-in snapshot ("+POC_DATA.length+" features). Checking Google Sheet for live updates…");
+            render();
+            const controller=new AbortController();
+            const timer=setTimeout(()=>controller.abort(), 7000);
+            fetch(GVIZ_URL,{signal:controller.signal,cache:"no-store"})
+              .then(r=>{ if(!r.ok) throw new Error("HTTP "+r.status); return r.text(); })
+              .then(txt=>{
+                  clearTimeout(timer);
+                  const data=rowsToData(parseCSV(txt));
+                  if(data && data.length){
+                      POC_DATA=data;
+                      const t=new Date(); const hh=String(t.getHours()).padStart(2,"0"); const mm=String(t.getMinutes()).padStart(2,"0");
+                      setStatus("● Live from Google Sheet — "+POC_DATA.length+" features · synced "+hh+":"+mm);
+                      render();
+                  } else { setStatus("Showing built-in snapshot ("+POC_DATA.length+" features). Live sheet returned no readable data."); }
+              })
+              .catch(()=>{ clearTimeout(timer); setStatus("Showing built-in snapshot ("+POC_DATA.length+" features). "); });
+        }
+
+        if(document.readyState==="loading"){ document.addEventListener("DOMContentLoaded", initPOC); } else { initPOC(); }
+    })();
+    </script>
 </body>
 </html>
