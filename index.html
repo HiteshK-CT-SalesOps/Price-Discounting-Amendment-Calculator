@@ -7,6 +7,7 @@
     
     <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
 
 
     
@@ -1736,7 +1737,30 @@
 </head>
 
 <body class="light">
-    <div class="container">
+
+<div id="loginScreen"
+     style="
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
+        align-items:center;
+        height:100vh;
+     ">
+
+    <h2>Price Discounting & Amendment Calculator</h2>
+
+    <div id="g_id_onload"
+         data-client_id="622233667128-qqsi4ceiquknsvb4rn3b2eodstas7rav.apps.googleusercontent.com"
+         data-callback="handleCredentialResponse">
+    </div>
+
+    <div class="g_id_signin"></div>
+
+</div>
+
+<div id="calculatorApp" style="display:none;">
+
+<div class="container">
 
         
         <div class="header-row">
@@ -1819,6 +1843,53 @@
                             rel="noopener noreferrer">
                             📊 New Blank Google Sheet
                         </a>
+
+                        <div class="menu-divider"></div>
+                        <h2 Discounting and Approval Mtarix style="font-size:14px; margin:8px 14px; color:#666;">Discounting & Approvals</h2>
+
+                        <a href="https://wizrocket.atlassian.net/wiki/spaces/SO/pages/4106781054/Discounts+Approvals+Matrix+for+Quotes" 
+                            id="openApprovalMatrix"
+                            target="_blank"
+                            rel="noopener noreferrer">
+                            🛡️ Discount & Approval Matrix
+                        </a>
+
+                        <a href="https://wizrocket.atlassian.net/wiki/spaces/SO/pages/5871206495/Custom+Approvals+required+outside+Salesforce"
+                            target="_blank"
+                            rel="noopener noreferrer">
+                            🧩 Custom Approvals (Outside SFDC)
+                        </a>
+
+                        <a href="https://wizrocket.atlassian.net/wiki/spaces/SO/pages/5434081303/Guidance+for+logging+activity+on+SFDC"
+                            target="_blank"
+                            rel="noopener noreferrer">
+                            📝 SFDC Activity Logging Guidance
+                        </a>
+
+                        <div class="menu-divider"></div>
+                        <h2 Policies style="font-size:14px; margin:8px 14px; color:#666;">Policies & Requests</h2>
+
+                        <a href="https://wizrocket.atlassian.net/wiki/spaces/SO/pages/6235422761/Case+Requests+for+Legal+Team"
+                            target="_blank"
+                            rel="noopener noreferrer">
+                            ⚖️ Case Requests – Legal Team
+                        </a>
+
+                        <a href="https://wizrocket.atlassian.net/wiki/spaces/SOPS/pages/5088018479/Requests+to+Strategy+and+Operations"
+                            target="_blank"
+                            rel="noopener noreferrer">
+                            🧭 Case Requests – Strategy & Operations
+                        </a>
+
+                        <div class="menu-divider"></div>
+
+                        <a href="https://clevertap.lightning.force.com/lightning/o/Case/new?count=1&nooverride=1&useRecordTypeCheck=1&navigationLocation=LIST_VIEW&uid=176790188544634192&backgroundContext=%2Flightning%2Fo%2FCase%2Flist%3FfilterName%3D__Recent"
+                            target="_blank"
+                            rel="noopener noreferrer">
+                             🧑🏻‍💻 Raise a Case – Operations / Legal Support
+                            
+                        </a>
+
                     </div>
                 </div>
             </div>
@@ -4790,5 +4861,67 @@
         if(document.readyState==="loading"){ document.addEventListener("DOMContentLoaded", initPOC); } else { initPOC(); }
     })();
     </script>
+</div>
+
+<script>
+
+function handleCredentialResponse(response) {
+
+    const payload =
+        JSON.parse(
+            atob(
+                response.credential.split('.')[1]
+            )
+        );
+
+    const email = payload.email;
+
+    if (!email.endsWith("@clevertap.com")) {
+
+        alert(
+            "Only CleverTap accounts are allowed."
+        );
+
+        return;
+    }
+
+    localStorage.setItem(
+        "userEmail",
+        email
+    );
+
+    document.getElementById(
+        "loginScreen"
+    ).style.display = "none";
+
+    document.getElementById(
+        "calculatorApp"
+    ).style.display = "block";
+}
+
+window.addEventListener(
+    "load",
+    function() {
+
+        const email =
+            localStorage.getItem(
+                "userEmail"
+            );
+
+        if(email){
+
+            document.getElementById(
+                "loginScreen"
+            ).style.display = "none";
+
+            document.getElementById(
+                "calculatorApp"
+            ).style.display = "block";
+        }
+    }
+);
+
+</script>
+
 </body>
 </html>
