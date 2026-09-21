@@ -4864,7 +4864,7 @@
             const btn=document.getElementById("pocRefreshBtn");
             if(btn){ btn.disabled=true; btn.textContent="↻ Checking…"; btn.style.opacity="0.6"; btn.style.cursor="default"; }
             if(isManual){ setStatus("Refreshing from library…"); }
-            else { setStatus("Showing offline copy ("+POC_DATA.length+" features). Checking GitHub for updates…"); }
+            else { setStatus("Showing offline copy ("+POC_DATA.length+" features). Checking library for updates…"); }
             const controller=new AbortController();
             const timer=setTimeout(()=>controller.abort(), 8000);
             const url = DATA_URL + (DATA_URL.indexOf("?")>=0?"&":"?") + "_ts=" + Date.now();
@@ -4876,7 +4876,7 @@
                   if(data && data.length){
                       POC_DATA=data;
                       writeCache(data);
-                      setStatus("● Live from GitHub — "+POC_DATA.length+" features · offline copy updated "+fmtTime());
+                      setStatus("● Live — "+POC_DATA.length+" features · offline copy updated "+fmtTime());
                       render();
                   } else {
                       setStatus("Sheet reachable but no readable rows — keeping current data ("+POC_DATA.length+" features). Check the tab/columns.");
@@ -4886,7 +4886,7 @@
                   clearTimeout(timer);
                   const c=readCache();
                   const when = c ? (" · last updated "+fmtTime(c.ts)) : "";
-                  setStatus("Couldn’t reach GitHub — showing offline copy ("+POC_DATA.length+" features)"+when+". Check your connection, then Refresh.");
+                  setStatus("Couldn’t reach library — showing offline copy ("+POC_DATA.length+" features)"+when+". Check your connection, then Refresh.");
               })
               .finally(()=>{ const b=document.getElementById("pocRefreshBtn"); if(b){ b.disabled=false; b.textContent="↻ Refresh POC"; b.style.opacity=""; b.style.cursor=""; } });
         }
