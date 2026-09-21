@@ -4863,7 +4863,7 @@
         function loadFromSheet(isManual){
             const btn=document.getElementById("pocRefreshBtn");
             if(btn){ btn.disabled=true; btn.textContent="↻ Checking…"; btn.style.opacity="0.6"; btn.style.cursor="default"; }
-            if(isManual){ setStatus("Refreshing from GitHub…"); }
+            if(isManual){ setStatus("Refreshing from library…"); }
             else { setStatus("Showing offline copy ("+POC_DATA.length+" features). Checking GitHub for updates…"); }
             const controller=new AbortController();
             const timer=setTimeout(()=>controller.abort(), 8000);
