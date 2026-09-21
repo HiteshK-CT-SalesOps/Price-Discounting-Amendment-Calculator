@@ -4927,7 +4927,7 @@ function handleCredentialResponse(response) {
         return;
     }
 
-    localStorage.setItem(
+    sessionStorage.setItem(
         "userEmail",
         email
     );
@@ -4946,7 +4946,7 @@ window.addEventListener(
     function() {
 
         const email =
-            localStorage.getItem(
+            sessionStorage.getItem(
                 "userEmail"
             );
 
